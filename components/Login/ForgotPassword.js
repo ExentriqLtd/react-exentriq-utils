@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
-import { isValidEmail } from '../../../libs/functions';
+import { isValidEmail } from '../../libs/functions';
 import { ExTextInput } from '../ExTextInput';
 import { ExAlert } from '../ExAlert';
 import { DEFAULT_PRIMARY, styles } from '../Login/styles';

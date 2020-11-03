@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
-import { checkPasswordStrength, isValidEmail } from '../../../libs/functions';
+import { checkPasswordStrength, isValidEmail } from '../../libs/functions';
 import { ExTextInput } from '../ExTextInput';
 import { ExAlert } from '../ExAlert';
 import { DEFAULT_PRIMARY, styles } from './styles';
