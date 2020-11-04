@@ -46,6 +46,21 @@ const Guardian = new (class {
     };
     return this.fetch(url, options, raw);
   }
+
+  async callUrl(url, method, params, sessionToken = null, raw = false) {
+    let urlToCall = url;
+    const timestamp = new Date().getTime();
+    if (sessionToken) {
+      urlToCall += `?sid=${sessionToken}&timestamp=${timestamp}`;
+    } else {
+      urlToCall += `?timestamp=${timestamp}`;
+    }
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({ id: '', method, params }),
+    };
+    return this.fetch(urlToCall, options, raw);
+  }
 })();
 
 export default Guardian;
