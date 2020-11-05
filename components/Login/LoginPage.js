@@ -7,25 +7,29 @@ import {
   View,
   StatusBar,
 } from 'react-native';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import Header from './Header';
 import LoginWrapper from './LoginWrapper';
 
-function LoginPage({ noHeader, ...props }) {
+function LoginPage({ theme, noHeader, ...props }) {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <View style={styles.header}>
-            {!noHeader && <Header {...props} />}
-          </View>
-          <View style={styles.wrapper}>
-            <LoginWrapper {...props} />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+      <PaperProvider theme={theme || DefaultTheme}>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView>
+          <ScrollView
+            keyboardShouldPersistTaps={'always'}
+            contentInsetAdjustmentBehavior="automatic"
+            style={styles.scrollView}>
+            <View style={styles.header}>
+              {!noHeader && <Header {...props} />}
+            </View>
+            <View style={styles.wrapper}>
+              <LoginWrapper {...props} />
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      </PaperProvider>
     </>
   );
 }

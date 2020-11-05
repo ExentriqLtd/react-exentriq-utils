@@ -5,8 +5,8 @@ import { ExTextInput } from '../ExTextInput';
 import { DEFAULT_PRIMARY, styles } from './styles';
 
 const resetLogin = () => ({
-  username: '',
-  password: '',
+  username: null,
+  password: null,
 });
 
 export default function LoginForm(props) {

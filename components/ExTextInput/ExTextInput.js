@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { TextInput, useTheme } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   default: {
@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
 });
 
 const ExTextInput = React.forwardRef((props, ref) => {
+  const theme = useTheme();
   const {
     placeholder,
     onChangeText,
