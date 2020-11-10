@@ -12,8 +12,7 @@ const Header = ({ logo, backgroundImage, headerStyle }) => {
         style={[
           styles.background,
           !backgroundImage ? styles.backgroundDefault : undefined,
-        ]}
-        imageStyle={styles.logo}>
+        ]}>
         <View style={[styles.container, containerLogoStyle]}>
           <Text style={styles.text}>Welcome to</Text>
           {logo && (
