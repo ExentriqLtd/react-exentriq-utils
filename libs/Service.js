@@ -18,7 +18,11 @@ class ServiceImplementation {
   rid = null;
   context = null;
   user = null;
+  sessionToken = null;
 
+  getToken() {
+    return this.loginToken;
+  }
   // #region ::: CONNECTION
   connect = async ({
     url,
@@ -120,6 +124,7 @@ class ServiceImplementation {
           .then((session) => {
             this.userId = _id;
             this.loginToken = loginToken;
+            this.sessionToken = sessionToken;
             return { session, status, sessionToken };
           })
           .catch((err) =>

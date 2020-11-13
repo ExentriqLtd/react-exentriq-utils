@@ -1,5 +1,5 @@
 export * from './Service';
-export { defailt as Guardian } from './Guardian';
+export { default as Guardian } from './Guardian';
 export * from './Socket';
 
-import './functions'
+import './functions';
