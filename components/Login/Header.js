@@ -43,15 +43,15 @@ const styles = StyleSheet.create({
   containerLogo: {
     width: '100%',
     maxWidth: 350,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   logo: {
     opacity: 1,
     overflow: 'visible',
     width: '100%',
     height: 40,
-    resizeMode: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'center',
+    resizeMode: 'contain',
   },
   text: {
     fontSize: 20,
