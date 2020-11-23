@@ -3,6 +3,7 @@
 /** @format */
 
 // #region ::: DDP_CLIENT
+import { last, isFunction } from 'lodash';
 export class ClientDDP {
   events = null;
 
@@ -140,6 +141,23 @@ export class Socket extends ClientDDP {
       method,
       params,
     });
+
+  callAsync = (...args) => {
+    let fn = last(args);
+    const newArgs = args;
+    if (!fn || !isFunction(fn)) {
+      fn = () => {};
+    } else {
+      newArgs.pop();
+    }
+    return this.call(...newArgs)
+      .then((result) => {
+        fn(null, result);
+      })
+      .catch((e) => {
+        fn(e);
+      });
+  };
 
   unsubscribe = (key: any): any => {
     if (!this.subscriptions[key]) {
