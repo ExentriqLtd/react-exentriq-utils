@@ -158,6 +158,10 @@ class ServiceImplementation {
       });
   };
 
+  loginByDeviceId = async ({ deviceId, spaceId, secretCode }): Promise<any> => {
+    return Guardian.call('spaceUserService.loginByDeviceId', [deviceId, spaceId, secretCode], null);
+  } ;
+
   loginByGoogle = async ({
     id,
     name,
