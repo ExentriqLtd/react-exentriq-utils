@@ -158,6 +158,14 @@ class ServiceImplementation {
       });
   };
 
+  generateLoginCode = async ({sessionToken}): Promise<any> => {
+    return Guardian.call('spaceUserService.generateLoginCode', [], sessionToken);
+  }
+
+  pairQRCode = async ({ spaceId, qrCode, sessionToken }): Promise<any> => {
+    return Guardian.call('spaceUserService.pairQRCode', [spaceId, qrCode], sessionToken);
+  }
+
   loginByDeviceId = async ({ deviceId, spaceId, secretCode }): Promise<any> => {
     return Guardian.call('spaceUserService.loginByDeviceId', [deviceId, spaceId, secretCode], null);
   } ;
