@@ -158,8 +158,8 @@ class ServiceImplementation {
       });
   };
 
-  generateLoginCode = async ({sessionToken}): Promise<any> => {
-    return Guardian.call('spaceUserService.generateLoginCode', [], sessionToken);
+  generateLoginCode = async ({ spaceId, sessionToken }): Promise<any> => {
+    return Guardian.call('spaceUserService.generateLoginCode', [spaceId], sessionToken);
   }
 
   pairQRCode = async ({ spaceId, qrCode, sessionToken }): Promise<any> => {
