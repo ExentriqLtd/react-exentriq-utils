@@ -253,6 +253,15 @@ class ServiceImplementation {
       .catch((err) => console.error('[Servic+e.recoveryPassword', err));
   };
 
+  refreshSpaceSession = (spaceId: String, sessionToken: String): Promise<TParamsLogin> => {
+    return Guardian.call('spaceUserService.refreshSession', [spaceId], sessionToken)
+      .then((result) => {
+        console.log('0..refreshSpaceSession', result);
+        return result;
+      })
+      .catch((err) => console.error(`[GetUserDetail.${username}]', ${err}`));
+    }
+
   getUserDetail = (username: String, sessionToken: String): Promise<TParamsLogin> => {
     return Guardian.call('accountService.getUserDetailByUsername', [username], sessionToken)
       .then((result) => {
@@ -261,6 +270,19 @@ class ServiceImplementation {
       .catch((err) => console.error(`[GetUserDetail.${username}]', ${err}`));
 
   }
+
+  updateProfile = ({
+    audienceContactId, firstName, lastName, email, phone,
+    base64, sessionToken, spaceId,
+  }) => {
+    return Guardian.call('spaceUserService.updateAudienceContactAndMetaFromApp', [
+      spaceId, audienceContactId, firstName, lastName, email, phone,
+      null, null, base64, null, null, null], sessionToken)
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => console.error(`[updateProfile.error]', ${err.message}`));
+  };
 
   // #endregion
   sendIosToken = async (username: String, data: Object<any>) => {
