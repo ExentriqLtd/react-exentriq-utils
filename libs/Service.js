@@ -170,6 +170,15 @@ class ServiceImplementation {
     return Guardian.call('spaceUserService.loginByDeviceId', [deviceId, spaceId, secretCode], null);
   } ;
 
+  loginBySession = async (sessionToken: String) => {
+    const tokens = await this.call('verifyToken', sessionToken);
+    const { loginToken, _id } = tokens;
+    return this.call('login', { resume: loginToken }).then(() => {
+      this.userId = _id;
+      console.log('Logged as:', this.userId);
+    });
+  }
+
   loginByGoogle = async ({
     id,
     name,
