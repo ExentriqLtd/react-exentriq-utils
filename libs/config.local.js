@@ -2,5 +2,8 @@ export const EXENTRIQ_AVATAR_URL = 'https://stage.exentriq.com/AvatarService?use
 export const EXENTRIQ_TALK_URL = 'http://192.168.1.132:3000';
 export const EXENTRIQ_EMA_URL = 'http://192.168.1.132:3002';
 export const EXENTRIQ_URL_HOST = 'https://stage.exentriq.com/JSON-RPC';
-export const DINDLEAPP = 'https://dindle0.exentriqlab.com';
-
+export const DINDLEAPP = 'https://dindle.exentriqlab.com';
+export const integrationBusSetIosTokenPath = 'http://bus.stage.exentriq.com:1880/setIosToken';
+export const integrationBusRemoveIosTokenPath = 'http://bus.stage.exentriq.com:1880/removeIosToken';
+export const integrationBusSetAndroidTokenPath = 'http://bus.stage.exentriq.com:1880/setAndroidToken';
+export const integrationBusRemoveAndroidTokenPath = 'http://bus.stage.exentriq.com:1880/removeAndroidToken';

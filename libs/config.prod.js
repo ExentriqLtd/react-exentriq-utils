@@ -3,3 +3,7 @@ export const EXENTRIQ_TALK_URL = 'https://talk.exentriq.com';
 export const EXENTRIQ_EMA_URL = 'https://boards-new.exentriq.com';
 export const EXENTRIQ_URL_HOST = 'https://www.exentriq.com/JSON-RPC';
 export const DINDLEAPP = 'https://www.dindle.com';
+export const integrationBusSetIosTokenPath = 'https://bus.exentriq.com:1880/setIosToken';
+export const integrationBusRemoveIosTokenPath = 'https://bus.exentriq.com:1880/removeIosToken';
+export const integrationBusSetAndroidTokenPath = 'https://bus.exentriq.com:1880/setAndroidToken';
+export const integrationBusRemoveAndroidTokenPath = 'https://bus.exentriq.com:1880/removeAndroidToken';

@@ -265,7 +265,6 @@ class ServiceImplementation {
   refreshSpaceSession = (spaceId: String, sessionToken: String): Promise<TParamsLogin> => {
     return Guardian.call('spaceUserService.refreshSession', [spaceId], sessionToken)
       .then((result) => {
-        console.log('0..refreshSpaceSession', result);
         return result;
       })
       .catch((err) => console.error(`[GetUserDetail.${username}]', ${err}`));
