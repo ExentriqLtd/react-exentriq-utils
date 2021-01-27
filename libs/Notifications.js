@@ -1,90 +1,137 @@
 import { Notifications as NotificationsReact } from 'react-native-notifications';
 import EventEmitter from 'events';
-import uuid from 'uuid';
 import {
   integrationBusSetIosTokenPath,
   integrationBusSetAndroidTokenPath,
   integrationBusRemoveAndroidTokenPath,
   integrationBusRemoveIosTokenPath,
-  notificationVoipAppName,
 } from './config';
 import Guardian from './Guardian';
 
 import type { RegisteredPushKit } from 'react-native-notifications';
 
 class Notifications extends EventEmitter {
-  _uuid: String;
-  _username: String;
-  _token: String;
-  _isIOS: Boolean;
+  username: String;
+  token: String;
+  voipToken: String;
+  isIOS: Boolean;
+  app: String;
+  deviceId: String;
 
-  constructor(_uuid) {
+  constructor() {
     super();
-    this._uuid = _uuid || uuid.v4().toUpperCase();
-    this._isIOS = Platform.OS === 'ios';
+    this.isIOS = Platform.OS === 'ios';
+    this.call = this.call.bind(this);
+    this.sendToken = this.sendToken.bind(this);
   }
 
-  init(uuid, username) {
-    this._uuid = uuid;
-    this._username = username;
-
+  register(app, deviceId, username) {
+    this.app = app;
+    this.deviceId = deviceId;
+    this.username = username;
     NotificationsReact.registerRemoteNotifications();
-    NotificationsReact.events().registerRemoteNotificationsRegistered(
-      (event) => {
-        // TODO: Send the token to my server so it could send back push notifications...
-        // console.log('0..[Device Token Received]', event.deviceToken);
-        this.emit('registerRemoteNotificationsRegistered', event.deviceToken);
-      },
-    );
-    NotificationsReact.events().registerRemoteNotificationsRegistrationFailed(
-      (event) => {
-        console.error(
-          '[RegisterRemoteNotificationsRegistrationFailed]',
-          event,
-        );
-      },
-    );
-    NotificationsReact.events().registerNotificationReceivedForeground(
-      (
-        notification: Notification,
-        completion: (response: NotificationCompletion) => void,
-      ) => {
-        // Calling completion on iOS with `alert: true` will present the native iOS inApp notification.
-        completion({ alert: true, sound: true, badge: false });
-      },
-    );
-    NotificationsReact.events().registerNotificationOpened(
-      (
-        notification: Notification,
-        completion: () => void,
-        action: NotificationActionResponse,
-      ) => {
-        completion();
-      },
-    );
-    NotificationsReact.events().registerNotificationReceivedBackground(
-      (
-        notification: Notification,
-        completion: (response: NotificationCompletion) => void,
-      ) => {
-        // Calling completion on iOS with `alert: true` will present the native iOS inApp notification.
-        completion({ alert: true, sound: true, badge: false });
-      },
-    );
+    NotificationsReact.events().registerRemoteNotificationsRegistered((event: Registered) => {
+      this.token = event.deviceToken;
+      // console.log('0..registerRemoteNotificationsRegistered', event.deviceToken)
+      this.emit('registerRemoteNotificationsRegistered', event.deviceToken);
+    });
 
-    if (this._isIOS) {
-      this.registerPushkit();
-    }
+    NotificationsReact.events().registerRemoteNotificationsRegistrationFailed((event: RegistrationError) => {
+      // console.error('0..registerRemoteNotificationsRegistrationFailed', event);
+      this.emit('registerRemoteNotificationsRegistrationFailed', event);
+    });
+
+    NotificationsReact.getInitialNotification()
+      .then((notification) => {
+        if (notification && notification.payload) {
+          // console.log('0..getInitialNotification', notification.payload);
+          this.emit('notificationOpened', notification.payload);
+        }
+      })
+      .catch((err) => console.error("getInitialNotifiation() failed", err));
+
+    NotificationsReact.events().registerNotificationReceivedForeground((notification: Notification, completion: (response: NotificationCompletion) => void) => {
+      // console.log('0..registerNotificationReceivedForeground', notification.payload);
+      this.emit('notificationOpened', notification.payload);
+
+      // Calling completion on iOS with `alert: true` will present the native iOS inApp notification.
+      completion({alert: true, sound: true, badge: false});
+    });
+
+    NotificationsReact.events().registerNotificationReceivedBackground((notification: Notification, completion: (response: NotificationCompletion) => void) => {
+      // console.log('0..registerNotificationReceivedBackground', notification.payload);
+      this.emit('notificationOpened', notification.payload);
+      // Calling completion on iOS with `alert: true` will present the native iOS inApp notification.
+      completion({alert: true, sound: true, badge: false});
+    });
+
+    NotificationsReact.events().registerNotificationOpened((notification: Notification, completion: () => void, action: NotificationActionResponse) => {
+      // console.log(`Notification opened with an action identifier: ${action.identifier} and response text: ${action.text}`);
+      this.emit('notificationOpened', notification.payload);
+      completion();
+    });
   }
 
-  registerPushkit(): void {
+  sendToken(remove = false) {
+    const payload = {
+      username: this.username,
+      token: this.token,
+      device: this.deviceId,
+      app: this.app,
+    };
+
+    let url;
+    if (this.isIOS) {
+      url = !remove ? integrationBusSetIosTokenPath : integrationBusRemoveIosTokenPath;
+    } else {
+      url = !remove ? integrationBusSetAndroidTokenPath : integrationBusRemoveAndroidTokenPath
+    }
+   return this.call(url, payload);
+  }
+
+  sendVoipToken(remove = false) {
+    const payload = {
+      username,
+      token: this.voipToken,
+      device: this.deviceId,
+      app: this.voipApp,
+    };
+
+    let url;
+    if (this.isIOS) {
+      url = !remove ? integrationBusSetIosTokenPath : integrationBusRemoveIosTokenPath;
+    } else {
+      url = !remove ? integrationBusSetAndroidTokenPath : integrationBusRemoveAndroidTokenPath
+    }
+   return this.call(url, payload);
+  }
+
+  call(url, payload) {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    return new Promise((resolve) => {
+      return Guardian.fetch(url, options)
+        .then(resolve)
+        .catch((err) => resolve({ error: true, ...err }));
+      });
+  }
+
+  registerPushkit(app, deviceId, username): void {
+    this.voipApp = app;
+    this.deviceId = deviceId;
+    this.username = username;
     NotificationsReact.ios.registerPushKit();
     NotificationsReact.ios
       .events()
       .registerPushKitRegistered((event: RegisteredPushKit) => {
-        this._token = event.pushKitToken;
+        this.pushToken = event.pushKitToken;
         this.emit('registerPushKitRegistered', event.pushKitToken);
-        this.sendVoipToken();
       });
     NotificationsReact.ios
       .events()
@@ -94,47 +141,6 @@ class Notifications extends EventEmitter {
           complete();
         },
       );
-  }
-
-  sendVoipToken(): void {
-    if (!this._token || !this._username) {
-      return;
-    }
-
-    const payload = {
-      username: this._username,
-      token: this._token,
-      device: this._uuid,
-      app: notificationVoipAppName,
-    };
-
-    const options = {
-      method: 'POST',
-      body: JSON.stringify({ id: '', payload }),
-    };
-
-    if (this._isIOS) {
-      return Guardian.fetch(integrationBusSetIosTokenPath, options);
-    }
-    Guardian.fetch(integrationBusSetAndroidTokenPath, options);
-  }
-
-  removeVoipToken(): void {
-    const payload = {
-      data: {
-        username: this._username,
-        token: this._token,
-        app: notificationVoipAppName,
-      },
-    };
-    const options = {
-      method: 'POST',
-      body: JSON.stringify({ id: '', payload }),
-    };
-    if (this._isIOS) {
-      return Guardian.fetch(integrationBusRemoveIosTokenPath, options);
-    }
-    Guardian.fetch(integrationBusRemoveAndroidTokenPath, options);
   }
 }
 
