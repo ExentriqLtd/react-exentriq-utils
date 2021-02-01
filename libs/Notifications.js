@@ -32,7 +32,7 @@ class Notifications extends EventEmitter {
     NotificationsReact.registerRemoteNotifications();
     NotificationsReact.events().registerRemoteNotificationsRegistered((event: Registered) => {
       this.token = event.deviceToken;
-      // console.log('0..registerRemoteNotificationsRegistered', event.deviceToken)
+      //console.log('0..registerRemoteNotificationsRegistered', event.deviceToken)
       this.emit('registerRemoteNotificationsRegistered', event.deviceToken);
     });
 
@@ -44,35 +44,35 @@ class Notifications extends EventEmitter {
     NotificationsReact.getInitialNotification()
       .then((notification) => {
         if (notification && notification.payload) {
-          // console.log('0..getInitialNotification', notification.payload);
-          this.emit('notificationOpened', notification.payload);
+          //console.log('0..getInitialNotification', notification.payload);
+          this.emit('notificationOpened', notification.payload, this.isIOS);
         }
       })
       .catch((err) => console.error("getInitialNotifiation() failed", err));
 
     NotificationsReact.events().registerNotificationReceivedForeground((notification: Notification, completion: (response: NotificationCompletion) => void) => {
-      // console.log('0..registerNotificationReceivedForeground', notification.payload);
-      this.emit('notificationOpened', notification.payload);
+      //console.log('0..registerNotificationReceivedForeground', JSON.stringify(notification.payload, null, 2));
+      this.emit('notificationForeground', notification.payload, this.isIOS);
 
       // Calling completion on iOS with `alert: true` will present the native iOS inApp notification.
       completion({alert: true, sound: true, badge: false});
     });
 
     NotificationsReact.events().registerNotificationReceivedBackground((notification: Notification, completion: (response: NotificationCompletion) => void) => {
-      // console.log('0..registerNotificationReceivedBackground', notification.payload);
-      this.emit('notificationOpened', notification.payload);
+      //console.log('0..registerNotificationReceivedBackground', notification.payload);
+      this.emit('notificationBackground', notification.payload, this.isIOS);
       // Calling completion on iOS with `alert: true` will present the native iOS inApp notification.
       completion({alert: true, sound: true, badge: false});
     });
 
     NotificationsReact.events().registerNotificationOpened((notification: Notification, completion: () => void, action: NotificationActionResponse) => {
       // console.log(`Notification opened with an action identifier: ${action.identifier} and response text: ${action.text}`);
-      this.emit('notificationOpened', notification.payload);
+      this.emit('notificationOpened', notification.payload, this.isIOS);
       completion();
     });
   }
 
-  sendToken(remove = false) {
+  sendToken() {
     const payload = {
       username: this.username,
       token: this.token,
@@ -82,14 +82,31 @@ class Notifications extends EventEmitter {
 
     let url;
     if (this.isIOS) {
-      url = !remove ? integrationBusSetIosTokenPath : integrationBusRemoveIosTokenPath;
+      url = integrationBusSetIosTokenPath;
     } else {
-      url = !remove ? integrationBusSetAndroidTokenPath : integrationBusRemoveAndroidTokenPath
+      url = integrationBusSetAndroidTokenPath;
     }
-   return this.call(url, payload);
+    return this.call(url, payload);
   }
 
-  sendVoipToken(remove = false) {
+  removeToken() {
+    const payload = {
+      username: this.username,
+      token: this.token,
+      device: this.deviceId,
+      app: this.app,
+    };
+
+    let url;
+    if (this.isIOS) {
+      url = integrationBusRemoveIosTokenPath;
+    } else {
+      url = integrationBusRemoveAndroidTokenPath
+    }
+    return this.call(url, payload);
+  }
+
+  sendVoipToken() {
     const payload = {
       username,
       token: this.voipToken,
@@ -99,11 +116,28 @@ class Notifications extends EventEmitter {
 
     let url;
     if (this.isIOS) {
-      url = !remove ? integrationBusSetIosTokenPath : integrationBusRemoveIosTokenPath;
+      url = integrationBusSetIosTokenPath;
     } else {
-      url = !remove ? integrationBusSetAndroidTokenPath : integrationBusRemoveAndroidTokenPath
+      url = integrationBusSetAndroidTokenPath;
     }
-   return this.call(url, payload);
+    return this.call(url, payload);
+  }
+
+  removeVoipToken() {
+    const payload = {
+      username,
+      token: this.voipToken,
+      device: this.deviceId,
+      app: this.voipApp,
+    };
+
+    let url;
+    if (this.isIOS) {
+      url = integrationBusRemoveIosTokenPath;
+    } else {
+      url = integrationBusRemoveAndroidTokenPath
+    }
+    return this.call(url, payload);
   }
 
   call(url, payload) {
