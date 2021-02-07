@@ -110,11 +110,11 @@ class ServiceImplementation {
     return this.ddp.call(method, ...params);
   };
 
-  createSession = (guardianToken: string): Promise<any> => {
+  createSession = (guardianToken: string, meteorToken: string): Promise<any> => {
     if (!guardianToken) {
       return {};
     }
-    return this.call('verifyToken', guardianToken)
+    return this.call('verifyToken', guardianToken, null, meteorToken)
       .then((verifyToken) => {
         if (!verifyToken) {
           return {};
