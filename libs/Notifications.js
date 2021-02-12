@@ -70,6 +70,11 @@ class Notifications extends EventEmitter {
     });
   }
 
+  requestRegister(username) {
+    this.username = username;
+    NotificationsReact.registerRemoteNotifications();
+  }
+
   sendToken() {
     const payload = {
       username: this.username,
