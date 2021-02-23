@@ -73,10 +73,13 @@ class Notifications extends EventEmitter {
 
   requestRegister(username) {
     this.username = username;
-    NotificationsReact.registerRemoteNotifications();
+    this.sendToken();
   }
 
   sendToken() {
+    if (!this.username || !this.token) {
+      return
+    }
     const payload = {
       username: this.username,
       token: this.token,
