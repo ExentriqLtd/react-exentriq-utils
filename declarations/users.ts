@@ -21,6 +21,11 @@ export interface TUser {
   username: string;
 }
 
+interface TMeta {
+  map?: {
+    roomId?: string;
+  }
+}
 export interface TSearch {
   lastNameFirstName_analyzed: string;
   lastName: string;
@@ -50,4 +55,5 @@ export interface TSearch {
   updatedAt: Date;
   rid?: string; // GROUP
   username?: string;
+  meta?: TMeta;
 }

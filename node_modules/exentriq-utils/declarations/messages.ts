@@ -20,6 +20,7 @@ interface TAttachment {
   type: string;
   image_url: string;
   audio_url: string;
+  video_url: string;
   image_type: string;
   image_size: number;
   image_dimensions: {

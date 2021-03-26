@@ -9,6 +9,7 @@ export {
   utilityIsImageMessage,
   utilityIsAudioMessage,
   utilityIsCardMessage,
+  utilityIsVideoMessage,
 } from "./functions/getMessageType";
 export { utilityGetRoomIcon } from "./functions/getRoomIcon";
 export { utilityGetRoomName } from "./functions/getRoomName";

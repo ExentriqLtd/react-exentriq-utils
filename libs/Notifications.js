@@ -76,7 +76,10 @@ class Notifications extends EventEmitter {
     this.sendToken();
   }
 
-  sendToken() {
+  sendToken(username) {
+    if (username) {
+      this.username = username;
+    }
     if (!this.username || !this.token) {
       return
     }
