@@ -10,6 +10,7 @@ export {
   utilityIsAudioMessage,
   utilityIsCardMessage,
   utilityIsVideoMessage,
+  utilityIsFileMessage,
 } from "./functions/getMessageType";
 export { utilityGetRoomIcon } from "./functions/getRoomIcon";
 export { utilityGetRoomName } from "./functions/getRoomName";
