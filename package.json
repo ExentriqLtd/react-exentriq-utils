@@ -12,7 +12,7 @@
   "author": "Exentriq",
   "license": "ISC",
   "dependencies": {
-    "exentriq-utils": "^1.1.25",
+    "exentriq-utils": "^1.1.12",
     "fast-memoize": "2.5.2",
     "lodash": "4.17.20",
     "react": "16.13.1",

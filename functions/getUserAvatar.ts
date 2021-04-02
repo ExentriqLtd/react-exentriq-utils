@@ -1,8 +1,9 @@
 /** @format */
 
 import memoize from "fast-memoize";
+import { EXENTRIQ_AVATAR_URL } from "../libs/config";
 
 export const utilityGetUserAvatar = memoize(
   (username: string): string =>
-    `https://stage.exentriq.com/AvatarService?username=${username}`
+    `${EXENTRIQ_AVATAR_URL}${username}`
 );
