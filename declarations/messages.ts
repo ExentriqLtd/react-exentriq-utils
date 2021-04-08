@@ -53,6 +53,7 @@ export interface TMessage {
   u: {
     _id: string;
     username: string;
+    name: string;
   };
   grupable?: boolean;
   received?: TReceived[];
