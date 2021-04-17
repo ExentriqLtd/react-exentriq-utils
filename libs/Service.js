@@ -262,6 +262,14 @@ class ServiceImplementation {
       .catch((err) => console.error('[Servic+e.recoveryPassword', err));
   };
 
+  getUserBySessionToken = (spaceId: String, sessionToken: String): Promise<TParamsLogin> => {
+    return Guardian.call('spaceUserService.getUserBySessionToken', [spaceId, sessionToken])
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => console.error(`[GetUserDetail.${username}]', ${err}`));
+    }
+
   refreshSpaceSession = (spaceId: String, sessionToken: String): Promise<TParamsLogin> => {
     return Guardian.call('spaceUserService.refreshSession', [spaceId], sessionToken)
       .then((result) => {
