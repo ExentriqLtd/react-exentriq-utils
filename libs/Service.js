@@ -168,7 +168,11 @@ class ServiceImplementation {
 
   loginByDeviceId = async ({ deviceId, spaceId, secretCode }): Promise<any> => {
     return Guardian.call('spaceUserService.loginByDeviceId', [deviceId, spaceId, secretCode], null);
-  } ;
+  }
+
+  loginByDeviceIdV2 = async ({ deviceId, spaceId, secretCode }): Promise<any> => {
+    return Guardian.call('spaceUserService.loginByDeviceIdV2', [deviceId, spaceId, secretCode], null);
+  }
 
   loginBySession = async (sessionToken: String) => {
     const tokens = await this.call('verifyToken', sessionToken);
@@ -300,7 +304,23 @@ class ServiceImplementation {
       .catch((err) => console.error(`[updateProfile.error]', ${err.message}`));
   };
 
+  sendVerificationCodeByEmail = ({ deviceId, email, phone, spaceId, secretCode }) => {
+    return Guardian.call('spaceUserService.sendVerificationCodeByEmail', [deviceId, email, phone, spaceId, secretCode])
+      .then((result) => {
+        return result;
+      });
+  }
+
+  verifyDeviceIdByEmail = ({ deviceId, spaceId, code, secretCode, firstName, lastName, phone, email, base64 }) => {
+    return Guardian.call('spaceUserService.verifyDeviceIdByEmail', [deviceId, spaceId, code, secretCode, firstName, lastName, phone, email, base64])
+      .then((result) => {
+        return result;
+      });
+  }
+
   // #endregion
+
+  // #region ::: NOTIFICATIONS
   sendIosToken = async (username: String, data: Object<any>) => {
     this.call('sendIosTokenUsername', username, data);
   };
