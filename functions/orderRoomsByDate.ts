@@ -13,8 +13,8 @@ const getDate = (field: TRoom): number => {
   const tlv = Object.prototype.hasOwnProperty.call(field, 'tlv');
   const ls = Object.prototype.hasOwnProperty.call(field, 'ls');
   const ts = Object.prototype.hasOwnProperty.call(field, 'ts');
-  if (exUpdatedAt) return field.exUpdatedAt.$date;
   if (lm) return field.lm.$date;
+  if (exUpdatedAt) return field.exUpdatedAt.$date;
   if (ls) return field.ts.$date;
   if (tlv) return field.tlv.$date;
   return field.ts.$date;
