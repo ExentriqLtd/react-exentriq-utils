@@ -291,6 +291,14 @@ class ServiceImplementation {
 
   }
 
+  getUserDetailRegisteredUser = (username: String, spaceId: String, sessionToken: String): Promise<TParamsLogin> => {
+    return Guardian.call('accountService.getUserDetailByUsernameAndSpace', [username, spaceId], sessionToken)
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => console.error(`[getUserDetailRegisteredUser.${username}]', ${err}`));
+  }
+
   updateProfile = ({
     audienceContactId, firstName, lastName, email, phone,
     base64, sessionToken, spaceId,
