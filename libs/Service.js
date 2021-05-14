@@ -299,6 +299,13 @@ class ServiceImplementation {
       .catch((err) => console.error(`[getUserDetailRegisteredUser.${username}]', ${err}`));
   }
 
+  uploadGroupAvatar = (groupId, avatarBase64, spaceId, sessionToken) => {
+    return Guardian.call('spaceUserService.uploadGroupAvatar', [spaceId, groupId, avatarBase64], sessionToken).then((result) => {
+      return result;
+    })
+    .catch((err) => console.error(`[uploadGroupAvatar.error]', ${err.message}`));
+  }
+
   updateProfile = ({
     audienceContactId, firstName, lastName, email, phone,
     base64, sessionToken, spaceId,
