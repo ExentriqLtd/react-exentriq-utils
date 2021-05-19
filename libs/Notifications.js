@@ -186,6 +186,11 @@ class Notifications extends EventEmitter {
         },
       );
   }
+
+  setBadgeCount(count) {
+    NotificationsReact.ios.setBadgeCount(count);
+  }
+
 }
 
 export default new Notifications();
