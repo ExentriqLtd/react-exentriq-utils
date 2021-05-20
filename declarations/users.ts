@@ -56,4 +56,10 @@ export interface TSearch {
   rid?: string; // GROUP
   username?: string;
   meta?: TMeta;
+  msg?: string;
+  roomName?: string;
+  ts?: {
+    $date?: number;
+  }
+  euid?: string;
 }
