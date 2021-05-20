@@ -37,3 +37,9 @@ export const utilityIsFileMessage = memoize(
 export const utilityIsCardMessage = memoize(
   (message: TMessage): boolean => !!message.emlData?.cardId,
 );
+
+export const utilityIsGroupServiceMessage = memoize(
+  (message: TMessage): boolean => {
+    return message.t !== undefined;
+  }
+);

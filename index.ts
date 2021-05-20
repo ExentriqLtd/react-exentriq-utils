@@ -11,6 +11,7 @@ export {
   utilityIsCardMessage,
   utilityIsVideoMessage,
   utilityIsFileMessage,
+  utilityIsGroupServiceMessage,
 } from "./functions/getMessageType";
 export { utilityGetRoomIcon } from "./functions/getRoomIcon";
 export { utilityGetRoomName } from "./functions/getRoomName";
