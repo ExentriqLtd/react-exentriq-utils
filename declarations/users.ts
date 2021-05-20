@@ -60,6 +60,6 @@ export interface TSearch {
   roomName?: string;
   ts?: {
     $date?: number;
-  }
+  } | number | string;
   euid?: string;
 }
