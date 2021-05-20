@@ -1,6 +1,7 @@
 /** @format */
 
 import memoize from "fast-memoize";
+import { APP_NAME } from "../constants/config";
 import { EXENTRIQ_AVATAR_URL, EXENTRIQ_GROUPAVATAR_URL } from "../libs/config";
 
 export const utilityGetUserAvatar = memoize(
@@ -9,6 +10,6 @@ export const utilityGetUserAvatar = memoize(
 );
 
 export const utilityGetGroupAvatar = memoize(
-  (rid: string): string =>
-    `${EXENTRIQ_GROUPAVATAR_URL}${rid}`
+  (rid: string, typeOfRoom: any): string =>
+    `${EXENTRIQ_GROUPAVATAR_URL}${rid}&app=${APP_NAME}&groupType=${typeOfRoom}`
 );
