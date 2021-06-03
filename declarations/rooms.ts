@@ -50,4 +50,11 @@ export interface TRoom {
   username: string;
 }
 
+export interface TRoomType {
+  isCard?: boolean;
+  isGroup?: boolean;
+  isCall?: boolean;
+  isDirect?: boolean;
+}
+
 export interface TMention {}
