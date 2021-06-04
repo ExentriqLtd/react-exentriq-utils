@@ -19,7 +19,7 @@ export { utilityFilterRoomList } from "./functions/filterRoomList";
 // DECLARATIONS
 export { TAuth } from "./declarations/auth";
 export { TMessage } from "./declarations/messages";
-export { TRoom, TMention } from "./declarations/rooms";
+export { TRoom, TRoomType, TMention } from "./declarations/rooms";
 export { TStatus, mapStatusColor, TUser, TSearch } from "./declarations/users";
 export { Routes } from "./constants/routes";
 export {
