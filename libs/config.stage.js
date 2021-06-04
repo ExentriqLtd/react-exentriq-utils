@@ -3,6 +3,7 @@ export const EXENTRIQ_GROUPAVATAR_URL = 'https://stage.exentriq.com/AvatarServic
 export const EXENTRIQ_TALK_URL = 'https://talk-stage.exentriq.com';
 export const EXENTRIQ_EMA_URL = 'https://boards-new-stage.exentriq.com';
 export const EXENTRIQ_URL_HOST = 'https://stage.exentriq.com/JSON-RPC';
+export const URL_EXENTRIQ_FEEDSERVICE = 'https://stage.exentriq.com/FeedService';
 export const DINDLEAPP = 'https://dindle.exentriqlab.com';
 export const integrationBusSetIosTokenPath = 'http://bus.stage.exentriq.com:1880/setIosToken';
 export const integrationBusRemoveIosTokenPath = 'http://bus.stage.exentriq.com:1880/removeIosToken';
