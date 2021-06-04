@@ -1,4 +1,3 @@
-import { filter } from 'lodash';
 import { Text } from 'native-base';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
@@ -81,8 +80,6 @@ export const ExLanguages = ({ containerStyle, lang, flatListProps, searchPlaceho
 
   const [languagesService, setLanguagesService] = useState();
   const [languagesList, setLanguagesList] = useState();
-
-  console.log('PROPS', flatListProps);
 
   useEffect(() => {
     const url = `${URL_EXENTRIQ_FEEDSERVICE}?service=languages&lang=${lang}`;
