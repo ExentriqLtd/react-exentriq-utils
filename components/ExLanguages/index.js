@@ -3,81 +3,82 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
 import { URL_EXENTRIQ_FEEDSERVICE } from "../../libs/config";
 import { FlatList } from 'react-native-gesture-handler';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   input: {
     fontSize: 17,
-    marginRight: 8,
-    marginLeft: 8,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 8,
-    paddingRight: 8,
+    marginHorizontal: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
     marginTop: 10,
     marginBottom: 10,
     backgroundColor: '#eee',
     borderRadius: 5,
   },
-  listItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   container: {
-    flexDirection: 'row',
+    paddingHorizontal: 8,
+    paddingBottom: 20,
+  },
+  listContainer: {
+    flexDirection: 'row', 
+    alignItems: 'center',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 15,
+    borderBottomColor: '#eee', 
+    borderBottomWidth: 1, 
+    padding: 8
   },
-  scrollview: {
-    width: '100%',
-    padding: 12,
-  },
-  btn: {
-    height: 50,
-    justifyContent: 'center',
+  listContainerInner: {
+    flexDirection: 'row', 
     alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: '#fe8a71',
-    paddingHorizontal: 10,
-    borderRadius: 5,
+  },
+  flagContainer: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     elevation: 5,
-    shadowColor: 'black',
-    shadowOffset: {width: 0.3 * 4, height: 0.5 * 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 0.7 * 4,
   },
-  safeareview: {
-    justifyContent: 'center',
-    flex: 1,
-  },
-  btnTitle: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
+  flag: {
+    borderRadius: 50, 
+    width: 50, 
+    height: 50,
+  }
 });
 
-const LanguageItem = ({ item, onPress }) => {
+const LanguageItem = ({ item, onPress, primary }) => {
   return (
-    <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', backgroundColor: 'red', borderBottomColor: '#000', borderBottomWidth: 1, padding: 4}} onPress={onPress}>
-        <Image
-          source={{
-            height: 50,
-            width: 50,
-            uri: 'https://www.countryflags.io/' + item.code + '/flat/64.png',
-          }}
-          resizeMode="cover"
-          style={{ borderRadius: 50, borderWidth: 3, borderColor: 'blue'}}
-        />
-        <Text>
-          {item.language}
+    <TouchableOpacity style={styles.listContainer} onPress={() => onPress(item)}>
+      <View style={styles.listContainerInner}>
+        <View style={styles.flagContainer}>
+          <Image
+            source={{
+              uri: `https://www.federicavenuto.com/varie/flags/${item.code}.png`,
+            }}
+            style={styles.flag}
+          />
+        </View>
+        <Text style={{marginLeft: 12}}>
+          {item.language} {item.code}
         </Text>
+      </View>
+      <View>
+        <MaterialIcons
+          color={primary}
+          name="check"
+          style={styles.addmemberAsssigned}
+          size={30}
+        />
+      </View>
     </TouchableOpacity>
   );
 }; 
 
 export const ExLanguages = ({ containerStyle, lang, flatListProps, searchPlaceholder, ...props }) => {
-
   const [languagesService, setLanguagesService] = useState();
   const [languagesList, setLanguagesList] = useState();
 
@@ -109,7 +110,7 @@ export const ExLanguages = ({ containerStyle, lang, flatListProps, searchPlaceho
   };
   
   return (
-    <View style={containerStyle}>
+    <View style={[styles.container, containerStyle]}>
       <TextInput
         style={styles.input}
         placeholder={searchPlaceholder}
@@ -117,11 +118,17 @@ export const ExLanguages = ({ containerStyle, lang, flatListProps, searchPlaceho
       />
       <FlatList
         data={languagesList}
-        renderItem={({ item }) => <LanguageItem item={item} {...props} />}
+        renderItem={({ item }) => <LanguageItem isSelected={item.selected} item={item} {...props} />}
         keyExtractor={( item ) => item.code}
         scrollEventThrottle={2}
         {...flatListProps}
       />
     </View>
   );
+}
+ExLanguages.defaultProps = {
+  primary: 'red',
+}
+ExLanguages.PropTypes = {
+  primary: PropTypes.string,
 }
