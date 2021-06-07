@@ -19,6 +19,7 @@ export interface TUser {
   _id: string;
   name: string;
   username: string;
+  original_name?: string;
 }
 
 interface TMeta {

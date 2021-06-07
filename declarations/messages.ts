@@ -63,4 +63,5 @@ export interface TMessage {
     _id: string;
     name: string;
   };
+  meetRoomId?: string;
 }
