@@ -1,3 +1,4 @@
+import { TMessage } from 'exentriq-utils';
 import { TStatus } from "./users";
 
 export interface TRoom {
@@ -48,6 +49,7 @@ export interface TRoom {
     $date: number;
   };
   username: string;
+  lastMessage?: TMessage;
 }
 
 export interface TRoomType {
