@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const LanguageItem = ({ item, onPress, primary }) => {
+const LanguageItem = ({ item, onPress, primary, selectionLanguage }) => {
   return (
     <TouchableOpacity style={styles.listContainer} onPress={() => onPress(item)}>
       <View style={styles.listContainerInner}>
@@ -63,16 +63,18 @@ const LanguageItem = ({ item, onPress, primary }) => {
           />
         </View>
         <Text style={{marginLeft: 12}}>
-          {item.language} {item.code}
+          {item.language}
         </Text>
       </View>
       <View>
+      {selectionLanguage == item.code &&
         <MaterialIcons
           color={primary}
           name="check"
           style={styles.addmemberAsssigned}
           size={30}
         />
+      }
       </View>
     </TouchableOpacity>
   );
