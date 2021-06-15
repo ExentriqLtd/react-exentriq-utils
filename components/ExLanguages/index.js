@@ -57,7 +57,7 @@ const LanguageItem = ({ item, onPress, primary, selectionLanguage }) => {
         <View style={styles.flagContainer}>
           <Image
             source={{
-              uri: `https://www.federicavenuto.com/varie/flags/${item.code}.png`,
+              uri: `https://cdn001exe.exentriq.com/static/flags/${langAlreadySelected}.png`,
             }}
             style={styles.flag}
           />
@@ -67,7 +67,7 @@ const LanguageItem = ({ item, onPress, primary, selectionLanguage }) => {
         </Text>
       </View>
       <View>
-      {selectionLanguage == item.code &&
+      {selectionLanguage === item.code &&
         <MaterialIcons
           color={primary}
           name="check"
