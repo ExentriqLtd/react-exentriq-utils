@@ -41,3 +41,4 @@ export { ExTextInput } from './components/ExTextInput';
 export { ExAlert } from './components/ExAlert';
 export { LoginForm, LoginWrapper, LoginPage, Header, ForgotPassword} from './components/Login';
 export { ExLanguages } from './components/ExLanguages';
+export { ExGradientButton } from './components/ExGradientButton';
