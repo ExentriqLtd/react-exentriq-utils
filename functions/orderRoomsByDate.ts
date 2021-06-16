@@ -19,7 +19,8 @@ const getDate = (field: TRoom): number => {
   if (tlv) return field.tlv.$date;
   if (ls) return field.ts.$date;
   if (ts) return field.ts.$date;
-  return field.exUpdatedAt.$date;
+  if (exUpdatedAt) return field.exUpdatedAt.$date;
+  return 0;
 };
 
 export const utilityOrderRoomsByDate = memoize((rooms: TRoom[]): TRoom[] =>
