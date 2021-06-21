@@ -9,3 +9,4 @@ export const integrationBusSetIosTokenPath = 'http://bus.exentriq.com:1880/setIo
 export const integrationBusRemoveIosTokenPath = 'http://bus.exentriq.com:1880/removeIosToken';
 export const integrationBusSetAndroidTokenPath = 'http://bus.exentriq.com:1880/setAndroidToken';
 export const integrationBusRemoveAndroidTokenPath = 'http://bus.exentriq.com:1880/removeAndroidToken';
+export const FLAG_URL = 'https://cdn001exe.exentriq.com/static/flags/';

@@ -1,7 +1,7 @@
 import { Text } from 'native-base';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
-import { URL_EXENTRIQ_FEEDSERVICE } from "../../libs/config";
+import { URL_EXENTRIQ_FEEDSERVICE, FLAG_URL } from "../../libs/config";
 import { FlatList } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
@@ -50,14 +50,14 @@ const styles = StyleSheet.create({
   }
 });
 
-const LanguageItem = ({ item, onPress, primary, selectionLanguage }) => {
+const LanguageItem = ({ item, onPress, primary, selectionLanguage, onClose }) => {
   return (
-    <TouchableOpacity style={styles.listContainer} onPress={() => onPress(item)}>
+    <TouchableOpacity style={styles.listContainer} onPress={() => {onPress(item); onClose();}}>
       <View style={styles.listContainerInner}>
         <View style={styles.flagContainer}>
           <Image
             source={{
-              uri: `https://cdn001exe.exentriq.com/static/flags/${langAlreadySelected}.png`,
+              uri: `${FLAG_URL}${item.code}.png`,
             }}
             style={styles.flag}
           />
@@ -117,6 +117,9 @@ export const ExLanguages = ({ containerStyle, lang, flatListProps, searchPlaceho
         style={styles.input}
         placeholder={searchPlaceholder}
         onChangeText={searchLanguage}
+        autoCompleteType={'off'}
+        autoCorrect={false}
+        clearButtonMode={'while-editing'}
       />
       <FlatList
         data={languagesList}
@@ -131,6 +134,6 @@ export const ExLanguages = ({ containerStyle, lang, flatListProps, searchPlaceho
 ExLanguages.defaultProps = {
   primary: 'red',
 }
-ExLanguages.PropTypes = {
+ExLanguages.propTypes = {
   primary: PropTypes.string,
 }
