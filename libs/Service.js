@@ -308,11 +308,11 @@ class ServiceImplementation {
 
   updateProfile = ({
     audienceContactId, firstName, lastName, email, phone,
-    base64, sessionToken, spaceId,
+    base64, sessionToken, spaceId, language,
   }) => {
     return Guardian.call('spaceUserService.updateAudienceContactAndMetaFromApp', [
       spaceId, audienceContactId, firstName, lastName, email, phone,
-      null, null, base64, null, null, null], sessionToken)
+      null, null, base64, null, null, null, language], sessionToken)
       .then((result) => {
         return result;
       })
