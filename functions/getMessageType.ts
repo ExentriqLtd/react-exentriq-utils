@@ -43,3 +43,12 @@ export const utilityIsGroupServiceMessage = memoize(
     return message.t !== undefined;
   }
 );
+
+export const utilityIsTranslationAvailable = memoize(
+  (translations: any, langAlreadySelected: string): boolean => {
+    if(translations[langAlreadySelected]) {
+      return true;
+    }
+    return false;
+  }
+);
