@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const LanguageItem = ({ item, onPress, primary, selectionLanguage }) => {
+const LanguageItem = ({ item, onPress, primary, selectionLanguage, onClose }) => {
   return (
-    <TouchableOpacity style={styles.listContainer} onPress={() => {onPress(item)}}>
+    <TouchableOpacity style={styles.listContainer} onPress={() => {onPress(item); onClose()}}>
       <View style={styles.listContainerInner}>
         <View style={styles.flagContainer}>
           <Image
