@@ -1,6 +1,5 @@
-import { Text } from 'native-base';
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Image, TouchableOpacity, Text } from 'react-native';
 import { URL_EXENTRIQ_FEEDSERVICE, FLAG_URL } from "../../libs/config";
 import { FlatList } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
