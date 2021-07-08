@@ -40,7 +40,9 @@ export const utilityIsCardMessage = memoize(
 
 export const utilityIsGroupServiceMessage = memoize(
   (message: TMessage): boolean => {
-    return ['au', 'ru'].indexOf(message.t) >=0;
+    const { t } = message || {};
+    if (!t) return false;
+    return ['au', 'ru'].indexOf(t) >=0;
   }
 );
 
