@@ -13,6 +13,7 @@ export {
   utilityIsFileMessage,
   utilityIsGroupServiceMessage,
   utilityIsTranslationAvailable,
+  utilityIsInvitedMessage,
 } from "./functions/getMessageType";
 export { utilityGetRoomIcon } from "./functions/getRoomIcon";
 export { utilityGetRoomName } from "./functions/getRoomName";
