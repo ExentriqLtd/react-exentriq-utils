@@ -40,13 +40,23 @@ export const utilityIsCardMessage = memoize(
 
 export const utilityIsGroupServiceMessage = memoize(
   (message: TMessage): boolean => {
-    return message.t !== undefined;
+    return ['au', 'ru'].indexOf(message.t) >=0;
   }
 );
 
 export const utilityIsTranslationAvailable = memoize(
   (translations: any, langAlreadySelected: string): boolean => {
     if(translations[langAlreadySelected]) {
+      return true;
+    }
+    return false;
+  }
+);
+
+export const utilityIsInvitedMessage = memoize(
+  (message: TMessage): boolean => {
+    const { t, for: fieldFor } = message || {};
+    if (t === 'meet' && !!fieldFor) {
       return true;
     }
     return false;

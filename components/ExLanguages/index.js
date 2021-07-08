@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Image, TouchableOpacity, Text } from 'react-native';
-import { URL_EXENTRIQ_FEEDSERVICE, FLAG_URL } from "../../libs/config";
+import { FLAG_URL } from "../../libs/config";
 import { FlatList } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
+import { URL_EXENTRIQ_FEEDSERVICE } from '../../constants/config';
 
 const styles = StyleSheet.create({
   input: {
@@ -21,15 +22,15 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   listContainer: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottomColor: '#eee', 
-    borderBottomWidth: 1, 
+    borderBottomColor: '#eee',
+    borderBottomWidth: 1,
     padding: 8
   },
   listContainerInner: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     alignItems: 'center',
   },
   flagContainer: {
@@ -43,8 +44,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   flag: {
-    borderRadius: 50, 
-    width: 50, 
+    borderRadius: 50,
+    width: 50,
     height: 50,
   }
 });
@@ -77,7 +78,7 @@ const LanguageItem = ({ item, onPress, primary, selectionLanguage, onClose }) =>
       </View>
     </TouchableOpacity>
   );
-}; 
+};
 
 export const ExLanguages = ({ containerStyle, lang, flatListProps, searchPlaceholder, ...props }) => {
   const [languagesService, setLanguagesService] = useState();
@@ -101,15 +102,18 @@ export const ExLanguages = ({ containerStyle, lang, flatListProps, searchPlaceho
   }, []);
 
   const searchLanguage = (search) => {
+    if (!languagesService) {
+      return;
+    }
     let filteredList = languagesService.filter((item) => { // search from a full list, and not from a previous search results list
       if(item.language.match(search))
         return item;
-      else 
+      else
         return null;
     })
     setLanguagesList(filteredList);
   };
-  
+
   return (
     <View style={[styles.container, containerStyle]}>
       <TextInput
@@ -121,6 +125,7 @@ export const ExLanguages = ({ containerStyle, lang, flatListProps, searchPlaceho
         clearButtonMode={'while-editing'}
       />
       <FlatList
+        keyboardShouldPersistTaps="handled"
         data={languagesList}
         renderItem={({ item }) => <LanguageItem isSelected={item.selected} item={item} {...props} />}
         keyExtractor={( item ) => item.code}
