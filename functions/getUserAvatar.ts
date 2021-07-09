@@ -11,5 +11,5 @@ export const utilityGetUserAvatar = memoize(
 
 export const utilityGetGroupAvatar = memoize(
   (rid: string, typeOfRoom: any): string =>
-    `${EXENTRIQ_GROUPAVATAR_URL}${rid}&app=${APP_NAME}&groupType=${typeOfRoom}`
+    `${EXENTRIQ_GROUPAVATAR_URL}${rid}&app=${APP_NAME}&groupType=${typeOfRoom}&timestamp=${new Date().getTime()}`
 );
