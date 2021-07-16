@@ -50,6 +50,7 @@ export interface TRoom {
   };
   username: string;
   lastMessage?: TMessage;
+  message?:TMessage;
 }
 
 export interface TRoomType {

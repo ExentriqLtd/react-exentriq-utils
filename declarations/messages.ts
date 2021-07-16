@@ -67,4 +67,7 @@ export interface TMessage {
   lastMessage?: any;
   lastMessages?: any;
   for?: string;
+  message?:TMessage;
+  reply?:boolean;
+  forwarded?:boolean;
 }
