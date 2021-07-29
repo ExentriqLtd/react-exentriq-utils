@@ -36,6 +36,7 @@ export {
   URL_EXENTRIQ_HOST,
   METHOD_AUTH_GUARDIAN_LOGIN,
   URL_EXENTRIQ_FEEDSERVICE,
+  URL_MEET,
 } from "./constants/config";
 export { IS_DEVELOPMENT } from "./constants/general";
 export { Service, Guardian, Socket } from './libs';

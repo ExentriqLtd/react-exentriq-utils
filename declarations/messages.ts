@@ -71,4 +71,5 @@ export interface TMessage {
   reply?:boolean;
   forwarded?:boolean;
   translations?: any;
+  meetMessage?: string;
 }
