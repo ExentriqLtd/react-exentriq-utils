@@ -71,7 +71,7 @@ function ExBottomSheetComponent({ show, component }) {
   const renderHandle = () => {
     return (
       <View>
-        <ExBottomSheetHandle title={title} onCancel={closeSheet} />
+        <ExBottomSheetHandle title={title} onCancel={closeSheet} {...props} />
         <ExLanguagesSearchInput searchLanguage={searchLanguage}/>
       </View>
     );

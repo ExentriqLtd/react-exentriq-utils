@@ -69,12 +69,12 @@ ExLanguagesSingleItem.defaultProps = {
   onPress: null,
   onClose: null,
   primary: 'red',
-  selectionLanguage: {},
+  selectionLanguage: '',
 }
 ExLanguagesSingleItem.propTypes = {
   item: PropTypes.object,
   onPress: PropTypes.func,
   onClose: PropTypes.func,
   primary: PropTypes.string,
-  selectionLanguage: PropTypes.object,
+  selectionLanguage: PropTypes.string,
 }

@@ -11,6 +11,7 @@ function ExBottomSheetHandle({
   onConfirm,
   onCancel,
   style,
+  theme,
 }) {
   const { t } = useTranslation();
   return (
@@ -24,11 +25,11 @@ function ExBottomSheetHandle({
         {!toolbar ? (
           <View style={styles.backContainer}>
             <TouchableOpacity style={styles.left} onPress={onCancel}>
-              <Text>{t('Cancel')}</Text>
+              <Text style={styles.action(theme)}>{t('Cancel')}</Text>
             </TouchableOpacity>
             <View style={styles.center}>
               {title ? (
-                <Text>{title}</Text>
+                <Text style={styles.title(theme)}>{title}</Text>
               ) : (
                 <View style={styles.panelHandle} />
               )}
@@ -38,13 +39,13 @@ function ExBottomSheetHandle({
         ) : (
           <>
             <TouchableOpacity style={styles.left} onPress={onBack}>
-              <Text>{t('Back')}</Text>
+              <Text style={styles.action(theme)}>{t('Back')}</Text>
             </TouchableOpacity>
             <View style={styles.center}>
-              <Text>{title}</Text>
+              <Text style={styles.title(theme)}>{title}</Text>
             </View>
             <TouchableOpacity style={styles.right} onPress={onConfirm}>
-              <Text>{t('Next')}</Text>
+            <Text style={styles.action(theme)}>{t('Next')}</Text>
             </TouchableOpacity>
           </>
         )}
@@ -61,9 +62,9 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: 'center',
-    flex: 1,
+    flex: 2,
     justifyContent: 'center',
-    ...(Platform.OS !== 'ios' ? { minWidth: '33%' } : {}),
+    ...(Platform.OS !== 'ios' ? { minWidth: '66%' } : {}),
   },
   left: {
     flex: 1,
@@ -110,6 +111,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  action: (theme) => ({
+    fontSize: 16,
+    color: theme.colors.primary,
+  }),
+  title: (theme) => ({
+    fontSize: 18,
+    color: theme.colors.text,
+    fontWeight: 'bold',
+  }),
 });
 
 export default ExBottomSheetHandle;
