@@ -45,4 +45,5 @@ export { ExAlert } from './components/ExAlert';
 export { LoginForm, LoginWrapper, LoginPage, Header, ForgotPassword} from './components/Login';
 export { ExLanguages } from './components/ExLanguages';
 export { ExGradientButton } from './components/ExGradientButton';
+export { ExGallery } from './components/ExGallery';
 export { ExBottomSheetProvider, useExBottomSheet } from './components/ExBottomSheet';
