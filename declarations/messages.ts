@@ -13,6 +13,13 @@ interface TRead {
   };
 }
 
+interface TGeoLocation {
+  latitude: number,
+  longitude: number,
+  latitudeDelta: number,
+  longitudeDelta: number,
+}
+
 interface TAttachment {
   title: string;
   title_link: string;
@@ -50,6 +57,7 @@ export interface TMessage {
     cardId?: string;
   };
   attachments: TAttachment[];
+  geoLocation?: TGeoLocation;
   u: {
     _id: string;
     username: string;

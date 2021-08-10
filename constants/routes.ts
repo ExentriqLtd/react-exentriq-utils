@@ -13,4 +13,5 @@ export enum Routes {
   viewUserList = "User List",
   viewNewGroupRoom = "Create New Group Room",
   viewNewRoom = "Create New Room",
+  viewGoogleMap = 'GoogleMapLocation',
 }
