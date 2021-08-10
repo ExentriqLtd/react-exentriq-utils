@@ -21,16 +21,16 @@ interface TGeoLocation {
 }
 
 interface TAttachment {
-  title: string;
-  title_link: string;
-  title_link_download: boolean;
-  type: string;
-  image_url: string;
-  audio_url: string;
-  video_url: string;
-  image_type: string;
-  image_size: number;
-  image_dimensions: {
+  title?: string;
+  title_link?: string;
+  title_link_download?: boolean;
+  type?: string;
+  image_url?: string;
+  audio_url?: string;
+  video_url?: string;
+  image_type?: string;
+  image_size?: number;
+  image_dimensions?: {
     width: number;
     height: number;
   };
@@ -78,4 +78,6 @@ export interface TMessage {
   message?:TMessage;
   reply?:boolean;
   forwarded?:boolean;
+  translations?: any;
+  meetMessage?: string;
 }
