@@ -20,7 +20,7 @@ export { utilityGetRoomName } from "./functions/getRoomName";
 export { utilityFilterRoomList } from "./functions/filterRoomList";
 // DECLARATIONS
 export { TAuth } from "./declarations/auth";
-export { TMessage } from "./declarations/messages";
+export { TMessage, TGeoLocation } from "./declarations/messages";
 export { TRoom, TRoomType, TMention } from "./declarations/rooms";
 export { TStatus, mapStatusColor, TUser, TSearch } from "./declarations/users";
 export { Routes } from "./constants/routes";
