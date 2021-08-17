@@ -22,6 +22,7 @@ class ExGallery extends Component {
         this.id = props.id;
         this.header = props.header;
         this.fadeAnim = new Animated.Value(this.state.visible ? 1 : 0);
+        this.initialPage = props.initialPage || 0;
 
         this.styles = StyleSheet.create({
             container: {
@@ -89,8 +90,8 @@ class ExGallery extends Component {
                     refPage={(component) => (this.gallerySwiper = component)}
                     style={this.styles.gallery}
                     images={this.props.images}
-                    initialPage={this.props?.page || 0}
-                    initialNumToRender={this.props?.initialNumToRender || 2}
+                    initialPage={this.initialPage}
+                    initialNumToRender={2}
                     sensitiveScroll={this.props?.sensitiveScroll || false}
                     onPageSelected={(idx) => {
                         this.props?.onPageSelected?.(idx);
@@ -111,6 +112,10 @@ class ExGallery extends Component {
                     onEndReachedThreshold={
                         this.props?.onEndReachedThreshold || 0.5
                     }
+                    resizeMode="contain"
+                    flatListProps={{
+                        windowSize: 3,
+                    }}
                 />
             </View>
         );
