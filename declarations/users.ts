@@ -21,6 +21,10 @@ export interface TUser {
   username: string;
   original_name?: string;
   euid?: string;
+  status?:string;
+  email?: string;
+  add?: boolean;
+  remove?: boolean;
 }
 
 interface TMeta {
