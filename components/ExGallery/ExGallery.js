@@ -20,7 +20,6 @@ class ExGallery extends Component {
             images: this.props.images,
         };
 
-        this.props = props;
         this.fadeAnim = new Animated.Value(this.state.visible ? 1 : 0);
 
         this.styles = StyleSheet.create({
@@ -66,9 +65,9 @@ class ExGallery extends Component {
         }
 
         // Check for init and images available to change page to initial page
-        if (!this.state.init && this.state.images.length > 0) {
+        if (!this.state.init && this.state.images.length > 1) {
             this.gallerySwiper.current.scrollToPage({
-                index: this.props.initialPage,
+                index: this.state.initialPage,
                 immediate: false,
             });
 
@@ -90,6 +89,7 @@ class ExGallery extends Component {
         this.setState({ initialPage: -1 });
         this.setState({ images: [] });
         this.setState({ visible: false });
+        console.debug("DEBUG [ExGallery:98] -> ", "Clear gallery data");
     }
 
     render() {
