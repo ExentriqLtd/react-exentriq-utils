@@ -1,4 +1,4 @@
-export interface TCall {
+export interface TCalls {
   _id: string;
   lastActive: {
     $date: number;
