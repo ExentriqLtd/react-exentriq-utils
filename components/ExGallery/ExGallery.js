@@ -14,13 +14,12 @@ class ExGallery extends Component {
         super(props);
 
         this.state = {
+            init: false,
             visible: false,
+            initialPage: this.props?.initialPage || 0,
+            images: this.props.images,
         };
 
-        this.props = props;
-        this.images = props.images;
-        this.id = props.id;
-        this.header = props.header;
         this.fadeAnim = new Animated.Value(this.state.visible ? 1 : 0);
 
         this.styles = StyleSheet.create({
@@ -45,7 +44,7 @@ class ExGallery extends Component {
             },
         });
 
-        this.gallerySwiper = createRef();
+        this.gallerySwiper = React.createRef();
     }
 
     backAction = () => {
@@ -60,6 +59,22 @@ class ExGallery extends Component {
         }).start();
     };
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.images.length < this.props.images.length) {
+            this.setState({ images: this.props.images });
+        }
+
+        // Check for init and images available to change page to initial page
+        if (!this.state.init && this.state.images.length > 1) {
+            this.gallerySwiper.current.scrollToPage({
+                index: this.state.initialPage,
+                immediate: false,
+            });
+
+            this.setState({ init: true });
+        }
+    }
+
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener(
             "hardwareBackPress",
@@ -69,28 +84,33 @@ class ExGallery extends Component {
 
     componentWillUnmount() {
         this.backHandler.remove();
+
+        this.setState({ init: false });
+        this.setState({ initialPage: -1 });
+        this.setState({ images: [] });
+        this.setState({ visible: false });
+        console.debug("DEBUG [ExGallery:98] -> ", "Clear gallery data");
     }
 
     render() {
         return (
             <View style={this.styles.container}>
                 <StatusBar barStyle="light-content" />
-                {this.header && (
+                {this.props.header && (
                     <Animated.View
                         style={{
                             ...this.styles.header,
                             opacity: this.fadeAnim,
                         }}
                     >
-                        {this.header}
+                        {this.props.header}
                     </Animated.View>
                 )}
                 <GallerySwiper
-                    refPage={(component) => (this.gallerySwiper = component)}
+                    ref={this.gallerySwiper}
                     style={this.styles.gallery}
-                    images={this.props.images}
-                    initialPage={this.props?.page || 0}
-                    initialNumToRender={this.props?.initialNumToRender || 2}
+                    images={this.state.images}
+                    initialNumToRender={this.state.initialPage + 2}
                     sensitiveScroll={this.props?.sensitiveScroll || false}
                     onPageSelected={(idx) => {
                         this.props?.onPageSelected?.(idx);
@@ -111,6 +131,10 @@ class ExGallery extends Component {
                     onEndReachedThreshold={
                         this.props?.onEndReachedThreshold || 0.5
                     }
+                    resizeMode="contain"
+                    flatListProps={{
+                        windowSize: 3,
+                    }}
                 />
             </View>
         );
