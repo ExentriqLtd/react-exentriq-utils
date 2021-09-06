@@ -10,3 +10,4 @@ export const integrationBusRemoveIosTokenPath = 'http://bus.stage.exentriq.com:1
 export const integrationBusSetAndroidTokenPath = 'http://bus.stage.exentriq.com:1880/setAndroidToken';
 export const integrationBusRemoveAndroidTokenPath = 'http://bus.stage.exentriq.com:1880/removeAndroidToken';
 export const FLAG_URL = 'https://cdn001exe.exentriq.com/static/flags/';
+export const GOOGLE_PLACES_API_KEY = 'AIzaSyDk3Z9dNGzgpvWna_XY4czamyPPXHKxICU';
