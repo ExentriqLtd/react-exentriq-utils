@@ -80,4 +80,5 @@ export interface TMessage {
   forwarded?:boolean;
   translations?: any;
   meetMessage?: string;
+  tId: string;
 }
