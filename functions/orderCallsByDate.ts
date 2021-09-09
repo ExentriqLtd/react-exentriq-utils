@@ -13,6 +13,6 @@ const getDateCalls = (field: TCalls): number => {
   return 0;
 };
 
-export const utilityOrderCallsByDate = memoize((rooms: TCalls[]): TCalls[] =>
-  rooms.slice().sort((a: TCalls, b: TCalls): number => getDateCalls(b) - getDateCalls(a)),
+export const utilityOrderCallsByDate = memoize((calls: TCalls[]): TCalls[] =>
+  calls.slice().sort((a: TCalls, b: TCalls): number => getDateCalls(b) - getDateCalls(a)),
 );
