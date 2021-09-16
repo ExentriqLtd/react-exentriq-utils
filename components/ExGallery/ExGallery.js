@@ -68,7 +68,7 @@ class ExGallery extends Component {
         if (!this.state.init && this.state.images.length > 1) {
             this.gallerySwiper.current.scrollToPage({
                 index: this.state.initialPage,
-                immediate: false,
+                immediate: true,
             });
 
             this.setState({ init: true });
@@ -80,6 +80,8 @@ class ExGallery extends Component {
             "hardwareBackPress",
             this.backAction
         );
+
+        this.setState({ init: false });
     }
 
     componentWillUnmount() {
