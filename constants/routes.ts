@@ -12,6 +12,7 @@ export enum Routes {
   viewSignupSuccess = "Signup Success",
   viewUserList = "User List",
   viewNewGroupRoom = "Create New Group Room",
+  viewNewGroupCall = "Create New Group Call",
   viewNewRoom = "Create New Room",
   viewGoogleMap = 'GoogleMapLocation',
 }
