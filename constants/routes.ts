@@ -14,5 +14,6 @@ export enum Routes {
   viewNewGroupRoom = "Create New Group Room",
   viewNewGroupCall = "Create New Group Call",
   viewNewRoom = "Create New Room",
+  viewNewCall = "Create New Call",
   viewGoogleMap = 'GoogleMapLocation',
 }
