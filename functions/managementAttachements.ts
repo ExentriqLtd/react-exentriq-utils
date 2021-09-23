@@ -12,10 +12,10 @@ export const attachmentsPickerCrop = async (isMultiUpload:boolean) => {
   return res;
 }
 
-export const attachmentsDocumentMultiPicker = async () => 
+export const attachmentsDocumentMultiPicker = async (isMultiUpload:boolean) => 
 {
   let res = await DocumentPicker.pickMultiple({
-  allowMultiSelection: false,
+  allowMultiSelection: isMultiUpload,
   type: [DocumentPicker.types.allFiles]
 });
   return res;
