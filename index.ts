@@ -16,7 +16,7 @@ export {
   utilityIsTranslationAvailable,
   utilityIsInvitedMessage,
 } from "./functions/getMessageType";
-export { AttachmentsPicker } from "./functions/managementAttachements";
+export { attachmentsPickerCrop } from "./functions/managementAttachements";
 export { utilityGetRoomIcon } from "./functions/getRoomIcon";
 export { utilityGetRoomName } from "./functions/getRoomName";
 export { utilityFilterRoomList } from "./functions/filterRoomList";
