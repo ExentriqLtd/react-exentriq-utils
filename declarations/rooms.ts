@@ -53,6 +53,7 @@ export interface TRoom {
   message?:TMessage;
   tId?: string;
   language?: string;
+  mention?: string;
 }
 
 export interface TRoomType {
