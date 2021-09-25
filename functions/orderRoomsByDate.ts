@@ -17,7 +17,7 @@ const getDate = (field: TRoom): number => {
   if (field.t === 'p')
     return 0;
   if (tlv) return field.tlv.$date;
-  if (ls) return field.ts.$date;
+  if (ls) return field.ls.$date;
   if (ts) return field.ts.$date;
   if (exUpdatedAt) return field.exUpdatedAt.$date;
   return 0;
