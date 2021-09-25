@@ -54,6 +54,7 @@ export interface TRoom {
   tId?: string;
   language?: string;
   mention?: string;
+  meetRoomId?: string;
 }
 
 export interface TRoomType {
