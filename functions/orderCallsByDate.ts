@@ -11,7 +11,7 @@ const getDateCalls = (field: TRoom): number => {
   const ts = Object.prototype.hasOwnProperty.call(field, 'ts');
   if (lm) return field.lm.$date;
   if (tlv) return field.tlv.$date;
-  if (ls) return field.ts.$date;
+  if (ls) return field.ls.$date;
   if (ts) return field.ts.$date;
   if (exUpdatedAt) return field.exUpdatedAt.$date;
   return 0;
