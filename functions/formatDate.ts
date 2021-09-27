@@ -37,3 +37,11 @@ export const utilityFormatDate = memoize((timestamp: number): string => {
   if (isToday) return getFormattedTime(timestampDate);
   else return utilityGetRelativeDate(timestamp);
 });
+
+export const utilityFormatTime = memoize((timestamp: number): string => {
+  const timestampDate = new Date(timestamp);
+  const leadingZero = (timestampDate: number) => `0${timestampDate}`.slice(-2);
+  return [timestampDate.getHours(), timestampDate.getMinutes()]
+  .map(leadingZero)
+  .join(":");
+});
