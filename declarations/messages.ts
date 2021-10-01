@@ -58,6 +58,7 @@ export interface TMessage {
   };
   attachments: TAttachment[];
   geoLocation: TGeoLocation;
+  geoCode:[]
   u: {
     _id: string;
     username: string;
