@@ -28,6 +28,9 @@ function ExBottomSheetComponent({ show, component }) {
   const [languagesList, setLanguagesList] = useState();
 
   useEffect(() => {
+    if (!lang) {
+      return;
+    }
     const url = `${URL_EXENTRIQ_FEEDSERVICE}?service=languages&lang=${lang}`;
 
     const fetchData = async () => {
@@ -37,13 +40,13 @@ function ExBottomSheetComponent({ show, component }) {
         setLanguagesService(json.responseData);
         setLanguagesList(json.responseData);
       } catch (error) {
-        console.error(error);
+        console.error('Retreive Language List', error);
       }
     };
-    if (show) {
+    if (lang) {
       fetchData();
     }
-  }, [show]);
+  }, [lang]);
 
   const closeSheet = () => {
     bottomRef.current?.snapTo(1);
@@ -64,7 +67,7 @@ function ExBottomSheetComponent({ show, component }) {
     setLanguagesList(filteredList);
   };
 
-  if (!show) {
+  if (!show || !component || !languagesList) {
     return null;
   }
 
