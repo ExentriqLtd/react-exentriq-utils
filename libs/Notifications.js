@@ -118,7 +118,7 @@ class Notifications extends EventEmitter {
 
   sendVoipToken() {
     const payload = {
-      username,
+      username: this.username,
       token: this.voipToken,
       device: this.deviceId,
       app: this.voipApp,
@@ -174,7 +174,7 @@ class Notifications extends EventEmitter {
     NotificationsReact.ios
       .events()
       .registerPushKitRegistered((event: RegisteredPushKit) => {
-        this.pushToken = event.pushKitToken;
+        this.voipToken = event.pushKitToken;
         this.emit('registerPushKitRegistered', event.pushKitToken);
       });
     NotificationsReact.ios
