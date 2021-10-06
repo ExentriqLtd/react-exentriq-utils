@@ -103,6 +103,7 @@ class ExGallery extends Component {
                         style={{
                             ...this.styles.header,
                             opacity: this.fadeAnim,
+                            display: this.state.visible ? 'flex' : 'none',
                         }}
                     >
                         {this.props.header}
