@@ -4,7 +4,7 @@ export { utilityGetUserAvatar } from "./functions/getUserAvatar";
 export { utilityOrderMessagesByDate } from "./functions/orderMessagesByDate";
 export { utilityOrderCallsByDate } from "./functions/orderCallsByDate";
 export { utilityOrderRoomsByDate } from "./functions/orderRoomsByDate";
-export { utilityFormatDate, utilityFormatTime } from "./functions/formatDate";
+export { utilityFormatDate, utilityFormatTime, utilityCompleteDate } from "./functions/formatDate";
 export { utilityFormatImageForUpload } from "./functions/formatImageForUpload";
 export {
   utilityIsImageMessage,

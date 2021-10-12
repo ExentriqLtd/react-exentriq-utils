@@ -1,4 +1,5 @@
 import memoize from "fast-memoize";
+import moment from 'moment';
 
 const getFormattedTime = memoize((timestampDate: Date) => {
   const leadingZero = (timestampDate: number) => `0${timestampDate}`.slice(-2);
@@ -26,6 +27,11 @@ export const utilityGetRelativeDate = memoize((timestamp: number): string => {
 
   if (isYesterday) return "Ieri";
   return getFormattedDate(timestamp);
+});
+
+export const utilityCompleteDate = memoize((timestamp: number): string => {
+  const timestampDate = new Date(timestamp);
+  return moment(timestampDate).format('D MMMM YYYY, H:mm');
 });
 
 export const utilityFormatDate = memoize((timestamp: number): string => {
