@@ -18,6 +18,7 @@ export {
 } from "./functions/getMessageType";
 export { attachmentsPickerCrop, attachmentsPicker, attachmentsDocumentSinglePicker, attachmentsDocumentMultiPicker, launchAlertErrorSettings } from "./functions/managementAttachements";
 export { getAddressNameByCordinates } from "./functions/getAddressLocation";
+export { GoogleAddressParser } from "./functions/GoogleAddressParser";
 export { utilityGetRoomIcon } from "./functions/getRoomIcon";
 export { utilityGetRoomName } from "./functions/getRoomName";
 export { utilityFilterRoomList } from "./functions/filterRoomList";
