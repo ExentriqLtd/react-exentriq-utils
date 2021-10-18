@@ -326,8 +326,8 @@ class ServiceImplementation {
       });
   }
 
-  verifyDeviceIdByEmail = ({ deviceId, spaceId, code, secretCode, firstName, lastName, phone, email, base64 }) => {
-    return Guardian.call('spaceUserService.verifyDeviceIdByEmail', [deviceId, spaceId, code, secretCode, firstName, lastName, phone, email, base64])
+  verifyDeviceIdByEmail = ({ deviceId, spaceId, code, secretCode, firstName, lastName, phone, email, language, base64 }) => {
+    return Guardian.call('spaceUserService.verifyDeviceIdByEmail', [deviceId, spaceId, code, secretCode, firstName, lastName, phone, email, language, base64])
       .then((result) => {
         return result;
       });
