@@ -17,6 +17,13 @@ export class GoogleAddressParser {
   private address: Address = {};
 
   constructor(private address_components: Array<AddressComponent>) {
+    this.address.street_number = "";
+    this.address.street_name = "";
+    this.address.city = "";
+    this.address.state = "";
+    this.address.country = "";
+    this.address.postal_code = "";
+
     this.parseAddress();
   }
 
@@ -34,38 +41,26 @@ export class GoogleAddressParser {
 
       if (this.isStreetNumber(component)) {
         this.address.street_number = component.long_name;
-      }else{
-        this.address.street_number = " ";
       }
 
       if (this.isStreetName(component)) {
         this.address.street_name = component.long_name;
-      }else{
-        this.address.street_name = " ";
       }
 
       if (this.isCity(component)) {
         this.address.city = component.long_name;
-      }else{
-        this.address.city = " ";
       }
 
       if (this.isCountry(component)) {
         this.address.country = component.long_name;
-      }else{
-        this.address.country = " ";
       }
 
       if  (this.isState(component)) {
         this.address.state = component.long_name;
-      }else{
-        this.address.state = " ";
       }
 
       if (this.isPostalCode(component)) {
         this.address.postal_code = component.long_name;
-      }else{
-        this.address.postal_code = " ";
       }
     }
   }
