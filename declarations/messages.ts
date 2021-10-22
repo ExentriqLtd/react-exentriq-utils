@@ -82,4 +82,6 @@ export interface TMessage {
   translations?: any;
   meetMessage?: string;
   tId: string;
+  onSending?: boolean;
+  messageId?: string;
 }
