@@ -27,6 +27,7 @@
     "react-native-image-crop-picker": "https://github.com/ExentriqLtd/react-native-image-crop-picker.git",
     "react-native-paper": "4.2.0",
     "react-native-scroll-bottom-sheet": "0.7.0",
-    "react-native-vector-icons": "7.1.0"
+    "react-native-vector-icons": "7.1.0",
+    "@react-native-community/hooks": "^2.6.0"
   }
 }
