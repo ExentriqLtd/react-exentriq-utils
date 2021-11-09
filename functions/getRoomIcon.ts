@@ -1,7 +1,6 @@
 /** @format */
-
-import { TRoom } from 'exentriq-utils';
 import memoize from 'fast-memoize';
+import { TRoom } from './../declarations/rooms';
 
 type Return = 'lock' | 'videocam' | 'library-books' | '';
 

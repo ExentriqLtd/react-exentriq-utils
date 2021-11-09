@@ -10,6 +10,6 @@ export const utilityGetUserAvatar = memoize(
 );
 
 export const utilityGetGroupAvatar = memoize(
-  (rid: string, typeOfRoom: any, updated: any): string =>
+  (rid: string, typeOfRoom: any, updated = false): string =>
     `${EXENTRIQ_GROUPAVATAR_URL}${rid}&app=${APP_NAME}&groupType=${typeOfRoom}${updated ? `&timestamp=${new Date().getTime()}` : ''}`,
 );

@@ -1,4 +1,4 @@
-import { TMessage } from 'exentriq-utils';
+import { TMessage } from './messages';
 import { TStatus } from "./users";
 
 export interface TRoom {

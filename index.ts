@@ -1,3 +1,4 @@
+import { TCall } from './declarations/calls';
 // FUNCTIONS
 export { utilityGetStatusColor } from "./functions/getStatusColor";
 export { utilityGetUserAvatar } from "./functions/getUserAvatar";
@@ -26,6 +27,7 @@ export { utilityFilterRoomList } from "./functions/filterRoomList";
 export { TAuth } from "./declarations/auth";
 export { TMessage, TGeoLocation } from "./declarations/messages";
 export { TRoom, TRoomType, TMention } from "./declarations/rooms";
+export { TCall } from './declarations/calls';
 export { TStatus, mapStatusColor, TUser, TSearch } from "./declarations/users";
 export { Routes } from "./constants/routes";
 export {

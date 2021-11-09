@@ -84,4 +84,7 @@ export interface TMessage {
   tId: string;
   onSending?: boolean;
   messageId?: string;
+  abort?: boolean;
+  progress?: number;
+  uploaded?: boolean;
 }
