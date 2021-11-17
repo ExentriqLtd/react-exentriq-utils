@@ -44,6 +44,7 @@ export {
   URL_EXENTRIQ_FEEDSERVICE,
   URL_MEET,
   APP_NAME,
+  URL_REJECT_MEET_INVITE,
 } from "./constants/config";
 export { IS_DEVELOPMENT } from "./constants/general";
 export { Service, Guardian, Socket } from './libs';
