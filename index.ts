@@ -5,6 +5,7 @@ export { utilityOrderMessagesByDate } from "./functions/orderMessagesByDate";
 export { utilityOrderCallsByDate } from "./functions/orderCallsByDate";
 export { utilityOrderRoomsByDate } from "./functions/orderRoomsByDate";
 export { utilityFormatDate } from "./functions/formatDate";
+
 export { utilityFormatImageForUpload } from "./functions/formatImageForUpload";
 export {
   utilityIsImageMessage,
@@ -16,6 +17,7 @@ export {
   utilityIsTranslationAvailable,
   utilityIsInvitedMessage,
 } from "./functions/getMessageType";
+export { buildMessageGeneral } from  "./functions/buildMessageGeneral";
 export { utilityGetRoomIcon } from "./functions/getRoomIcon";
 export { utilityGetRoomName } from "./functions/getRoomName";
 export { utilityFilterRoomList } from "./functions/filterRoomList";

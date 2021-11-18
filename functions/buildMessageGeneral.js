@@ -1,10 +1,10 @@
 /** @format */
 import React from 'react';
-import { Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 const styles = StyleSheet.create({
   mentionText: {
-    color: mapColors.primary,
+    color: '#F04692',
     fontWeight: 'bold'
   }
 });
