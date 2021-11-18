@@ -7,6 +7,7 @@ export { utilityOrderCallsByDate } from "./functions/orderCallsByDate";
 export { utilityOrderRoomsByDate } from "./functions/orderRoomsByDate";
 export { utilityFormatDate, utilityFormatTime, utilityCompleteDate } from "./functions/formatDate";
 export { utilityFormatImageForUpload } from "./functions/formatImageForUpload";
+export { buildMessageGeneral } from "./functions/buildMessageGeneral";
 export {
   utilityIsImageMessage,
   utilityIsAudioMessage,
