@@ -4,7 +4,7 @@ import { Text } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   mentionText: {
-    color: mapColors.primary,
+    color: '#1bbc9b',
     fontWeight: 'bold'
   }
 });
