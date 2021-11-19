@@ -2,14 +2,7 @@ import React from 'react';
 import { StyleSheet} from 'react-native';
 import { Text } from 'react-native-paper';
 
-const styles = StyleSheet.create({
-  mentionText: {
-    color: '#1bbc9b',
-    fontWeight: 'bold'
-  }
-});
-
-export const buildMessageGeneral = (message)=>{
+export const buildMessageGeneral = (message, styles)=>{
   let msgSplit = message.split(" ");
   let formattedText = [];
   msgSplit.forEach((word,index)=>{
@@ -25,7 +18,7 @@ export const buildMessageGeneral = (message)=>{
           {mentionText}
         </Text>
       );
-      formattedText.push(mention, ' ');
+       isLastWord ? formattedText.push(mention) : formattedText.push(mention, ' ');
   });
   return formattedText;
 }
