@@ -2,8 +2,12 @@ import React from 'react';
 import { Text } from 'react-native-paper';
 
 export const buildMessageGeneral = ({message, styles})=>{
-  let msgSplit = message.split(" ");
   let formattedText = [];
+ 
+  if (message === undefined || message === null) 
+  return formattedText;
+
+  let msgSplit = message.split(" ");
   msgSplit.forEach((word,index)=>{
       let mentionText = word;
       let isLastWord = index === msgSplit.length - 1;
