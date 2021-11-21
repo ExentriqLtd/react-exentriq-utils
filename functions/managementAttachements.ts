@@ -16,6 +16,7 @@ export const attachmentsPickerCrop = async (isMultiUpload:boolean) => {
 export const attachmentsPicker = (isMultiUpload:boolean) => {
   return new Promise((resolve, reject) => {
     ImagePickerCrop.openPicker({
+      maxFiles: 20,
       multiple: isMultiUpload,
       mediaType: "any"
     }).then(resolve)
@@ -27,7 +28,7 @@ export const attachmentsPicker = (isMultiUpload:boolean) => {
   })
 }
 
-export const attachmentsDocumentMultiPicker = async (isMultiUpload:boolean) => 
+export const attachmentsDocumentMultiPicker = async (isMultiUpload:boolean) =>
 {
   let res = await DocumentPicker.pickMultiple({
   allowMultiSelection: isMultiUpload,
@@ -35,7 +36,7 @@ export const attachmentsDocumentMultiPicker = async (isMultiUpload:boolean) =>
 });
   return res;
 }
-export const attachmentsDocumentSinglePicker = async () => 
+export const attachmentsDocumentSinglePicker = async () =>
 {
   let res = await DocumentPicker.pickSingle({
   type: [DocumentPicker.types.allFiles]

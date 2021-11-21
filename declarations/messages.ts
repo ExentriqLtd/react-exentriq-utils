@@ -1,3 +1,4 @@
+import { TCall } from './calls';
 // #region ::: PARTIALS
 export interface TReceived {
   _id: string;
@@ -82,4 +83,10 @@ export interface TMessage {
   translations?: any;
   meetMessage?: string;
   tId: string;
+  onSending?: boolean;
+  messageId?: string;
+  abort?: boolean;
+  progress?: number;
+  uploaded?: boolean;
+  meet?: TCall;
 }

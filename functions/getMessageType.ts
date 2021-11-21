@@ -1,7 +1,6 @@
 /** @format */
-
-import { TMessage } from 'exentriq-utils';
 import memoize from 'fast-memoize';
+import { TMessage } from './../declarations/messages';
 
 export const utilityIsImageMessage = memoize(
   (message: TMessage): boolean =>
