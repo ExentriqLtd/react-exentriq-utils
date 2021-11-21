@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native-paper';
 
-export const buildMessageGeneral = (message, styles)=>{
+export const buildMessageGeneral = ({message, styles})=>{
   let msgSplit = message.split(" ");
   let formattedText = [];
   msgSplit.forEach((word,index)=>{
