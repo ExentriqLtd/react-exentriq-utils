@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
+import get from 'lodash/get';
 import { ExLanguagesSearchInput } from '../ExLanguages/ExLanguagesSearchInput';
 import ExBottomSheetHandle from './ExBottomSheetHandle';
 import useExBottomSheet from './useExBottomSheet';
@@ -55,14 +56,19 @@ function ExBottomSheetComponent({ show, component }) {
   };
 
   const searchLanguage = (search) => {
-    if (!languagesService) {
+    if (!languagesService || !search) {
       return;
     }
     let filteredList = languagesService.filter((item) => { // search from a full list, and not from a previous search results list
-      if(item.language.match(search))
-        return item;
-      else
-        return null;
+      const itemLanguage = get(item, 'language');
+      if (itemLanguage) {
+        if (itemLanguage.toLowerCase().match(search.toLowerCase())) {
+          return item;
+        } else {
+          return null;
+        }
+      }
+      return null;
     })
     setLanguagesList(filteredList);
   };
