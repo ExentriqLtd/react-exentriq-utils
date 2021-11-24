@@ -54,10 +54,6 @@ export interface TRoom {
   tId?: string;
   language?: string;
   messageSend?:string;
-  mention?: {};
-  mentions?: [];
-  mentionFormattedText?:[];
-  mentionResetFormattedText?:boolean;
   meetRoomId?: string;
 }
 
