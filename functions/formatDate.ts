@@ -29,8 +29,9 @@ export const utilityGetRelativeDate = memoize((timestamp: number): string => {
   return getFormattedDate(timestamp);
 });
 
-export const utilityCompleteDate = memoize((timestamp: number): string => {
+export const utilityCompleteDate = memoize((timestamp: number, locale: string): string => {
   const timestampDate = new Date(timestamp);
+  moment.locale(locale);
   return moment(timestampDate).format('D MMMM YYYY, H:mm');
 });
 
