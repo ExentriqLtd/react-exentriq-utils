@@ -28,20 +28,18 @@ export const attachmentsPicker = (isMultiUpload:boolean) => {
   })
 }
 
-export const attachmentsDocumentMultiPicker = async (isMultiUpload:boolean) =>
-{
-  let res = await DocumentPicker.pickMultiple({
-  allowMultiSelection: isMultiUpload,
-  type: [DocumentPicker.types.allFiles]
-});
-  return res;
-}
-export const attachmentsDocumentSinglePicker = async () =>
-{
-  let res = await DocumentPicker.pickSingle({
-  type: [DocumentPicker.types.allFiles]
-});
-  return res;
+export const attachmentsDocumentMultiPicker = async (isMultiUpload:boolean) => {
+  return new Promise((resolve, reject) => {
+    DocumentPicker.pickMultiple({
+      allowMultiSelection: isMultiUpload,
+      type: [DocumentPicker.types.allFiles]
+    }).then(resolve)
+    .catch((error) => {
+      if(error.code === "E_NO_LIBRARY_PERMISSION") {
+        reject(error.code);
+      }
+    })
+  })
 }
 
 export const launchAlertErrorSettings = (errorMessage:string, errorTitle: string, openSettings: string, cancel:string) => {
