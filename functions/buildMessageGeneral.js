@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native-paper';
 
-export const buildMessageGeneral = ({message, styles})=>{
+export const buildMessageGeneral = ({message, styles, active = true})=>{
   let formattedText = [];
  
   if (message === undefined || message === null) 
@@ -11,7 +11,7 @@ export const buildMessageGeneral = ({message, styles})=>{
   msgSplit.forEach((word,index)=>{
       let mentionText = word;
       let isLastWord = index === msgSplit.length - 1;
-      if (!word.startsWith('@')) { 
+      if (!word.startsWith('@') || !active) { 
         return isLastWord ? formattedText.push(word) : formattedText.push(word, ' ');
       }
       const mention = (
