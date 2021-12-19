@@ -1,27 +1,58 @@
 import React from 'react';
 import { Text } from 'react-native-paper';
 
-export const buildMessageGeneral = ({message, styles, active = true})=>{
-  let formattedText = [];
- 
-  if (message === undefined || message === null) 
-  return formattedText;
-
-  let msgSplit = message.split(" ");
-  msgSplit.forEach((word,index)=>{
-      let mentionText = word;
-      let isLastWord = index === msgSplit.length - 1;
-      if (!word.startsWith('@') || !active) { 
-        return isLastWord ? formattedText.push(word) : formattedText.push(word, ' ');
+/**
+ * split with custom logic
+ * @param message
+ * @param styles
+ * @param active
+ * @returns
+ */
+export const buildMessageGeneral = ({ message, styles, active = true }) => {
+  let outputArr = [];
+  let outputArrString = [];
+  let i = 0;
+  let text = message;
+  let openSelected = false;
+  let tmpMention = '';
+  if (text){
+    while (i < text.length) {
+      if (!openSelected && text[i] !== '@' && text[i + 1] !== '“') {
+        outputArr.push(text[i]);
+        outputArrString.push(text[i]);
       }
-      const mention = (
-        <Text 
-        key={word + index} 
-        style={styles.mentionText}>
-          {mentionText}
-        </Text>
-      );
-       isLastWord ? formattedText.push(mention) : formattedText.push(mention, ' ');
-  });
-  return formattedText;
-}
+      if (!openSelected && text[i] === '@' && text[i + 1] !== '“'){
+        let startMention = (
+          <Text key={i} style={styles.mentionText}>
+            {text[i] + '“'}
+          </Text>
+        );
+        outputArr.push(startMention);
+        outputArrString.push(text[i] + '“');
+      }
+      if (openSelected) {
+        tmpMention = tmpMention + text[i];
+        if (text[i] === '”' && text[i - 1] !== '@') {
+          openSelected = false;
+          // const mention = '@“(<Text key={i} style={styles.mentionText}>'+tmpMention+'</Text>“';
+          let mention = (
+            <Text key={i} style={styles.mentionText}>
+              {'@' + tmpMention}
+            </Text>
+          );
+          if (!active){
+            mention = tmpMention;
+          }
+          outputArr.push(mention);
+          outputArrString.push('@' + tmpMention);
+          tmpMention = '';
+        }
+      }
+      if (text[i] === '@' && text[i + 1] === '“') {
+        openSelected = true;
+      }
+      i++;
+    }
+  }
+  return [outputArr, outputArrString];
+};
