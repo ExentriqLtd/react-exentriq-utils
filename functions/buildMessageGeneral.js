@@ -17,19 +17,17 @@ export const buildMessageGeneral = ({ message, styles, active = true }) => {
   let tmpMention = '';
   if (text){
     while (i < text.length) {
+       //open search
+       if (!openSelected && text[i] === '@' && !text[i + 1] && text[i + 1] !== '“'){
+        outputArr.push(text[i], '“');
+        outputArrString.push(text[i], '“');
+      }
+      //normal
       if (!openSelected && text[i] !== '@' && text[i + 1] !== '“') {
         outputArr.push(text[i]);
         outputArrString.push(text[i]);
       }
-      if (!openSelected && text[i] === '@' && text[i + 1] !== '“'){
-        let startMention = (
-          <Text key={i} style={styles.mentionText}>
-            {text[i] + '“'}
-          </Text>
-        );
-        outputArr.push(startMention);
-        outputArrString.push(text[i] + '“');
-      }
+    
       if (openSelected) {
         tmpMention = tmpMention + text[i];
         if (text[i] === '”' && text[i - 1] !== '@') {
@@ -54,5 +52,8 @@ export const buildMessageGeneral = ({ message, styles, active = true }) => {
       i++;
     }
   }
-  return [outputArr, outputArrString];
+  return {
+    outputArr,
+    outputArrString,
+  };
 };
