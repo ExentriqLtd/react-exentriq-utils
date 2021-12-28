@@ -1,6 +1,4 @@
 /** @format */
-
-import memoize from "fast-memoize";
 import ImagePickerCrop from 'react-native-image-crop-picker';
 import DocumentPicker from 'react-native-document-picker';
 import { Alert, Linking } from 'react-native';
@@ -28,20 +26,16 @@ export const attachmentsPicker = (isMultiUpload:boolean) => {
   })
 }
 
-export const attachmentsDocumentMultiPicker = async (isMultiUpload:boolean) =>
-{
-  let res = await DocumentPicker.pickMultiple({
-  allowMultiSelection: isMultiUpload,
-  type: [DocumentPicker.types.allFiles]
-});
-  return res;
-}
-export const attachmentsDocumentSinglePicker = async () =>
-{
-  let res = await DocumentPicker.pickSingle({
-  type: [DocumentPicker.types.allFiles]
-});
-  return res;
+export const attachmentsDocumentPicker = (isMultiUpload:boolean) => {
+  return new Promise((resolve, reject) => {
+    DocumentPicker.pickMultiple({
+      allowMultiSelection: isMultiUpload,
+      type: [DocumentPicker.types.allFiles]
+    }).then(resolve)
+    .catch((error:any) => {
+        reject(error);
+    })
+  })
 }
 
 export const launchAlertErrorSettings = (errorMessage:string, errorTitle: string, openSettings: string, cancel:string) => {
