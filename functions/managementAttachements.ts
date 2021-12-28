@@ -33,7 +33,9 @@ export const attachmentsDocumentPicker = (isMultiUpload:boolean) => {
       type: [DocumentPicker.types.allFiles]
     }).then(resolve)
     .catch((error:any) => {
-        reject(error);
+      if(error.code === "E_NO_LIBRARY_PERMISSION") {
+        reject(error.code);
+      }
     })
   })
 }
