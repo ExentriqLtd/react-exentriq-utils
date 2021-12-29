@@ -8,29 +8,33 @@ import { Text } from 'react-native-paper';
  * @param active
  * @returns
  */
-export const buildMessageGeneral = ({ message, styles, active = true }) => {
+export const buildMessageGeneral = ({ message, styles, active = true, useSeparatorFixCursive = true }) => {
   let outputArr = [];
   let outputArrString = [];
   let i = 0;
   let text = message;
   let openSelected = false;
   let tmpMention = '';
+  let separator = { open:'"', close:'"'};
+  if (useSeparatorFixCursive) {
+  }
   if (text){
     while (i < text.length) {
        //open search
-       if (!openSelected && text[i] === '@' && !text[i + 1] && text[i + 1] !== '“'){
-        outputArr.push(text[i], '“');
-        outputArrString.push(text[i], '“');
+       if (!openSelected && text[i] === '@' && !text[i + 1] && text[i + 1] !== separator.open){
+        outputArr.push(text[i], separator.open);
+        outputArrString.push(text[i],separator.open);
       }
+
       //normal
-      if (!openSelected && text[i] !== '@' && text[i + 1] !== '“') {
+      if (!openSelected && text[i] !== '@' && text[i + 1] !== separator.open) {
         outputArr.push(text[i]);
         outputArrString.push(text[i]);
       }
-    
+
       if (openSelected) {
         tmpMention = tmpMention + text[i];
-        if (text[i] === '”' && text[i - 1] !== '@') {
+        if (text[i] ===  separator.close && text[i - 1] !== '@') {
           openSelected = false;
           // const mention = '@“(<Text key={i} style={styles.mentionText}>'+tmpMention+'</Text>“';
           let mention = (
@@ -46,7 +50,7 @@ export const buildMessageGeneral = ({ message, styles, active = true }) => {
           tmpMention = '';
         }
       }
-      if (text[i] === '@' && text[i + 1] === '“') {
+      if (text[i] === '@' && text[i + 1] === separator.open) {
         openSelected = true;
       }
       i++;
