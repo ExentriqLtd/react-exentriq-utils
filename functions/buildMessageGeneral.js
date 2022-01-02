@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text } from 'react-native-paper';
-
+const regex = {
+  charactes:/[\S]+/g
+};
 /**
  * split with custom logic
  * @param message
@@ -16,19 +18,30 @@ export const buildMessageGeneral = ({ message, styles, active = true }) => {
   let openSelected = false;
   let tmpMention = '';
   let separator = { open:'"', close:'"'};
-
+  let re = new RegExp(regex.charactes);
   if (text){
     while (i < text.length) {
+      let writeEmail = false;
       if (active){
-        //open search
-        if (!openSelected && text[i] === '@' && !text[i + 1] && text[i + 1] !== separator.open){
-          outputArr.push(text[i], separator.open);
-          outputArrString.push(text[i],separator.open);
+        if (!openSelected){
+          //normal
+          if (text[i] !== '@' && text[i + 1] !== separator.open) {
+            outputArr.push(text[i]);
+            outputArrString.push(text[i]);
+          } //email
+          else if (text[i] === '@' && text[i - 1] && re.test(text[i - 1])) {
+            outputArr.push(text[i]);
+            outputArrString.push(text[i]);
+            writeEmail = true;
+          }
+          //add for open search
+          if (!writeEmail && text[i] === '@' && text[i + 1] !== separator.open){
+            outputArr.push(text[i], separator.open);
+            outputArrString.push(text[i],separator.open);
+          }
         }
-        //normal
-        if (!openSelected && text[i] !== '@' && text[i + 1] !== separator.open) {
-          outputArr.push(text[i]);
-          outputArrString.push(text[i]);
+        if (text[i] === '@' && text[i + 1] === separator.open) {
+          openSelected = true;
         }
         if (openSelected) {
           tmpMention = tmpMention + text[i];
@@ -37,16 +50,13 @@ export const buildMessageGeneral = ({ message, styles, active = true }) => {
             // const mention = '@“(<Text key={i} style={styles.mentionText}>'+tmpMention+'</Text>“';
             let mention = (
               <Text key={i} style={styles.mentionText}>
-                {'@' + tmpMention}
+                {tmpMention}
               </Text>
             );
             outputArr.push(mention);
-            outputArrString.push('@' + tmpMention);
+            outputArrString.push(tmpMention);
             tmpMention = '';
           }
-        }
-        if (text[i] === '@' && text[i + 1] === separator.open) {
-          openSelected = true;
         }
       } else {
         outputArr.push(text[i]);
