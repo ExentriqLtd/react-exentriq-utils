@@ -17,7 +17,7 @@ const UIAnimated = styled(Animated.View)`
 // #endregion
 
 export const UIAnimatedView = memo(
-  ({ children, backgroundColor = 'white', styles, show }) => {
+  ({ children, backgroundColor = 'white', styles, show, duration }) => {
     const opacity = React.useRef(new Animated.Value(1)).current;
     const [visible, setVisible] = React.useState(true);
 
