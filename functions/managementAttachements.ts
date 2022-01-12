@@ -4,7 +4,7 @@ import DocumentPicker from 'react-native-document-picker';
 import { Alert, Linking } from 'react-native';
 
 export const attachmentsPickerCrop = async (isMultiUpload:boolean) => {
-  let res = await ImagePickerCrop.openPicker({
+  const res = await ImagePickerCrop.openPicker({
     multiple: isMultiUpload,
     mediaType: "any"
   });
@@ -24,6 +24,23 @@ export const attachmentsPicker = (isMultiUpload:boolean) => {
       }
     })
   })
+}
+
+export const attachmentsDocumentMultiPicker = async (isMultiUpload:boolean) =>
+{
+  const res = await DocumentPicker.pickMultiple({
+    allowMultiSelection: isMultiUpload,
+    type: [DocumentPicker.types.allFiles]
+  });
+  return res;
+}
+
+export const attachmentsDocumentSinglePicker = async () =>
+{
+  const res = await DocumentPicker.pickSingle({
+    type: [DocumentPicker.types.allFiles]
+  });
+  return res;
 }
 
 export const attachmentsDocumentPicker = (isMultiUpload:boolean) => {

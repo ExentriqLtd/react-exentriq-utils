@@ -18,7 +18,7 @@ export {
   utilityIsTranslationAvailable,
   utilityIsInvitedMessage,
 } from "./functions/getMessageType";
-export { attachmentsPickerCrop, attachmentsPicker, attachmentsDocumentPicker, launchAlertErrorSettings } from "./functions/managementAttachements";
+export { attachmentsPickerCrop, attachmentsPicker, attachmentsDocumentPicker, attachmentsDocumentSinglePicker, attachmentsDocumentMultiPicker, launchAlertErrorSettings } from "./functions/managementAttachements";
 export { getAddressNameByCordinates } from "./functions/getAddressLocation";
 export { GoogleAddressParser } from "./functions/GoogleAddressParser";
 export { utilityGetRoomIcon } from "./functions/getRoomIcon";
