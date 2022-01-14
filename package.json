@@ -12,14 +12,15 @@
   "author": "Exentriq",
   "license": "ISC",
   "dependencies": {
+    "@react-native-community/hooks": "^2.6.0",
     "exentriq-utils": "^1.1.12",
     "fast-memoize": "2.5.2",
     "lodash": "4.17.20",
     "moment": "^2.29.1",
     "prop-types": "15.7.2",
-    "react": "16.13.1",
+    "react": "17.0.2",
     "react-i18next": "^11.11.4",
-    "react-native": "^0.63.3",
+    "react-native": "0.66.4",
     "react-native-cross-actionsheet": "^1.0.1",
     "react-native-document-picker": "^5.0.2",
     "react-native-gallery-swiper": "^1.26.4",
@@ -27,7 +28,6 @@
     "react-native-image-crop-picker": "https://github.com/ExentriqLtd/react-native-image-crop-picker.git",
     "react-native-paper": "4.2.0",
     "react-native-scroll-bottom-sheet": "0.7.0",
-    "react-native-vector-icons": "7.1.0",
-    "@react-native-community/hooks": "^2.6.0"
+    "react-native-vector-icons": "7.1.0"
   }
 }
