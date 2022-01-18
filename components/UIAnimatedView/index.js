@@ -10,6 +10,7 @@ import styled from 'styled-components';
 // #region ::: PARTIALS
 const UIAnimated = styled(Animated.View)`
   display: ${({ visible }) => visible ? 'none': 'flex'};
+  overflow: hidden;
   flex: 1;
   background: ${({ theme, backgroundColor }) =>
     backgroundColor ? theme.colors[backgroundColor] : theme.colors.white};
@@ -29,7 +30,7 @@ export const UIAnimatedView = memo(
         useNativeDriver: true,
       }).start(({ finished }) => {
         if (finished) {
-          setVisible(!visible);
+          setVisible(show);
         }
       });
     }, [show]);
