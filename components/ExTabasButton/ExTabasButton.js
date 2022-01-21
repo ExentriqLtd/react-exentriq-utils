@@ -1,11 +1,11 @@
 import { Text } from 'native-base';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { ExButton } from '../ExButton';
+import { useTranslation } from 'react-i18next';
 
-export const ExTabasButton = ({ ExButton, theme, styles, setListType, actionsheet }) => {
+const ExTabasButton = ({ styles , listType}) => {
   const { t } = useTranslation();
-  const { open } = useActionSheet();
-
   return (
     <View style={styles.buttonContainer}>
       <Text
@@ -15,30 +15,32 @@ export const ExTabasButton = ({ ExButton, theme, styles, setListType, actionshee
         ]}
         // onPress={() => $setListType('everyone')}
         >
-        {t('Everyone')}
+         {t('Everyone')}    
       </Text>
       <Text
         style={[
           styles.singleButton,
           listType === 'contacts' && styles.singleButtonSelected,
         ]}
-        // onPress={() => {
-        //   if (!contactpermission) {
-        //     Keyboard.dismiss();
-        //   }
-        //   $setListType('contacts');
-        // }}
+        onPress={() => {
+          if (!contactpermission) {
+            Keyboard.dismiss();
+          }
+          $setListType('contacts');
+        }}
         >
-        {t('Contacts')}
+          {t('Contacts')} 
       </Text>
-      <ExButton
-        colors={theme.colors.gradient}
+       <ExButton style={styles}
+        colors={styles.gradient}
         text={t('Invite by Email')}
         onPress={() => {
-          open({ name: 'inviteByEmail' });
+           open({ name: 'inviteByEmail' });
         }}
         labelStyle={styles.singleButtonButtonLabel}
-      />
+      /> 
     </View>
   );
 }
+
+export default ExTabasButton;

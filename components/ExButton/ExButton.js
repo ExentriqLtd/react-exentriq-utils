@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
-import ExLinearGradient from '../ExLinearGradient';
+
+import { ExLinearGradient } from '../ExLinearGradient'
 
 const styles = StyleSheet.create({
   containerButton: {
     marginVertical: 8,
-    shadowColor: dindleTheme.colors.black,
+    shadowColor: "black",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -35,15 +36,29 @@ function ExButton({
   uppercase,
   disabled,
 }) {
-  const disabledColors = disabled
-    ? dindleTheme.linearGradient.disabledColors
-    : undefined;
+
+  let linearGradient =  {
+    colors: ['#F04592', '#F9C34C'],
+    start: { x: 0, y: 1 },
+    end: { x: 1, y: 0 },
+    locations: [0.0, 1.0],
+    useAngle: true,
+    angle: 45,
+    angleCenter: { x: 0.5, y: 0.5 },
+    disabledColors: ['#e0e0e0', '#fafafa'],
+  };
+
+  // const disabledColors = disabled
+  //   ? dindleTheme.linearGradient.disabledColors
+  //   : undefined;
   return (
     <View style={[styles.containerButton, style]}>
       <ExLinearGradient
+        theme={{ linearGradient }}
         selected={!disabled}
         style={[styles.gradient, linearStyle]}
-        disabledColors={disabledColors}>
+        >
+          {/* disabledColors={disabledColors}> */}
         <Button
           disabled={disabled}
           uppercase={uppercase}
@@ -60,7 +75,7 @@ function ExButton({
 }
 
 ExButton.defaultProps = {
-  textColor: dindleTheme.colors.whiteText,
+  textColor: "white",
   uppercase: false,
 };
 

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
 
 function ExLinearGradient({
+  theme,
   children,
   selected,
   style,
@@ -18,13 +19,13 @@ function ExLinearGradient({
   }
   return (
     <LinearGradient
-      start={dindleTheme.linearGradient.start}
-      end={dindleTheme.linearGradient.end}
-      colors={selected ? dindleTheme.linearGradient.colors : disabledColors}
+      start={theme.linearGradient.start}
+      end={theme.linearGradient.end}
+      colors={selected ? theme.linearGradient.colors : disabledColors}
       style={style}
-      useAngle={dindleTheme.linearGradient.useAngle}
-      angle={dindleTheme.linearGradient.angle}
-      angleCenter={dindleTheme.linearGradient.angleCenter}
+      useAngle={theme.linearGradient.useAngle}
+      angle={theme.linearGradient.angle}
+      angleCenter={theme.linearGradient.angleCenter}
       {...restProps}>
       {children}
     </LinearGradient>
@@ -35,7 +36,7 @@ ExLinearGradient.defaultProps = {
   selected: true,
   disabledColors: ['#FFF', '#FFF'],
   children: null,
-  backgroundColor: dindleTheme.colors.whiteText,
+  backgroundColor:"white",
 };
 
 ExLinearGradient.propTypes = {
@@ -47,3 +48,4 @@ ExLinearGradient.propTypes = {
 };
 
 export default ExLinearGradient;
+
