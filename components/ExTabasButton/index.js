@@ -1,2 +1,2 @@
-
-export { default as ExTabasButton } from "./ExTabasButton";
+export { default as ExTabButtonProvider } from './ExTabButtonProvider';
+export { default as useExTabButton } from './useExTabButton';

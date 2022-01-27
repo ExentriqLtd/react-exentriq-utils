@@ -4,18 +4,24 @@ import { View, StyleSheet } from 'react-native';
 import { ExButton } from '../ExButton';
 import { useTranslation } from 'react-i18next';
 
-const ExTabasButton = ({ styles , listType}) => {
+
+const ExTabasButton = ({ styles , listType , onSetStateTabsButton ,  stateTabsButton}) => {
   const { t } = useTranslation();
+  
+  // const onPress = () => { }
+
   return (
     <View style={styles.buttonContainer}>
       <Text
         style={[
           styles.singleButton,
-          listType === 'everyone' && styles.singleButtonSelected,
+          
         ]}
+        onPress = {onPress}
         // onPress={() => $setListType('everyone')}
         >
-         {t('Everyone')}    
+         {t('Everyone')}
+        
       </Text>
       <Text
         style={[
