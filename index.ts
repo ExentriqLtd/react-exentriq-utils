@@ -57,6 +57,6 @@ export { ExGradientButton } from './components/ExGradientButton';
 export { ExButton } from './components/ExButton';
 export { ExGallery } from './components/ExGallery';
 export { ExBottomSheetProvider, useExBottomSheet } from './components/ExBottomSheet';
-export { ExTabButtonProvider, useExTabButton, ExTabasButton } from './components/ExTabasButton';
+export { ExTabsButtonProvider, useExTabsButton, ExTabsButton } from './components/ExTabsButton';
 export * from './libs/uploader';
 export { UIAnimatedView } from './components/UIAnimatedView';
