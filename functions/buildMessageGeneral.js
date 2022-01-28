@@ -10,7 +10,7 @@ const regex = {
  * @param active
  * @returns
  */
-export const buildMessageGeneral = ({ message, styles, active = true }) => {
+export const buildMessageGeneral = ({ message, styles, active = true, provider = false }) => {
   let outputArr = [];
   let outputArrString = [];
   let i = 0;
@@ -36,8 +36,14 @@ export const buildMessageGeneral = ({ message, styles, active = true }) => {
           }
           //add for open search
           if (!writeEmail && text[i] === '@' && text[i + 1] !== separator.open){
-            outputArr.push(text[i], separator.open);
-            outputArrString.push(text[i],separator.open);
+            if(!provider){
+              outputArr.push(text[i], separator.open);
+              outputArrString.push(text[i],separator.open);
+            } else {
+              outputArr.push(text[i], separator.open, " ");
+              outputArrString.push(text[i],separator.open, " ");
+            }
+        
           }
         }
         if (text[i] === '@' && text[i + 1] === separator.open) {
