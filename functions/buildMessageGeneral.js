@@ -36,14 +36,8 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
           }
           //add for open search
           if (!writeEmail && text[i] === '@' && text[i + 1] !== separator.open){
-            if(!provider){
-              outputArr.push(text[i], separator.open);
-              outputArrString.push(text[i],separator.open);
-            } else {
-              outputArr.push(text[i], separator.open, " ");
-              outputArrString.push(text[i],separator.open, " ");
-            }
-        
+            outputArr.push(text[i], separator.open, " ");
+            outputArrString.push(text[i],separator.open, " ");
           }
         }
         if (text[i] === '@' && text[i + 1] === separator.open) {
