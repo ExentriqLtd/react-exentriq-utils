@@ -13,6 +13,7 @@ export interface TRoom {
   };
   rid: string;
   name: string;
+  subName?: string;
   t: "c" | "d" | "p" | "l";
   desktopNotifications: string;
   mobileNotifications: string;
