@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Image, Text } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
 import { FLAG_URL } from "../../libs/config";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Platform } from 'react-native';
+import { TouchableOpacity as TouchableOpacityGH } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   listContainer: {
@@ -36,8 +37,9 @@ const styles = StyleSheet.create({
 });
 
 export const ExLanguagesSingleItem = ({ item, onPress, primary, selectionLanguage, onClose }) => {
+  let TouchableOpacityComponent = Platform.OS !== 'ios' ? TouchableOpacityGH : TouchableOpacity;
   return (
-    <TouchableOpacity style={styles.listContainer} onPress={() => {onPress(item); onClose()}}>
+    <TouchableOpacityComponent style={styles.listContainer} onPress={() => {onPress(item); onClose()}}>
       <View style={styles.listContainerInner}>
         <View style={styles.flagContainer}>
           <Image
@@ -61,7 +63,7 @@ export const ExLanguagesSingleItem = ({ item, onPress, primary, selectionLanguag
         />
       }
       </View>
-    </TouchableOpacity>
+    </TouchableOpacityComponent>
   );
 };
 
