@@ -15,6 +15,10 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
   let outputArrString = [];
   let i = 0;
   let text = message;
+  let openBudget = false;
+  let tmpBudget = '';
+  let openEffort = false;
+  let tmpEffort = '';
   let openSelected = false;
   let tmpMention = '';
   let separator = { open:'"', close:'"'};
@@ -23,7 +27,7 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
     while (i < text.length) {
       let writeEmail = false;
       if (active){
-        if (!openSelected){
+        if (!openSelected && !openEffort && !openBudget){
           //normal
           if (text[i] !== '@' && text[i + 1] !== separator.open) {
             outputArr.push(text[i]);
@@ -40,9 +44,20 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
             outputArrString.push(text[i],separator.open, " ");
           }
         }
+
         if (text[i] === '@' && text[i + 1] === separator.open) {
           openSelected = true;
         }
+         //add for effort
+         if(text[i] === '~'){
+          openEffort = true;
+        }
+
+        //add for budget
+        if(text[i] === '$'){
+          openBudget = true;
+        }
+
         if (openSelected) {
           tmpMention = tmpMention + text[i];
           if (text[i] ===  separator.close && text[i - 1] !== '@') {
@@ -56,6 +71,42 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
             outputArr.push(mention);
             outputArrString.push(tmpMention);
             tmpMention = '';
+          }
+        }
+
+        if (openEffort) {
+          if(text[i] !== '~'){
+            tmpEffort = tmpEffort + text[i];
+          }
+          if (text[i] === ' '){
+            openEffort = false;
+            let effort = (
+              <Text key={i} style={styles.mentionText}>
+                {tmpEffort}
+              </Text>
+            );
+  
+            outputArr.push(effort);
+            outputArrString.push(tmpEffort);
+            tmpEffort = '';
+          }
+        }
+
+        if (openBudget) {
+          if(text[i] !== '$'){
+            tmpBudget = tmpBudget + text[i];
+          }
+          if (text[i] === ' '){
+            openBudget = false;
+            let budget = (
+              <Text key={i} style={styles.mentionText}>
+                {tmpBudget}
+              </Text>
+            );
+  
+            outputArr.push(budget);
+            outputArrString.push(tmpBudget);
+            tmpBudget = '';
           }
         }
       } else {
