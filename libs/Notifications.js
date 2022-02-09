@@ -9,6 +9,7 @@ import {
 import Guardian from './Guardian';
 
 import type { RegisteredPushKit } from 'react-native-notifications';
+import { Platform } from 'react-native';
 
 class Notifications extends EventEmitter {
   username: String;
@@ -188,7 +189,9 @@ class Notifications extends EventEmitter {
   }
 
   setBadgeCount(count) {
-    NotificationsReact.ios.setBadgeCount(count);
+    if (Platform === 'ios') {
+      NotificationsReact.ios.setBadgeCount(count);
+    }
   }
 
 }
