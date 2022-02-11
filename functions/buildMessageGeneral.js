@@ -15,6 +15,8 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
   let outputArrString = [];
   let i = 0;
   let text = message;
+  let openProgress = false;
+  let tmpProgress = '';
   let openBudget = false;
   let tmpBudget = '';
   let openEffort = false;
@@ -27,7 +29,7 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
     while (i < text.length) {
       let writeEmail = false;
       if (active){
-        if (!openSelected && !openEffort && !openBudget){
+        if (!openSelected && !openEffort && !openBudget && !openProgress){
           //normal
           if (text[i] !== '@' && text[i + 1] !== separator.open) {
             outputArr.push(text[i]);
@@ -56,6 +58,11 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
         //add for budget
         if(text[i] === '$'){
           openBudget = true;
+        }
+
+        //add for progress
+        if(text[i] === '%'){
+          openProgress = true;
         }
 
         if (openSelected) {
@@ -109,6 +116,25 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
             tmpBudget = '';
           }
         }
+
+        if (openProgress) {
+          if(text[i] !== '%'){
+            tmpProgress = tmpProgress + text[i];
+          }
+          if (text[i] === ' '){
+            openProgress = false;
+            let progress = (
+              <Text key={i} style={styles.mentionText}>
+                {tmpProgress}
+              </Text>
+            );
+  
+            outputArr.push(progress);
+            outputArrString.push(tmpProgress);
+            tmpProgress = '';
+          }
+        }
+
       } else {
         outputArr.push(text[i]);
         outputArrString.push(text[i]);
