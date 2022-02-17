@@ -49,6 +49,7 @@ export {
 } from "./constants/config";
 export { IS_DEVELOPMENT } from "./constants/general";
 export { Service, Guardian, Socket } from './libs';
+export { default as Notifications } from './libs/Notifications';
 export { ExTextInput } from './components/ExTextInput';
 export { ExAlert } from './components/ExAlert';
 export { LoginForm, LoginWrapper, LoginPage, Header, ForgotPassword} from './components/Login';

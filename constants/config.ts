@@ -5,3 +5,4 @@ export const METHOD_AUTH_GUARDIAN_LOGIN = 'auth.login';
 export const APP_NAME = 'talk';
 export const URL_MEET = 'https://app002exe.exentriq.com';
 export const URL_REJECT_MEET_INVITE = 'https://talk.exentriq.com/api/rejectMeetInvite'
+export const BUS_NOTIFICATION = 'ws://bus.stage.exentriq.com:1880/ws/notification'
