@@ -47,8 +47,10 @@ export {
   APP_NAME,
   URL_REJECT_MEET_INVITE,
 } from "./constants/config";
+
 export { IS_DEVELOPMENT } from "./constants/general";
-export { Service, Guardian, Socket } from './libs';
+export * from './libs/config';
+export { Service, Guardian, Socket, EXENTRIQ_EMA_URL } from './libs';
 export { default as Notifications } from './libs/Notifications';
 export { ExTextInput } from './components/ExTextInput';
 export { ExAlert } from './components/ExAlert';
