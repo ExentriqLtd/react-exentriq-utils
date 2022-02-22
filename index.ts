@@ -55,6 +55,7 @@ export { LoginForm, LoginWrapper, LoginPage, Header, ForgotPassword} from './com
 export { ExLanguages } from './components/ExLanguages';
 export { ExGradientButton } from './components/ExGradientButton';
 export { ExGallery } from './components/ExGallery';
+export { ExBusNotification } from './components/ExBusNotification';
 export { ExBottomSheetProvider, useExBottomSheet } from './components/ExBottomSheet';
 export * from './libs/uploader';
 export { UIAnimatedView } from './components/UIAnimatedView';
