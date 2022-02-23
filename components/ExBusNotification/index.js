@@ -1,1 +1,1 @@
-export { default as ExBusNotification } from "./ExBusNotification";
+export { ExBusNotification } from "./ExBusNotification";
