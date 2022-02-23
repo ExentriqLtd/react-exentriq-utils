@@ -2,23 +2,7 @@ import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import ItemNotification from './ItemNotification';
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  flex: {
-    flex: 1,
-  },
-  title: {
-    fontWeight: '600',
-    marginTop: 16,
-    marginBottom: 8,
-  },
-});
-
-function ExBusNotification({ data, onClose, onOpen, UIText, ExIconButton, mapColors }){
+function ExBusNotification({ data, isRead, onClose, onOpen, onEndReached, UIText, ExIconButton, mapColors }){
   
   const renderItem = ({ item }) => (
     <ItemNotification 
@@ -29,7 +13,8 @@ function ExBusNotification({ data, onClose, onOpen, UIText, ExIconButton, mapCol
     ExIconButton={ExIconButton} 
     mapColors={mapColors} 
     onClose={onClose}
-    onOpen={onOpen}/>
+    onOpen={onOpen}
+    isRead={isRead}/>
   );
   return (
     <View>
@@ -37,6 +22,8 @@ function ExBusNotification({ data, onClose, onOpen, UIText, ExIconButton, mapCol
         data={data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
+        onEndReachedThreshold={0}
+        onEndReached={onEndReached}
       />
     </View>
   );

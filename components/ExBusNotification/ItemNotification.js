@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 
 function ItemNotification(props) {
-  const { name, notification, date, onClose, onOpen, UIText, ExIconButton, mapColors } = props;
-  const open = 'Open';
+  const { t } = useTranslation();
+  const { name, notification, date, onClose, isRead, onOpen, UIText, ExIconButton, mapColors } = props;
 
   const styles = StyleSheet.create({
     container: {
@@ -15,7 +16,8 @@ function ItemNotification(props) {
       borderBottomColor: mapColors.textLightGrey,
       borderBottomColor: 'gray',
       borderBottomWidth: 0.2,
-      alignItems: 'center'
+      alignItems: 'center',
+      backgroundColor: isRead ? mapColors.backgroundColor : '#efefef',
     },
     avatarContainer: {
       flexDirection: 'column',
@@ -48,7 +50,7 @@ function ItemNotification(props) {
         <UIText id={notification} size="f3" numberOfLines={3} buildMessage={false} />
         <UIText id={date} color={'textLightGrey'} size="f2" buildMessage={false} />
         <TouchableOpacity onPress={onOpen}>
-          <UIText id={open} color={'primary'} size="f4" style={{ textDecorationLine: 'underline' }} buildMessage={false} />
+          <UIText id={t('Open')} color={'primary'} size="f4" style={{ textDecorationLine: 'underline' }} buildMessage={false} />
         </TouchableOpacity>
       </View>
       <View style={styles.closeContainer}>
