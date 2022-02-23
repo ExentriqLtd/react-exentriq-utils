@@ -5,7 +5,7 @@ const regex = {
   charactes:/[\S]+/g
 };
 /**
- * split with custom logic
+ * This is a function for build message when write input
  * @param message
  * @param styles
  * @param active
@@ -72,16 +72,21 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
   };
 };
 
-
-
 const handlerOpenUrl = (url) => {
   if(!url && url === '') return;
   Linking.canOpenURL(url.trim())
   .then(()=>{
     Linking.openURL(url.trim());
-  }).catch();
+  }).catch((e)=>{
+    console.warn('cannot open url error:', e);
+  });
 }
 
+/**
+ * This is a function for render content message 
+ * @param {*} param0 
+ * @returns 
+ */
 export const buildMessageGeneralRender = ({ message, styles, active = true, provider = false }) => {
   let outputArr = [];
   let outputArrString = [];
