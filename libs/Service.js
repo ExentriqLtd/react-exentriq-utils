@@ -306,6 +306,15 @@ class ServiceImplementation {
     .catch((err) => console.error(`[uploadGroupAvatar.error]', ${err.message}`));
   }
 
+  updateAccount = ({ firstName, lastName, email, base64, sessionToken }) => {
+    return Guardian.call('accountService.updateMyUserData', [
+      firstName, lastName, email, base64], sessionToken)
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => console.error(`[updateAccount.error]', ${err.message}`));
+  }
+
   updateProfile = ({
     audienceContactId, firstName, lastName, email, phone,
     base64, sessionToken, spaceId, language,
