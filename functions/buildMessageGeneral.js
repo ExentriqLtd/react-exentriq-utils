@@ -127,7 +127,6 @@ export const buildMessageGeneralRender = ({ message, styles, active = true, prov
         if(text[i - 2] === 'p' && text[i - 3] === 't'  && text[i - 4] === 't' && text[i - 5] === 'h'){
           openUrl = true;
           tmpUrl = text[i-5] + text[i-4] + text[i-3] + text[i-2] + text[i-1];
-          console.log(outputArr[i],outputArr[i-1],outputArr[i-2],outputArr[i-3],outputArr[i-4]);
           outputArr.splice(i-5, 6);
         }
         if (openUrl) {
