@@ -131,7 +131,7 @@ export const buildMessageGeneralRender = ({ message, styles, active = true, prov
         }
         if (openUrl) {
           tmpUrl = tmpUrl + text[i];
-          if (text[i] ===  ' ' || text[i] ===  '\n') {
+          if (text[i] ===  ' ' || text[i] ===  '\n' || text.length === i+1) {
             openUrl = false;
             let urlHandler = tmpUrl;
             let url = (
