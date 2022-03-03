@@ -61,3 +61,4 @@ export { ExGallery } from './components/ExGallery';
 export { ExBottomSheetProvider, useExBottomSheet } from './components/ExBottomSheet';
 export * from './libs/uploader';
 export { UIAnimatedView } from './components/UIAnimatedView';
+export * from './components/BusNotifications';
