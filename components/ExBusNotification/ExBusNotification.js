@@ -2,19 +2,16 @@ import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import ItemNotification from './ItemNotification';
 
-function ExBusNotification({ data, isRead, onClose, onOpen, onEndReached, UIText, ExIconButton, mapColors }){
+function ExBusNotification({ data, onRemove, onOpen, onEndReached, UIText, ExIconButton, mapColors }){
   
   const renderItem = ({ item }) => (
     <ItemNotification 
-    name={item.name} 
-    notification={item.notification} 
-    date={item.date} 
+    item={item}
     UIText={UIText} 
     ExIconButton={ExIconButton} 
     mapColors={mapColors} 
-    onClose={onClose}
-    onOpen={onOpen}
-    isRead={isRead}/>
+    onRemove={onRemove}
+    onOpen={onOpen} />
   );
   return (
     <View>
