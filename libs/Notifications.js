@@ -18,12 +18,16 @@ class Notifications extends EventEmitter {
   isIOS: Boolean;
   app: String;
   deviceId: String;
+  sentPush: Boolean;
+  sentVoip: Boolean;
 
   constructor() {
     super();
     this.isIOS = Platform.OS === 'ios';
     this.call = this.call.bind(this);
     this.sendToken = this.sendToken.bind(this);
+    this.sentPush = false;
+    this.sentVoip = false;
   }
 
   register(app, deviceId, username) {
@@ -78,6 +82,7 @@ class Notifications extends EventEmitter {
   }
 
   sendToken(username) {
+    if (this.sentPush) return;
     if (username) {
       this.username = username;
     }
@@ -90,17 +95,18 @@ class Notifications extends EventEmitter {
       device: this.deviceId,
       app: this.app,
     };
-
     let url;
     if (this.isIOS) {
       url = integrationBusSetIosTokenPath;
     } else {
       url = integrationBusSetAndroidTokenPath;
     }
+    this.sentPush = true;
     return this.call(url, payload);
   }
 
   removeToken() {
+    this.sentVoip = false;
     const payload = {
       username: this.username,
       token: this.token,
@@ -118,6 +124,7 @@ class Notifications extends EventEmitter {
   }
 
   sendVoipToken() {
+    if (this.sentVoip) return;
     const payload = {
       username: this.username,
       token: this.voipToken,
@@ -131,10 +138,12 @@ class Notifications extends EventEmitter {
     } else {
       url = integrationBusSetAndroidTokenPath;
     }
+    this.sentVoip = true;
     return this.call(url, payload);
   }
 
   removeVoipToken() {
+    this.sentVoip = false;
     const payload = {
       username,
       token: this.voipToken,

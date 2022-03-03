@@ -7,7 +7,7 @@ export { utilityOrderCallsByDate } from "./functions/orderCallsByDate";
 export { utilityOrderRoomsByDate } from "./functions/orderRoomsByDate";
 export { utilityFormatDate, utilityFormatTime, utilityCompleteDate } from "./functions/formatDate";
 export { utilityFormatImageForUpload } from "./functions/formatImageForUpload";
-export { buildMessageGeneral } from "./functions/buildMessageGeneral";
+export { buildMessageGeneral, buildMessageGeneralRender } from "./functions/buildMessageGeneral";
 export {
   utilityIsImageMessage,
   utilityIsAudioMessage,
@@ -50,7 +50,7 @@ export {
 
 export { IS_DEVELOPMENT } from "./constants/general";
 export * from './libs/config';
-export { Service, Guardian, Socket, EXENTRIQ_EMA_URL } from './libs';
+export { Service, Guardian, Socket, EXENTRIQ_EMA_URL, EXENTRIQ_BUS_NOTIFICATION } from './libs';
 export { default as Notifications } from './libs/Notifications';
 export { ExTextInput } from './components/ExTextInput';
 export { ExAlert } from './components/ExAlert';
@@ -62,3 +62,4 @@ export { ExGallery } from './components/ExGallery';
 export { ExBottomSheetProvider, useExBottomSheet } from './components/ExBottomSheet';
 export * from './libs/uploader';
 export { UIAnimatedView } from './components/UIAnimatedView';
+export * from './components/BusNotifications';
