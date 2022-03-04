@@ -1,17 +1,25 @@
+/** @format */
+
 import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import ItemNotification from './ItemNotification';
 
-function ExBusNotification({ data, onRemove, onOpen, onEndReached, UIText, ExIconButton, mapColors }){
-  
+function ExBusNotification({
+  data,
+  onRemove,
+  onOpen,
+  onEndReached,
+  ExIconButton,
+  dindleTheme,
+}) {
   const renderItem = ({ item }) => (
-    <ItemNotification 
-    item={item}
-    UIText={UIText} 
-    ExIconButton={ExIconButton} 
-    mapColors={mapColors} 
-    onRemove={onRemove}
-    onOpen={onOpen} />
+    <ItemNotification
+      item={item}
+      ExIconButton={ExIconButton}
+      dindleTheme={dindleTheme}
+      onRemove={onRemove}
+      onOpen={onOpen}
+    />
   );
   return (
     <View>
