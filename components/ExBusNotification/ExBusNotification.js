@@ -11,6 +11,7 @@ function ExBusNotification({
   onEndReached,
   ExIconButton,
   dindleTheme,
+  ListEmptyComponent,
 }) {
   const renderItem = ({ item }) => (
     <ItemNotification
@@ -29,6 +30,7 @@ function ExBusNotification({
         keyExtractor={item => item.id}
         onEndReachedThreshold={0}
         onEndReached={onEndReached}
+        ListEmptyComponent={ListEmptyComponent}
       />
     </View>
   );
