@@ -9,7 +9,7 @@ import { utilityFormatDate } from 'exentriq-utils//functions/formatDate';
 function ItemNotification(props) {
   const { t } = useTranslation();
   const { item, onRemove, onOpen, ExIconButton, dindleTheme } = props;
-  const { from_user, subject, notified, timestamp, id } = item || {};
+  const { from_user, from_name, subject, notified, timestamp, id } = item || {};
   const lastUpdated = timestamp ? utilityFormatDate(timestamp) : '';
 
   const styles = StyleSheet.create({
@@ -43,12 +43,12 @@ function ItemNotification(props) {
       paddingVertical: 4,
     },
     avatarContainer: {
-      paddingRight: 4,
+      paddingRight: 8,
     },
     textContainer: {
       flex: 1,
     },
-    closeContainer: {},
+    closeContainer: { marginTop: -8 },
     avatar: {
       height: 60,
       width: 60,
@@ -87,7 +87,7 @@ function ItemNotification(props) {
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.userTitle} numberOfLines={1}>
-            {from_user}
+            {from_name || from_user}
           </Text>
           <Text style={styles.subject} numberOfLines={3}>
             {subject}
