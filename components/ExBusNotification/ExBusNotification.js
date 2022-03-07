@@ -12,6 +12,8 @@ function ExBusNotification({
   ExIconButton,
   dindleTheme,
   ListEmptyComponent,
+  containerStyle,
+  flatListProps,
 }) {
   const renderItem = ({ item }) => (
     <ItemNotification
@@ -23,14 +25,15 @@ function ExBusNotification({
     />
   );
   return (
-    <View>
+    <View style={{ ...containerStyle }}>
       <FlatList
         data={data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        onEndReachedThreshold={0}
+        onEndReachedThreshold={0.5}
         onEndReached={onEndReached}
         ListEmptyComponent={ListEmptyComponent}
+        {...flatListProps}
       />
     </View>
   );

@@ -13,6 +13,7 @@ export interface TBusInit{
 
 export interface TWSNotifications {
   id: string;
+  from_name: string;
   from_user: string;
   link?: string;
   message?: string;
@@ -37,6 +38,8 @@ const WSNotifications = new (class extends EventEmitter {
   emit: any;
   on: any;
   off: any;
+  reconnectInterval: any;
+  url: string;
 
   constructor() {
     super();
@@ -45,6 +48,7 @@ const WSNotifications = new (class extends EventEmitter {
     this.notifications = [];
     this.username = null;
     this.socketOpened = false;
+    this.reconnectInterval = undefined;
   }
 
   set(username: string) {
@@ -69,6 +73,8 @@ const WSNotifications = new (class extends EventEmitter {
       }
     });
     this.notifications = ([...notifications]);
+    console.log('0...snnqui07', this.notifications && this.notifications.length)
+
     this.emit('update', { data: [...notifications], unread: this.notificationsCount() });
   }
 
@@ -263,9 +269,20 @@ const WSNotifications = new (class extends EventEmitter {
     this.service.send(JSON.stringify(msg));
   }
 
+  retry() {
+    if (this.reconnectInterval) {
+      clearInterval(this.reconnectInterval);
+      delete this.reconnectInterval;
+    }
+    this.reconnectInterval = setInterval(
+      () => this.reconnect({ username: this.username, url: this.url }),
+      5000,
+    );
+  }
+
   reconnect(args: any) {
     if (!this.serviceInitialized) {
-      this.init(args)
+      this.init(args);
     }
   }
 
@@ -275,6 +292,7 @@ const WSNotifications = new (class extends EventEmitter {
     }
     this.serviceInitialized = true;
     this.username = username;
+    this.url = url;
 
     // Socket
     this.service = new WebSocket(url);
@@ -282,7 +300,6 @@ const WSNotifications = new (class extends EventEmitter {
     // Message
     this.service.onmessage = (event: any) => {
       const data = JSON.parse(event.data);
-
       if (data.cmd === 'LIST_ALL') {
         // Update all notifications
         this.updateAllNotifications(data);
@@ -290,7 +307,6 @@ const WSNotifications = new (class extends EventEmitter {
         setTimeout(() => {
           this.wsListAllNotifications();
         }, 2000);
-
         // Add notification
         this.addNotification(data.value);
       }
@@ -299,6 +315,11 @@ const WSNotifications = new (class extends EventEmitter {
     this.service.onopen = () => {
       this.socketOpened = true;
       this.emit('connected', true);
+
+      if (this.reconnectInterval) {
+        clearInterval(this.reconnectInterval);
+        delete this.reconnectInterval;
+      }
 
       // List all notifications
       this.wsListAllNotifications();
@@ -310,6 +331,7 @@ const WSNotifications = new (class extends EventEmitter {
     this.service.onclose = (evt: any) => {
       this.serviceInitialized = false;
       this.emit('connected', false);
+      this.retry();
     };
 
     this.service.onerror = (evt: any) => {

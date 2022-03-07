@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useReducer } from 'react';
 import { BusNotificationsContext } from './BusNotificationsContext';
 import { WSNotifications } from './wsNotifications';
 
@@ -16,9 +16,9 @@ interface TBusProps {
   username?: string | null | undefined;
   appState?: string | null | undefined;
 }
-
+const reducer = (s: TState, v: TState) => ({ ...s, ...v });
 export const BusNotificationsProvider: FC<TBusProps> = ({ children, url, username, appState }): JSX.Element => {
-  const [state, setState] = useState<TState>({ notifications: [], count: 0, connected: false });
+  const [state, setState] = useReducer(reducer, { notifications: [], count: 0, connected: false });
 
   const unreadNotification = useCallback((id: string) => {
     setTimeout(() => {
@@ -62,7 +62,6 @@ export const BusNotificationsProvider: FC<TBusProps> = ({ children, url, usernam
 
   useEffect(() => {
     if (!username) return;
-    console.log('0..INIT WS::::::', username);
     WSNotifications.init({ url, username });
     WSNotifications.on('update', callback);
     WSNotifications.on('connected', callbackConnected);
@@ -71,14 +70,6 @@ export const BusNotificationsProvider: FC<TBusProps> = ({ children, url, usernam
       WSNotifications.off('connected', callbackConnected);
     }
   }, [username]);
-
-  useEffect(() => {
-    const{ connected } = state || {};
-    if (appState === 'active' && username && connected) {
-      console.log('0..WS RECONNECT::::::', username);
-      // WSNotifications.reconnect({ url, username });
-    }
-  }, [appState, username]);
 
   const value = React.useMemo(() => ({
     notifications: get(state, 'notifications'),
