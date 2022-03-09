@@ -56,6 +56,8 @@ export interface TRoom {
   language?: string;
   messageSend?:string;
   meetRoomId?: string;
+  mobilePushNotifications:string;
+  isOpenGallery:boolean;
 }
 
 export interface TRoomType {
