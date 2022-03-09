@@ -20,6 +20,8 @@ class Notifications extends EventEmitter {
   deviceId: String;
   sentPush: Boolean;
   sentVoip: Boolean;
+  initializetedPush: Boolean;
+  initializetedPushKit: Boolean;
 
   constructor() {
     super();
@@ -28,12 +30,18 @@ class Notifications extends EventEmitter {
     this.sendToken = this.sendToken.bind(this);
     this.sentPush = false;
     this.sentVoip = false;
+    this.initializetedPush = false;
+    this.initializetedPushKit = false;
   }
 
   register(app, deviceId, username) {
     this.app = app;
     this.deviceId = deviceId;
     this.username = username;
+
+    if (this.initializetedPush) return;
+    this.initializetedPush = true;
+
     NotificationsReact.registerRemoteNotifications();
     NotificationsReact.events().registerRemoteNotificationsRegistered((event: Registered) => {
       this.token = event.deviceToken;
@@ -180,6 +188,9 @@ class Notifications extends EventEmitter {
     this.voipApp = app;
     this.deviceId = deviceId;
     this.username = username;
+    if (this.initializetedPushKit) return;
+
+    this.initializetedPushKit = true;
     NotificationsReact.ios.registerPushKit();
     NotificationsReact.ios
       .events()
