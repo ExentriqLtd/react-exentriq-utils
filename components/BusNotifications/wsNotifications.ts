@@ -73,7 +73,6 @@ const WSNotifications = new (class extends EventEmitter {
       }
     });
     this.notifications = ([...notifications]);
-    console.log('0...snnqui07', this.notifications && this.notifications.length)
 
     this.emit('update', { data: [...notifications], unread: this.notificationsCount() });
   }

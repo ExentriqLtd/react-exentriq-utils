@@ -209,7 +209,7 @@ class Notifications extends EventEmitter {
   }
 
   setBadgeCount(count) {
-    if (Platform === 'ios') {
+    if (Platform.OS === 'ios') {
       NotificationsReact.ios.setBadgeCount(count);
     }
   }
