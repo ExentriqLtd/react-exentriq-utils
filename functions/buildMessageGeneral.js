@@ -51,9 +51,9 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
           tmpMention = tmpMention + text[i];
           if (text[i] ===  separator.close && text[i - 1] !== '@') {
             openSelected = false;
-            // const mention = '@“(<Text key={i} style={styles.mentionText}>'+tmpMention+'</Text>“';
+            // const mention = '@“(<Text key={i} style={styles.text}>'+tmpMention+'</Text>“';
             let mention = (
-              <Text key={i} style={styles.mentionText}>
+              <Text key={i} style={styles.text}>
                 {tmpMention}
               </Text>
             );
@@ -129,7 +129,7 @@ const emojiStringToArray = function (str) {
     const isLink = regexLink.test(element);
     if (isLink) {
       isLinks = true;
-      const linkComponents = <Text onPress={() => handlerOpenUrl(element)} key={idx} style={styles.mentionText}>{element}</Text>;
+      const linkComponents = <Text onPress={() => handlerOpenUrl(element)} key={idx} style={styles.text}>{element}</Text>;
       splitLinks[idx] = linkComponents;
     }
   });
@@ -151,7 +151,7 @@ const emojiStringToArray = function (str) {
   //           let splitMentions = newEl.split('---');
   //           splitMentions.forEach((splitMention, idxSplitMention) => {
   //             const mentionComponent = (
-  //               <Text key={idxNewEl} style={styles.mentionText}>
+  //               <Text key={idxNewEl} style={styles.text}>
   //                 {mention}
   //               </Text>
   //             );
