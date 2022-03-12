@@ -102,7 +102,7 @@ const emojiStringToArray = function (str) {
  * @param {*} param0 
  * @returns 
  */
-export const buildMessageGeneralRender = ({ message, styles, active = true, provider = false }) => {
+ export const buildMessageGeneralRender = ({ message, styles, active = true, provider = false }) => {
   let outputArr:any = [];
   let outputArrString:any = [];
   outputArr = emojiStringToArray(message);
@@ -138,36 +138,36 @@ export const buildMessageGeneralRender = ({ message, styles, active = true, prov
   }
 
   //mentions
-  const regexMention = new RegExp(regex.mention);
-  outputArr.forEach((element, idx) => {
-    let newElements:any = element;
-    if (!isObject(element)){
-      let matchMentions = element.toString().match(regex.mention);
-      newElements = emojiStringToArray(element);
-      newElements.forEach((newEl, idxNewEl) => {
-        matchMentions && matchMentions.forEach((mention, idx) =>{
-          if (newEl && newEl.replace) {
-            newEl = newEl.replace(mention, '---'+mention+'---');
-            let splitMentions = newEl.split('---');
-            splitMentions.forEach((splitMention, idxSplitMention) => {
-              const mentionComponent = (
-                <Text key={idxNewEl} style={styles.mentionText}>
-                  {mention}
-                </Text>
-              );
-                const isMention = regexMention.test(splitMention);
-                if (isMention) {
-                splitMentions[idxSplitMention] = mentionComponent;
-                }
-            });
-            newEl = splitMentions;
-            newElements[idxNewEl] = newEl;
-          }
-        });
-      });
-    }
-    outputArr[idx] = newElements;
-  });
+  // const regexMention = new RegExp(regex.mention);
+  // outputArr.forEach((element, idx) => {
+  //   let newElements:any = element;
+  //   if (!isObject(element)){
+  //     let matchMentions = element.toString().match(regex.mention);
+  //     newElements = emojiStringToArray(element);
+  //     newElements.forEach((newEl, idxNewEl) => {
+  //       matchMentions && matchMentions.forEach((mention, idx) =>{
+  //         if (newEl && newEl.replace) {
+  //           newEl = newEl.replace(mention, '---'+mention+'---');
+  //           let splitMentions = newEl.split('---');
+  //           splitMentions.forEach((splitMention, idxSplitMention) => {
+  //             const mentionComponent = (
+  //               <Text key={idxNewEl} style={styles.mentionText}>
+  //                 {mention}
+  //               </Text>
+  //             );
+  //               const isMention = regexMention.test(splitMention);
+  //               if (isMention) {
+  //               splitMentions[idxSplitMention] = mentionComponent;
+  //               }
+  //           });
+  //           newEl = splitMentions;
+  //           newElements[idxNewEl] = newEl;
+  //         }
+  //       });
+  //     });
+  //   }
+  //   outputArr[idx] = newElements;
+  // });
  return {
    outputArr,
    outputArrString,
