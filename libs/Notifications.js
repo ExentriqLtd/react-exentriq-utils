@@ -34,6 +34,11 @@ class Notifications extends EventEmitter {
     this.initializetedPushKit = false;
   }
 
+  unRegister() {
+    this.initializetedPush = false;
+    this.sentPush = false;
+  }
+
   register(app, deviceId, username) {
     this.app = app;
     this.deviceId = deviceId;
@@ -46,12 +51,12 @@ class Notifications extends EventEmitter {
     NotificationsReact.events().registerRemoteNotificationsRegistered((event: Registered) => {
       this.token = event.deviceToken;
       // console.log('0..registerRemoteNotificationsRegistered', event.deviceToken)
-      this.emit('registerRemoteNotificationsRegistered', event.deviceToken);
+      this.emit('registerRemoteNotificationsRegistered', event.deviceToken, this.username);
     });
 
     NotificationsReact.events().registerRemoteNotificationsRegistrationFailed((event: RegistrationError) => {
       // console.error('0..registerRemoteNotificationsRegistrationFailed', event);
-      this.emit('registerRemoteNotificationsRegistrationFailed', event);
+      this.emit('registerRemoteNotificationsRegistrationFailed', event, this.username);
     });
 
     NotificationsReact.getInitialNotification()
@@ -128,6 +133,7 @@ class Notifications extends EventEmitter {
     } else {
       url = integrationBusRemoveAndroidTokenPath
     }
+    this.unRegister();
     return this.call(url, payload);
   }
 
@@ -165,6 +171,7 @@ class Notifications extends EventEmitter {
     } else {
       url = integrationBusRemoveAndroidTokenPath
     }
+    this.unRegisterPuskit();
     return this.call(url, payload);
   }
 
@@ -182,6 +189,11 @@ class Notifications extends EventEmitter {
         .then(resolve)
         .catch((err) => resolve({ error: true, ...err }));
       });
+  }
+
+  unRegisterPuskit() {
+    this.initializetedPushKit = false;
+    this.sentVoip = false;
   }
 
   registerPushkit(app, deviceId, username): void {
