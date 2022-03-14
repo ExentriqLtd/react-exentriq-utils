@@ -21,7 +21,7 @@ class ServiceImplementation {
   sessionToken = null;
 
   getToken() {
-    return this.loginToken;
+    return this.loginToken || this.sessionToken;
   }
   // #region ::: CONNECTION
   connect = async ({
@@ -120,6 +120,7 @@ class ServiceImplementation {
           return {};
         }
         const { sessionToken, loginToken, status, _id } = verifyToken;
+        this.sessionToken = sessionToken;
         return this.call('login', { resume: loginToken })
           .then((session) => {
             this.userId = _id;
