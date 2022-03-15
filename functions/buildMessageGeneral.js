@@ -102,7 +102,7 @@ const emojiStringToArray = function (str) {
  * @param {*} param0 
  * @returns 
  */
- export const buildMessageGeneralRender = ({ message, styles, active = true, provider = false }) => {
+ export const buildMessageGeneralRender = ({ message, styles, active = true }) => {
   let outputArr:any = [];
   let outputArrString:any = [];
   outputArr = emojiStringToArray(message);
@@ -116,7 +116,7 @@ const emojiStringToArray = function (str) {
       let newElement = element;
       matchLink && matchLink.forEach(link => {
         const linkComponents = '___'+link+'___';
-        newElement = newElement.replace(link, linkComponents)
+        newElement = newElement.replaceAll(link, linkComponents)
         outputArr[idx] = newElement;
       });
     } else { 
