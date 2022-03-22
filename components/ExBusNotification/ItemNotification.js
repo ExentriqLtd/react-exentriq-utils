@@ -45,12 +45,9 @@ function ItemNotification(props) {
       paddingVertical: 8,
       paddingHorizontal: 8,
       borderBottomColor: dindleTheme.colors.lightGrey,
-      borderBottomColor: 'gray',
       borderBottomWidth: 0.2,
       alignItems: 'flex-start',
-      backgroundColor: notified
-        ? dindleTheme.backgroundColor
-        : dindleTheme.colors.grey300,
+      backgroundColor: dindleTheme.backgroundColor,
     },
     container: {
       flexDirection: 'row',
@@ -85,11 +82,12 @@ function ItemNotification(props) {
       paddingTop: 4,
       color: dindleTheme.colors.text,
     },
-    open: {
+    open: (notified) => ({
       fontSize: 14,
       textDecorationLine: 'underline',
       color: dindleTheme.primary,
-    },
+      opacity: !notified ? 1 : 0.4,
+    }),
   });
   return (
     <View style={styles.containerGeneral}>
@@ -125,7 +123,7 @@ function ItemNotification(props) {
           style={{ paddingVertical: 8 }}
           onPress={() => onOpen(item)}
         >
-          <Text style={styles.open}> {t('Open')} </Text>
+          <Text style={styles.open(notified)}> {t('Open')} </Text>
         </TouchableOpacity>
       </View>
     </View>
