@@ -30,6 +30,7 @@ export interface TWSNotifications {
 }
 
 const WSNotifications = new (class extends EventEmitter {
+  ddp: any;
   username: string | null;
   notifications: TWSNotifications[];
   serviceInitialized: boolean;
@@ -43,7 +44,7 @@ const WSNotifications = new (class extends EventEmitter {
 
   constructor() {
     super();
-    this.service = null;
+    this.service = undefined;
     this.serviceInitialized = false;
     this.notifications = [];
     this.username = null;
@@ -275,7 +276,7 @@ const WSNotifications = new (class extends EventEmitter {
     }
     this.reconnectInterval = setInterval(
       () => this.reconnect({ username: this.username, url: this.url }),
-      5000,
+      2000,
     );
   }
 
@@ -285,8 +286,12 @@ const WSNotifications = new (class extends EventEmitter {
     }
   }
 
+  disconnect = (): void => {
+    this.service.close();
+  };
+
   init({ url, username }: TBusInit) {
-    if (this.serviceInitialized || !username || !url) {
+    if (!username || !url) {
       return;
     }
     this.serviceInitialized = true;
@@ -294,6 +299,8 @@ const WSNotifications = new (class extends EventEmitter {
     this.url = url;
 
     // Socket
+    if (this.service) this.disconnect();
+
     this.service = new WebSocket(url);
 
     // Message

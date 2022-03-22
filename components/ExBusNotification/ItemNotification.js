@@ -2,15 +2,30 @@
 
 import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { EXENTRIQ_AVATAR_URL } from 'exentriq-utils/libs/config';
 import { utilityFormatDate } from 'exentriq-utils//functions/formatDate';
 
+const getTranslation = ({ localized_action, t }) => {
+  try {
+    const { template, templateName, values } = localized_action || {};
+    if (template && templateName) {
+      let translated = t(templateName);
+      for (x = 0; x < values.length; x += 1) {
+        translated = translated.replaceAll(`{${x}}`, values[x]);
+      }
+      return translated;
+    }
+  } catch (e) {
+    return undefined;
+  }
+  return undefined;
+}
+
 function ItemNotification(props) {
-  const { t } = useTranslation();
-  const { item, onRemove, onOpen, ExIconButton, dindleTheme } = props;
-  const { from_user, from_name, subject, notified, timestamp, id } = item || {};
+  const { item, onRemove, onOpen, ExIconButton, dindleTheme, translate: t } = props;
+  const { from_user, from_name, subject: subjectProps, notified, timestamp, id } = item || {};
   const lastUpdated = timestamp ? utilityFormatDate(timestamp) : '';
+  const subject = getTranslation({ ...item, t }) || subjectProps;
 
   const styles = StyleSheet.create({
     avatarView: {
