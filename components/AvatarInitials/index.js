@@ -1,0 +1,1 @@
+export { AvatarInitials } from "./AvatarInitials";

@@ -59,6 +59,7 @@ export { ExLanguages } from './components/ExLanguages';
 export { ExGradientButton } from './components/ExGradientButton';
 export { ExBusNotification } from './components/ExBusNotification';
 export { ExGallery } from './components/ExGallery';
+export * from './components/AvatarInitials';
 export { ExBottomSheetProvider, useExBottomSheet } from './components/ExBottomSheet';
 export * from './libs/uploader';
 export { UIAnimatedView } from './components/UIAnimatedView';
