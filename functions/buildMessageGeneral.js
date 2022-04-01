@@ -2,11 +2,31 @@ import React from 'react';
 import { Linking } from 'react-native';
 import { Text } from 'react-native-paper';
 import { isObject } from 'lodash';
+
 const regex = {
   charactes:/[\S]+/g,
   link: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
-  mention: /@".*?"/g
+  mention: /@".*?"/g,
+  emoji: /([\uD800-\uDBFF][\uDC00-\uDFFF])/,
+  unrecognized: /\uFFFD/g
 };
+const emojiSplit = function (str) {
+  if (typeof str === 'string') {
+    const split = str.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/).join('');
+    return split;
+  }
+};
+const removeNonUtf8 = (characters) => {
+  try {
+      // ignore invalid char ranges
+      var bytelike = unescape(encodeURIComponent(characters));
+      characters = decodeURIComponent(escape(bytelike));
+  } catch (error) { }
+  // remove �
+  characters = characters.replace(/[\u{0080}-\u{FFFF}]/gu, '');
+  return characters;
+}
+
 /**
  * This is a function for build message when write input
  * @param message
@@ -14,36 +34,48 @@ const regex = {
  * @param active
  * @returns
  */
-export const buildMessageGeneral = ({ message, styles, active = true, provider = false }) => {
+ export const buildMessageGeneral = ({ message, styles, active = true }) => {
   let outputArr = [];
-  let outputArrString = [];
-  let i = 0;
-  let text = message;
-  let openSelected = false;
-  let tmpMention = '';
-  let separator = { open:'"', close:'"'};
-  let re = new RegExp(regex.charactes);
-  if (text){
-    while (i < text.length) {
-      let writeEmail = false;
-      if (active){
-        if (!openSelected){
-          //normal
-          if (text[i] !== '@' && text[i + 1] !== separator.open) {
-            outputArr.push(text[i]);
-            outputArrString.push(text[i]);
-          } //email
-          else if (text[i] === '@' && text[i - 1] && re.test(text[i - 1])) {
-            outputArr.push(text[i]);
-            outputArrString.push(text[i]);
-            writeEmail = true;
+    let outputArrString = [];
+    let i = 0;
+    let text = message;
+    let openSelected = false;
+    let tmpMention = '';
+    let separator = { open: '"', close: '"' };
+    let re = new RegExp(regex.charactes);
+    let reEmoji = new RegExp(regex.emoji);
+    let unrecognized = new RegExp(regex.unrecognized);
+
+    if (text) {
+      while (i < text.length) {
+        const isEmoj = reEmoji.test(text[i]+text[i+1]);
+        const isUnrecognized = unrecognized.test(text[i]);
+        let writeEmail = false;
+        if (active) {
+          if (!openSelected) {
+            //normal
+            if (text[i] !== '@' && text[i + 1] !== separator.open) {
+              if (isEmoj){
+                const emoji = emojiSplit(text[i]+text[i + 1]);
+                outputArr.push(emoji);
+                outputArrString.push(emoji);
+              } else if (!isUnrecognized){
+                removeNonUtf8(text[i]);
+                outputArr.push(removeNonUtf8(text[i]));
+                outputArrString.push(removeNonUtf8(text[i]));
+              }
+            } //email
+            else if (text[i] === '@' && text[i - 1] && re.test(text[i - 1])) {
+              outputArr.push(text[i]);
+              outputArrString.push(text[i]);
+              writeEmail = true;
+            }
+            //add for open search
+            if (!writeEmail && text[i] === '@' && text[i + 1] !== separator.open) {
+              outputArr.push(text[i], separator.open, " ");
+              outputArrString.push(text[i], separator.open, " ");
+            }
           }
-          //add for open search
-          if (!writeEmail && text[i] === '@' && text[i + 1] !== separator.open){
-            outputArr.push(text[i], separator.open, " ");
-            outputArrString.push(text[i],separator.open, " ");
-          }
-        }
         if (text[i] === '@' && text[i + 1] === separator.open) {
           openSelected = true;
         }
@@ -51,7 +83,6 @@ export const buildMessageGeneral = ({ message, styles, active = true, provider =
           tmpMention = tmpMention + text[i];
           if (text[i] ===  separator.close && text[i - 1] !== '@') {
             openSelected = false;
-            // const mention = '@“(<Text key={i} style={styles.text}>'+tmpMention+'</Text>“';
             let mention = (
               <Text key={i} style={styles.text}>
                 {tmpMention}
@@ -138,36 +169,36 @@ const emojiStringToArray = function (str) {
   }
 
   //mentions
-  // const regexMention = new RegExp(regex.mention);
-  // outputArr.forEach((element, idx) => {
-  //   let newElements:any = element;
-  //   if (!isObject(element)){
-  //     let matchMentions = element.toString().match(regex.mention);
-  //     newElements = emojiStringToArray(element);
-  //     newElements.forEach((newEl, idxNewEl) => {
-  //       matchMentions && matchMentions.forEach((mention, idx) =>{
-  //         if (newEl && newEl.replace) {
-  //           newEl = newEl.replace(mention, '---'+mention+'---');
-  //           let splitMentions = newEl.split('---');
-  //           splitMentions.forEach((splitMention, idxSplitMention) => {
-  //             const mentionComponent = (
-  //               <Text key={idxNewEl} style={styles.text}>
-  //                 {mention}
-  //               </Text>
-  //             );
-  //               const isMention = regexMention.test(splitMention);
-  //               if (isMention) {
-  //               splitMentions[idxSplitMention] = mentionComponent;
-  //               }
-  //           });
-  //           newEl = splitMentions;
-  //           newElements[idxNewEl] = newEl;
-  //         }
-  //       });
-  //     });
-  //   }
-  //   outputArr[idx] = newElements;
-  // });
+  const regexMention = new RegExp(regex.mention);
+  outputArr.forEach((element, idx) => {
+    let newElements:any = element;
+    if (!isObject(element)){
+      let matchMentions = element.toString().match(regex.mention);
+      newElements = emojiStringToArray(element);
+      newElements.forEach((newEl, idxNewEl) => {
+        matchMentions && matchMentions.forEach((mention, idx) =>{
+          if (newEl && newEl.replace) {
+            newEl = newEl.replace(mention, '---'+mention+'---');
+            let splitMentions = newEl.split('---');
+            splitMentions.forEach((splitMention, idxSplitMention) => {
+              const mentionComponent = (
+                <Text key={idxNewEl} style={styles.text}>
+                  {mention}
+                </Text>
+              );
+                const isMention = regexMention.test(splitMention);
+                if (isMention) {
+                splitMentions[idxSplitMention] = mentionComponent;
+                }
+            });
+            newEl = splitMentions;
+            newElements[idxNewEl] = newEl;
+          }
+        });
+      });
+    }
+    outputArr[idx] = newElements;
+  });
  return {
    outputArr,
    outputArrString,
