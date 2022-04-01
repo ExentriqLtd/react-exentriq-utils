@@ -13,6 +13,7 @@ export const integrationBusRemoveAndroidTokenPath = 'http://bus.exentriq.com:188
 export const FLAG_URL = 'https://cdn001exe.exentriq.com/static/flags/';
 export const GOOGLE_PLACES_API_KEY = 'AIzaSyDk3Z9dNGzgpvWna_XY4czamyPPXHKxICU';
 export const APP_LINK_SCHEME = 'exentriq-utils://';
+export const showEntityList = false;
 
 export const config = {
   translation: true,
