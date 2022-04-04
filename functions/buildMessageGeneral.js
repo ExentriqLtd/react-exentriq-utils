@@ -173,7 +173,7 @@ const emojiStringToArray = function (str) {
   const regexMention = new RegExp(regex.mention);
   outputArr.forEach((element, idx) => {
     let newElements:any = element;
-    if (!isObject(element)){
+    if (element && !isObject(element)){
       const matchMentions = element.toString().match(regex.mention);
       newElements = emojiStringToArray(element);
       newElements.forEach((newEl, idxNewEl) => {
