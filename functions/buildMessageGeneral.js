@@ -8,11 +8,12 @@ const regex = {
   link: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
   mention: /@".*?"/g,
   emoji: /([\uD800-\uDBFF][\uDC00-\uDFFF])/,
-  unrecognized: /\uFFFD/g
+  unrecognized: /\uFFFD/g,
+  splitCustom: /([\uD800-\uDBFF][\uDC00-\uDFFF])|(@".*?")/g,
 };
 const emojiSplit = function (str) {
   if (typeof str === 'string') {
-    const split = str.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/).join('');
+    const split = str.split(regex.emoji).join('');
     return split;
   }
 };
@@ -117,7 +118,7 @@ const handlerOpenUrl = (url) => {
 }
 
 const emojiStringToArray = function (str) {
-  const split = str.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/);
+  const split = str.split(regex.splitCustom);
   let arr = [];
    for (var i=0; i<split.length; i++) {
      let char = split[i]
@@ -173,7 +174,7 @@ const emojiStringToArray = function (str) {
   outputArr.forEach((element, idx) => {
     let newElements:any = element;
     if (!isObject(element)){
-      let matchMentions = element.toString().match(regex.mention);
+      const matchMentions = element.toString().match(regex.mention);
       newElements = emojiStringToArray(element);
       newElements.forEach((newEl, idxNewEl) => {
         matchMentions && matchMentions.forEach((mention, idx) =>{
@@ -182,13 +183,13 @@ const emojiStringToArray = function (str) {
             let splitMentions = newEl.split('---');
             splitMentions.forEach((splitMention, idxSplitMention) => {
               const mentionComponent = (
-                <Text key={idxNewEl} style={styles.text}>
+                <Text style={styles.text}>
                   {mention}
                 </Text>
               );
                 const isMention = regexMention.test(splitMention);
                 if (isMention) {
-                splitMentions[idxSplitMention] = mentionComponent;
+                  splitMentions[idxSplitMention] = mentionComponent;
                 }
             });
             newEl = splitMentions;
