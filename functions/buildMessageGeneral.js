@@ -36,7 +36,7 @@ const removeNonUtf8 = (characters) => {
  * @returns
  */
  export const buildMessageGeneral = ({ message, styles, active = true }) => {
-  let outputArr = [];
+    let outputArr = [];
     let outputArrString = [];
     let i = 0;
     let text = message;
