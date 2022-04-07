@@ -10,6 +10,8 @@ const regex = {
   emoji: /([\uD800-\uDBFF][\uDC00-\uDFFF])/,
   unrecognized: /\uFFFD/g,
   splitCustom: /([\uD800-\uDBFF][\uDC00-\uDFFF])|(@".*?")/g,
+  accentsCharactes: /[ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]/g,
+  symbols: /[!#$€%^&*(),.?"“'‘:{}|<>¥£•❤️☕️☺️]/g,
 };
 const emojiSplit = function (str) {
   if (typeof str === 'string') {
@@ -45,11 +47,15 @@ const removeNonUtf8 = (characters) => {
     let separator = { open: '"', close: '"' };
     let re = new RegExp(regex.charactes);
     let reEmoji = new RegExp(regex.emoji);
+    let accentsCharacte = new RegExp(regex.accentsCharactes);
+    let symbol = new RegExp(regex.symbols);
     let unrecognized = new RegExp(regex.unrecognized);
 
     if (text) {
       while (i < text.length) {
         const isEmoj = reEmoji.test(text[i]+text[i+1]);
+        const isAccents = accentsCharacte.test(text[i]);
+        const isSymbols = symbol.test(text[i]);
         const isUnrecognized = unrecognized.test(text[i]);
         let writeEmail = false;
         if (active) {
@@ -60,10 +66,13 @@ const removeNonUtf8 = (characters) => {
                 const emoji = emojiSplit(text[i]+text[i + 1]);
                 outputArr.push(emoji);
                 outputArrString.push(emoji);
-              } else if (!isUnrecognized){
+              } else if (!isUnrecognized && !isAccents && !isSymbols) {
                 removeNonUtf8(text[i]);
                 outputArr.push(removeNonUtf8(text[i]));
                 outputArrString.push(removeNonUtf8(text[i]));
+              } else if (isAccents || isSymbols) {
+                outputArr.push(text[i]);
+                outputArrString.push(text[i]);
               }
             } //email
             else if (text[i] === '@' && text[i - 1] && re.test(text[i - 1])) {
