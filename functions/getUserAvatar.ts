@@ -4,6 +4,11 @@ import memoize from "fast-memoize";
 import { APP_NAME } from "../constants/config";
 import { EXENTRIQ_AVATAR_URL, EXENTRIQ_GROUPAVATAR_URL } from "../libs/config";
 
+export const utilityGetUserAvatarTemp = memoize(
+  (username: string, updatedAt: number): string =>
+    `${EXENTRIQ_AVATAR_URL}${username}&time=${updatedAt}`
+);
+
 export const utilityGetUserAvatar = memoize(
   (username: string): string =>
     `${EXENTRIQ_AVATAR_URL}${username}`
