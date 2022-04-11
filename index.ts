@@ -1,7 +1,7 @@
 import { TCall } from './declarations/calls';
 // FUNCTIONS
 export { utilityGetStatusColor } from "./functions/getStatusColor";
-export { utilityGetUserAvatar } from "./functions/getUserAvatar";
+export { utilityGetUserAvatar, utilityGetUserAvatarTemp } from "./functions/getUserAvatar";
 export { utilityOrderMessagesByDate } from "./functions/orderMessagesByDate";
 export { utilityOrderCallsByDate } from "./functions/orderCallsByDate";
 export { utilityOrderRoomsByDate } from "./functions/orderRoomsByDate";
