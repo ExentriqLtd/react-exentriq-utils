@@ -15,5 +15,9 @@ export const GOOGLE_PLACES_API_KEY = 'AIzaSyDk3Z9dNGzgpvWna_XY4czamyPPXHKxICU';
 export const APP_LINK_SCHEME = 'exentriq-utils://';
 
 export const config = {
+  language: 'all',
   translation: true,
+  showEnityList: true,
+  phoneNumber: false,
+  navigationHomeScreen: 'Home',
 }
