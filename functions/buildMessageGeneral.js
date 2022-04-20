@@ -51,6 +51,15 @@ const removeNonUtf8 = (characters) => {
     let symbol = new RegExp(regex.symbols);
     let unrecognized = new RegExp(regex.unrecognized);
 
+    let openProgress = false;
+    let tmpProgress = '';
+    let openBudget = false;
+    let tmpBudget = '';
+    let openEffort = false;
+    let tmpEffort = '';
+    let openPriority = false;
+    let tmpPriority = '';
+
     if (text) {
       while (i < text.length) {
         const isEmoj = reEmoji.test(text[i]+text[i+1]);
@@ -59,7 +68,7 @@ const removeNonUtf8 = (characters) => {
         const isUnrecognized = unrecognized.test(text[i]);
         let writeEmail = false;
         if (active) {
-          if (!openSelected) {
+          if (!openSelected && !openEffort && !openBudget && !openProgress && !openPriority){
             //normal
             if (text[i] !== '@' && text[i + 1] !== separator.open) {
               if (isEmoj){
@@ -89,6 +98,103 @@ const removeNonUtf8 = (characters) => {
         if (text[i] === '@' && text[i + 1] === separator.open) {
           openSelected = true;
         }
+        //add for effort
+        if(text[i] === '~'){
+          openEffort = true;
+        }
+
+        //add for budget
+        if(text[i] === '$'){
+          openBudget = true;
+        }
+
+        //add for priority
+        if(text[i] === '['){
+          openPriority = true;
+        }
+
+        //add for progress
+        if(text[i] === '%'){
+          openProgress = true;
+        }
+  
+
+        //effort build
+        if (openEffort) {
+          if(text[i] !== '~'){
+            tmpEffort = tmpEffort + text[i];
+          }
+          if (text[i] === ' '){
+            openEffort = false;
+            let effort = (
+              <Text key={i} style={styles.text}>
+                {tmpEffort}
+              </Text>
+            );
+
+            outputArr.push(effort);
+            outputArrString.push(tmpEffort);
+            tmpEffort = '';
+          }
+        }
+
+         //effort priority
+         if (openPriority) {
+          if(text[i] !== '['){
+            tmpPriority = tmpPriority + text[i];
+          }
+           if (text[i] === ']'){
+            openPriority = false;
+            let priority = (
+              <Text key={i} style={styles.text}>
+                {tmpPriority}
+              </Text>
+            );
+
+            outputArr.push(priority);
+            outputArrString.push(tmpPriority);
+            tmpPriority = '';
+        } 
+      }
+
+        //budget build
+        if (openBudget) {
+          if(text[i] !== '$'){
+            tmpBudget = tmpBudget + text[i];
+          }
+          if (text[i] === ' '){
+            openBudget = false;
+            let budget = (
+              <Text key={i} style={styles.text}>
+                {tmpBudget}
+              </Text>
+            );
+
+            outputArr.push(budget);
+            outputArrString.push(tmpBudget);
+            tmpBudget = '';
+          }
+        }
+
+        //progress build
+        if (openProgress) {
+          if(text[i] !== '%'){
+            tmpProgress = tmpProgress + text[i];
+          }
+          if (text[i] === ' '){
+            openProgress = false;
+            let progress = (
+              <Text key={i} style={styles.text}>
+                {tmpProgress}
+              </Text>
+            );
+
+            outputArr.push(progress);
+            outputArrString.push(tmpProgress);
+            tmpProgress = '';
+          }
+        }
+
         if (openSelected) {
           tmpMention = tmpMention + text[i];
           if (text[i] ===  separator.close && text[i - 1] !== '@') {
