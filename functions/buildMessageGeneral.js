@@ -59,6 +59,8 @@ const removeNonUtf8 = (characters) => {
     let tmpEffort = '';
     let openPriority = false;
     let tmpPriority = '';
+    let openETA = false;
+    let tmpETA= '';
 
     if (text) {
       while (i < text.length) {
@@ -68,7 +70,7 @@ const removeNonUtf8 = (characters) => {
         const isUnrecognized = unrecognized.test(text[i]);
         let writeEmail = false;
         if (active) {
-          if (!openSelected && !openEffort && !openBudget && !openProgress && !openPriority){
+          if (!openSelected && !openEffort && !openBudget && !openProgress && !openPriority && !openETA){
             //normal
             if (text[i] !== '@' && text[i + 1] !== separator.open) {
               if (isEmoj){
@@ -102,7 +104,10 @@ const removeNonUtf8 = (characters) => {
         if(text[i] === '~'){
           openEffort = true;
         }
-
+        //add for ETA
+        if(text[i] === 'A' && text[i-1] === 'T' && text[i-2] === 'E'){
+          openETA = true;
+        }
         //add for budget
         if(text[i] === '$'){
           openBudget = true;
@@ -131,10 +136,27 @@ const removeNonUtf8 = (characters) => {
                 {tmpEffort}
               </Text>
             );
-
             outputArr.push(effort);
             outputArrString.push(tmpEffort);
             tmpEffort = '';
+          }
+        }
+
+         //ETA build
+         if (openETA) {
+          if(text[i] !== 'A' && text[i-1] !== 'T' && text[i-2] !== 'E'){
+            tmpETA = tmpETA + text[i];
+          }
+          if (text[i] === ' '){
+            openETA = false;
+            let ETA = (
+              <Text key={i} style={styles.text}>
+                {tmpETA}
+              </Text>
+            );
+            outputArr.push(ETA);
+            outputArrString.push(tmpETA);
+            tmpETA = '';
           }
         }
 
@@ -150,7 +172,6 @@ const removeNonUtf8 = (characters) => {
                 {tmpPriority}
               </Text>
             );
-
             outputArr.push(priority);
             outputArrString.push(tmpPriority);
             tmpPriority = '';
@@ -169,7 +190,6 @@ const removeNonUtf8 = (characters) => {
                 {tmpBudget}
               </Text>
             );
-
             outputArr.push(budget);
             outputArrString.push(tmpBudget);
             tmpBudget = '';
@@ -188,7 +208,6 @@ const removeNonUtf8 = (characters) => {
                 {tmpProgress}
               </Text>
             );
-
             outputArr.push(progress);
             outputArrString.push(tmpProgress);
             tmpProgress = '';
