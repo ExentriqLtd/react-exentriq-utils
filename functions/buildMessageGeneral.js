@@ -7,6 +7,7 @@ const regex = {
   charactes:/[\S]+/g,
   link: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
   mention: /@".*?"/g,
+  hashtag: /#".*?"/g,
   emoji: /([\uD800-\uDBFF][\uDC00-\uDFFF])/,
   unrecognized: /\uFFFD/g,
   splitCustom: /([\uD800-\uDBFF][\uDC00-\uDFFF])|(@".*?")/g,
@@ -62,6 +63,9 @@ const removeNonUtf8 = (characters) => {
     let openETA = false;
     let tmpETA= '';
 
+    let openHashtag = false;
+    let tmpHashtag= '';
+
     if (text) {
       while (i < text.length) {
         const isEmoj = reEmoji.test(text[i]+text[i+1]);
@@ -70,9 +74,9 @@ const removeNonUtf8 = (characters) => {
         const isUnrecognized = unrecognized.test(text[i]);
         let writeEmail = false;
         if (active) {
-          if (!openSelected && !openEffort && !openBudget && !openProgress && !openPriority && !openETA){
+          if (!openSelected && !openEffort && !openBudget && !openProgress && !openPriority && !openETA && !openHashtag){
             //normal
-            if (text[i] !== '@' && text[i + 1] !== separator.open) {
+            if (text[i] !== '@' && text[i] !== '#' && text[i + 1] !== separator.open) {
               if (isEmoj){
                 const emoji = emojiSplit(text[i]+text[i + 1]);
                 outputArr.push(emoji);
@@ -96,9 +100,16 @@ const removeNonUtf8 = (characters) => {
               outputArr.push(text[i], separator.open, " ");
               outputArrString.push(text[i], separator.open, " ");
             }
+            if (text[i] === '#' && text[i + 1] !== separator.open) {
+              outputArr.push(text[i], separator.open, " ");
+              outputArrString.push(text[i], separator.open, " ");
+            }
           }
         if (text[i] === '@' && text[i + 1] === separator.open) {
           openSelected = true;
+        }
+        if (text[i] === '#' && text[i + 1] === separator.open) {
+          openHashtag = true;
         }
         //add for effort
         if(text[i] === '~'){
@@ -211,6 +222,20 @@ const removeNonUtf8 = (characters) => {
             outputArr.push(progress);
             outputArrString.push(tmpProgress);
             tmpProgress = '';
+          }
+        }
+        if (openHashtag) {
+          tmpHashtag = tmpHashtag + text[i];
+          if (text[i] ===  separator.close && text[i - 1] !== '#') {
+            openSelected = false;
+            let hashtag = (
+              <Text key={i} style={styles.text}>
+                {tmpHashtag}
+              </Text>
+            );
+            outputArr.push(hashtag);
+            outputArrString.push(tmpHashtag);
+            tmpHashtag = '';
           }
         }
 
