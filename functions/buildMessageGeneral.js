@@ -152,8 +152,7 @@ const removeNonUtf8 = (characters) => {
         }
         if (text[i] === ' '){
           openEffort = false;
-          outputArr.splice(idxEffort, 1);
-          outputArrString.splice(idxEffort, 1);
+          outputArr.pop();
           let effort = (
             <Text key={i} style={styles.text}>
               ~{tmpEffort}
@@ -173,8 +172,7 @@ const removeNonUtf8 = (characters) => {
         }
         if (text[i] === ' '){
           openETA = false;
-          outputArr.splice(idxETA, 3);
-          outputArrString.splice(idxETA, 3);
+          outputArr.splice(-3);
           let ETA = (
             <Text key={i} style={styles.text}>
               ETA{tmpETA}
@@ -194,8 +192,7 @@ const removeNonUtf8 = (characters) => {
         }
          if (text[i] === ']'){
           openPriority = false;
-          outputArr.splice(idxPriority, 1);
-          outputArrString.splice(idxPriority, 1);
+          outputArr.pop();
           let priority = (
             <Text key={i} style={styles.text}>
               [{tmpPriority}
@@ -215,8 +212,7 @@ const removeNonUtf8 = (characters) => {
         }
         if (text[i] === ' '){
           openBudget = false;
-          outputArr.splice(idxBudget, 1);
-          outputArrString.splice(idxBudget, 1);
+          outputArr.pop();
           let budget = (
             <Text key={i} style={styles.text}>
               ${tmpBudget}
@@ -236,8 +232,7 @@ const removeNonUtf8 = (characters) => {
         }
         if (text[i] === ' '){
           openProgress = false;
-          outputArr.slice(idxProgress, 1);
-          outputArrString.slice(idxProgress, 1);
+          outputArr.pop();
           let progress = (
             <Text key={i} style={styles.text}>
               %{tmpProgress}
