@@ -68,4 +68,5 @@ export interface TSearch {
     $date?: number;
   } | number | string;
   euid?: string;
+  phoneNumber?: string;
 }
