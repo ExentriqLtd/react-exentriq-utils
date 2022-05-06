@@ -38,7 +38,7 @@ const removeNonUtf8 = (characters) => {
  * @param active
  * @returns
  */
- export const buildMessageGeneral = ({ message, styles, active = true }) => {
+ export const buildMessageGeneral = ({ message, styles, active = true, markup }) => {
   let outputArr = [];
   let outputArrString = [];
   let i = 0;
@@ -81,7 +81,8 @@ const removeNonUtf8 = (characters) => {
       if (active) {
         if (!openSelected && !openEffort && !openBudget && !openProgress && !openPriority && !openETA && !openHashtag){
           //normal
-          if (text[i] !== '@' && text[i] !== '#' && text[i + 1] !== separator.open) {
+          // if (text[i] !== '@' && text[i] !== '#' && text[i + 1] !== separator.open) { //da includere quando ci saranno i markup
+            if (text[i] !== '@' && text[i + 1] !== separator.open) {
             if (isEmoj){
               const emoji = emojiSplit(text[i]+text[i + 1]);
               outputArr.push(emoji);
@@ -105,7 +106,7 @@ const removeNonUtf8 = (characters) => {
             outputArr.push(text[i], separator.open, " ");
             outputArrString.push(text[i], separator.open, " ");
           }
-          if (text[i] === '#' && text[i + 1] !== separator.open) {
+          if (text[i] === '#' && text[i + 1] !== separator.open && markup) {
             outputArr.push(text[i], separator.open, " ");
             outputArrString.push(text[i], separator.open, " ");
           }
@@ -113,33 +114,33 @@ const removeNonUtf8 = (characters) => {
       if (text[i] === '@' && text[i + 1] === separator.open) {
         openSelected = true;
       }
-      if (text[i] === '#' && text[i + 1] === separator.open) {
+      if (text[i] === '#' && text[i + 1] === separator.open && markup) {
         openHashtag = true;
       }
       //add for effort
-      if(text[i] === '~'){
+      if(text[i] === '~' && markup){
         idxEffort = i;
         openEffort = true;
       }
       //add for ETA
-      if(text[i] === 'A' && text[i-1] === 'T' && text[i-2] === 'E'){
+      if(text[i] === 'A' && text[i-1] === 'T' && text[i-2] === 'E' && markup){
         idxETA = i-2;
         openETA = true;
       }
       //add for budget
-      if(text[i] === '$'){
+      if(text[i] === '$' && markup){
         idxBudget = i;
         openBudget = true;
       }
 
       //add for priority
-      if(text[i] === '['){
+      if(text[i] === '[' && markup){
         idxPriority = i;
         openPriority = true;
       }
 
       //add for progress
-      if(text[i] === '%'){
+      if(text[i] === '%' && markup){
         idxProgress = i;
         openProgress = true;
       }
