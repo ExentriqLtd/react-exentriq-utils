@@ -89,4 +89,5 @@ export interface TMessage {
   progress?: number;
   uploaded?: boolean;
   meet?: TCall;
+  progressUpload?: number;
 }
