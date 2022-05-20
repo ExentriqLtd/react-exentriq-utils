@@ -37,6 +37,7 @@ class Notifications extends EventEmitter {
   unRegister() {
     this.initializetedPush = false;
     this.sentPush = false;
+    this.token = null;
   }
 
   register(app, deviceId, username) {
@@ -69,7 +70,7 @@ class Notifications extends EventEmitter {
       .catch((err) => console.error("getInitialNotifiation() failed", err));
 
     NotificationsReact.events().registerNotificationReceivedForeground((notification: Notification, completion: (response: NotificationCompletion) => void) => {
-      // console.log('0..registerNotificationReceivedForeground', JSON.stringify(notification.payload, null, 2));
+      console.log('0..registerNotificationReceivedForeground', JSON.stringify(notification.payload, null, 2));
       this.emit('notificationForeground', notification.payload, this.isIOS);
       // Calling completion on iOS with `alert: true` will present the native iOS inApp notification.
       completion({alert: false, sound: false, badge: false });
@@ -84,6 +85,7 @@ class Notifications extends EventEmitter {
 
     NotificationsReact.events().registerNotificationOpened((notification: Notification, completion: () => void, action: NotificationActionResponse) => {
       // console.log(`Notification opened with an action identifier: ${action.identifier} and response text: ${action.text}`);
+      console.log('0..Notification.OPENED', notification.payload);
       this.emit('notificationOpened', notification.payload, this.isIOS);
       completion();
     });

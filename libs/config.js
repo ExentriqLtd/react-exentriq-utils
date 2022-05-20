@@ -13,6 +13,7 @@ export const FLAG_URL = 'https://cdn001exe.exentriq.com/static/flags/';
 export const GOOGLE_PLACES_API_KEY = 'AIzaSyDk3Z9dNGzgpvWna_XY4czamyPPXHKxICU';
 export const APP_LINK_SCHEME = 'talk://';
 export const config = {
+  defaultLimit: 20,
   showEntityList: true,
   language: 'en',
   translation: false,
