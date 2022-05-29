@@ -67,9 +67,8 @@ const removeNonUtf8 = (characters) => {
                 outputArr.push(emoji);
                 outputArrString.push(emoji);
               } else if (!isUnrecognized && !isAccents && !isSymbols) {
-                removeNonUtf8(text[i]);
-                outputArr.push(removeNonUtf8(text[i]));
-                outputArrString.push(removeNonUtf8(text[i]));
+                outputArr.push(text[i]);
+                outputArrString.push(text[i])
               } else if (isAccents || isSymbols) {
                 outputArr.push(text[i]);
                 outputArrString.push(text[i]);
@@ -86,27 +85,27 @@ const removeNonUtf8 = (characters) => {
               outputArrString.push(text[i], separator.open, " ");
             }
           }
-        if (text[i] === '@' && text[i + 1] === separator.open) {
-          openSelected = true;
-        }
-        if (openSelected) {
-          tmpMention = tmpMention + text[i];
-          if (text[i] ===  separator.close && text[i - 1] !== '@') {
-            openSelected = false;
-            let mention = (
-              <Text key={i} style={styles.text}>
-                {tmpMention}
-              </Text>
-            );
-            outputArr.push(mention);
-            outputArrString.push(tmpMention);
-            tmpMention = '';
+          if (text[i] === '@' && text[i + 1] === separator.open) {
+            openSelected = true;
           }
+          if (openSelected) {
+            tmpMention = tmpMention + text[i];
+            if (text[i] ===  separator.close && text[i - 1] !== '@') {
+              openSelected = false;
+              let mention = (
+                <Text key={i} style={styles.text}>
+                  {tmpMention}
+                </Text>
+              );
+              outputArr.push(mention);
+              outputArrString.push(tmpMention);
+              tmpMention = '';
+            }
+          }
+        } else {
+          outputArr.push(text[i]);
+          outputArrString.push(text[i]);
         }
-      } else {
-        outputArr.push(text[i]);
-        outputArrString.push(text[i]);
-      }
       i++;
     }
   }
