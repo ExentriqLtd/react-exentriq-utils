@@ -1,6 +1,7 @@
 import React from 'react';
 import { Linking } from 'react-native';
 import { Text } from 'react-native-paper';
+import { GetReplaceAll } from './getReplaceAll';
 import { isObject } from 'lodash';
 
 const regex = {
@@ -156,7 +157,7 @@ const emojiStringToArray = function (str) {
       let newElement = element;
       matchLink && matchLink.forEach(link => {
         const linkComponents = '___'+link+'___';
-        newElement = newElement.replaceAll(link, linkComponents)
+        newElement = GetReplaceAll(newElement, link, linkComponents) 
         outputArr[idx] = newElement;
       });
     } else { 
