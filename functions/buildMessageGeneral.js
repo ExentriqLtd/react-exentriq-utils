@@ -87,9 +87,8 @@ const removeNonUtf8 = (characters) => {
               outputArr.push(emoji);
               outputArrString.push(emoji);
             } else if (!isUnrecognized && !isAccents && !isSymbols) {
-              removeNonUtf8(text[i]);
-              outputArr.push(removeNonUtf8(text[i]));
-              outputArrString.push(removeNonUtf8(text[i]));
+              outputArr.push(text[i]);
+              outputArrString.push(text[i])
             } else if (isAccents || isSymbols) {
               outputArr.push(text[i]);
               outputArrString.push(text[i]);
@@ -109,6 +108,9 @@ const removeNonUtf8 = (characters) => {
             outputArr.push(text[i], separator.open, " ");
             outputArrString.push(text[i], separator.open, " ");
           }
+        } else {
+          outputArr.push(text[i]);
+          outputArrString.push(text[i]);
         }
       if (text[i] === '@' && text[i + 1] === separator.open) {
         openSelected = true;
