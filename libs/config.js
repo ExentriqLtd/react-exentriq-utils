@@ -20,4 +20,5 @@ export const config = {
   phoneNumber: false,
   navigationHomeScreen: 'Home',
   taskOnChat: false,
+  markup: false,
 };
