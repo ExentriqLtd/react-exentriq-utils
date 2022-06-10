@@ -92,7 +92,7 @@ const removeNonUtf8 = (characters) => {
       if (active) {
         if (!openSelected && !openEffort && !openBudget && !openProgress && !openPriority && !openETA && !openHashtag){
           //normal
-          if (text[i] !== '@' && (text[i] !== '#' && activityVisible) && text[i + 1] !== separator.open) {
+          if (text[i] !== '@' && text[i] !== '#' && text[i + 1] !== separator.open) {
             if (isEmoj){
               const emoji = emojiSplit(text[i]+text[i + 1]);
               outputArr.push(emoji);
