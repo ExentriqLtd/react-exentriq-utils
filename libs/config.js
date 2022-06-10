@@ -26,7 +26,7 @@ export const config = {
     eta: {visible: true},
     progress: {visible: true},
     budget: {visible: true},
-    activity: {visible: true},
+    activity: {visible: false},
     mentions: {visible: true},
   },
 };
