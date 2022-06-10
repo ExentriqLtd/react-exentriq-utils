@@ -20,4 +20,13 @@ export const config = {
   phoneNumber: false,
   navigationHomeScreen: 'Home',
   taskOnChat: false,
+  board_option: {
+    priority: {visible: true},
+    effort: {visible: true},
+    eta: {visible: true},
+    progress: {visible: true},
+    budget: {visible: true},
+    activity: {visible: true},
+    mentions: {visible: true},
+  },
 };
