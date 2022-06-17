@@ -195,10 +195,11 @@ const removeNonUtf8 = (characters) => {
         }
       }
 
-       //effort priority
+       //priority build
        if (openPriority) {
         if(text[i] !== '['){
           tmpPriority = tmpPriority + text[i];
+          tmpPriority = tmpPriority.trim();
         }
          if (text[i] === ']'){
           openPriority = false;
