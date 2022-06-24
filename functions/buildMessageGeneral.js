@@ -43,12 +43,12 @@ const removeNonUtf8 = (characters) => {
   message, 
   styles, 
   active = true, 
-  etaVisible, 
-  effortVisible, 
-  budgetVisible, 
-  priorityVisible, 
-  progressVisible, 
-  activityVisible,
+  eta: etaVisible, 
+  effort: effortVisible, 
+  budget: budgetVisible, 
+  priority: priorityVisible, 
+  progress: progressVisible, 
+  activity: activityVisible,
  }) => {
   let outputArr = [];
   let outputArrString = [];
