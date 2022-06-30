@@ -65,7 +65,7 @@ function ItemNotification(props) {
       height: 60,
       width: 60,
       resizeMode: 'contain',
-      borderRadius: 30,
+      borderRadius: 50,
     },
     userTitle: {
       fontSize: 16,
@@ -123,7 +123,7 @@ function ItemNotification(props) {
           style={{ paddingVertical: 8 }}
           onPress={() => onOpen(item)}
         >
-          <Text style={styles.open(notified)}> {t('Open')} </Text>
+          <Text style={styles.open(notified)}>{t('Open')}</Text>
         </TouchableOpacity>
       </View>
     </View>
