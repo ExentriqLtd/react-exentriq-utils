@@ -73,7 +73,7 @@ class Notifications extends EventEmitter {
       console.log('0..registerNotificationReceivedForeground', JSON.stringify(notification.payload, null, 2));
       this.emit('notificationForeground', notification.payload, this.isIOS);
       // Calling completion on iOS with `alert: true` will present the native iOS inApp notification.
-      completion({alert: false, sound: false, badge: false });
+      completion({alert: false, sound: true, badge: false });
     });
 
     NotificationsReact.events().registerNotificationReceivedBackground((notification: Notification, completion: (response: NotificationCompletion) => void) => {
