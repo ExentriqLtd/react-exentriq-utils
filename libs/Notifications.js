@@ -37,7 +37,6 @@ class Notifications extends EventEmitter {
   unRegister() {
     this.initializetedPush = false;
     this.sentPush = false;
-    this.token = null;
   }
 
   register(app, deviceId, username) {
