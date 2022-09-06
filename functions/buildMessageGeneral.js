@@ -2,7 +2,7 @@ import React from 'react';
 import { Linking } from 'react-native';
 import { Text } from 'react-native-paper';
 import { GetReplaceAll } from './getReplaceAll';
-import { isObject } from 'lodash';
+import { isArray, isObject, isString } from 'lodash';
 
 const regex = {
   charactes:/[\S]+/g,
@@ -16,10 +16,12 @@ const regex = {
   symbols: /[!#$€%^&*(),.?"“'‘:{}|<>¥£•❤️☕️☺️]/g,
 };
 const emojiSplit = function (str) {
-  if (typeof str === 'string') {
-    const split = str.split(regex.emoji).join('');
-    return split;
-  }
+  console.log('emojiSplit::::', str);;
+  let result = [];
+  // if (isString(str)) {
+  //   result = str.split(regex.emoji).join('');
+  // }
+  return result;
 };
 const removeNonUtf8 = (characters) => {
   try {
@@ -95,8 +97,10 @@ const removeNonUtf8 = (characters) => {
           if (text[i] !== '@' && text[i] !== '#' && text[i + 1] !== separator.open) {
             if (isEmoj){
               const emoji = emojiSplit(text[i]+text[i + 1]);
-              outputArr.push(emoji);
-              outputArrString.push(emoji);
+              if (isArray(emoji) && emoji.length > 0){
+                outputArr.push(emoji);
+                outputArrString.push(emoji);
+              }
             } else if (!isUnrecognized && !isAccents && !isSymbols) {
               outputArr.push(text[i]);
               outputArrString.push(text[i])
@@ -308,15 +312,17 @@ const handlerOpenUrl = (url) => {
 }
 
 const emojiStringToArray = function (str) {
-  const split = str.split(regex.splitCustom);
   let arr = [];
-   for (var i=0; i<split.length; i++) {
-     let char = split[i]
-     if (char !== "") {
-       arr.push(char);
-     }
-   }
-   return arr;
+  if (isString(str)){
+    const split = str.split(regex.splitCustom);
+    for (var i=0; i<split.length; i++) {
+      let char = split[i]
+      if (char !== "") {
+        arr.push(char);
+      }
+    }
+  }
+  return arr;
 };
 
 /**
@@ -325,6 +331,9 @@ const emojiStringToArray = function (str) {
  * @returns 
  */
  export const buildMessageGeneralRender = ({ message, styles, active = true }) => {
+  if (!isString(message)) {
+    message = "";
+  }
   let outputArr:any = [];
   let outputArrString:any = [];
   outputArr = emojiStringToArray(message);
