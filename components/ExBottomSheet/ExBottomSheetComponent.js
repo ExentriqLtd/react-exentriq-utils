@@ -104,6 +104,7 @@ function ExBottomSheetComponent({ show, component }) {
       onEndReachedThreshold={0.1}
       initialSnapIndex={show ? 0 : 1}
       scrollUpAndPullDown
+      friction={0}
       animationType="timing"
       renderHandle={renderHandle}
       data={languagesList}
