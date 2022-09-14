@@ -20,6 +20,7 @@ export const config = {
   phoneNumber: false,
   navigationHomeScreen: 'Home',
   taskOnChat: false,
+  taskmenu: false,
   board_option: {
     priority: {visible: true},
     effort: {visible: true},
