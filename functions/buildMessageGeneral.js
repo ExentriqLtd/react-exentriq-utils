@@ -18,9 +18,9 @@ const regex = {
 const emojiSplit = function (str) {
   console.log('emojiSplit::::', str);;
   let result = [];
-  // if (isString(str)) {
-  //   result = str.split(regex.emoji).join('');
-  // }
+  if (isString(str)) {
+    result = str.split(regex.emoji).join('');
+  }
   return result;
 };
 const removeNonUtf8 = (characters) => {
@@ -97,7 +97,7 @@ const removeNonUtf8 = (characters) => {
           if (text[i] !== '@' && text[i] !== '#' && text[i + 1] !== separator.open) {
             if (isEmoj){
               const emoji = emojiSplit(text[i]+text[i + 1]);
-              if (isArray(emoji) && emoji.length > 0){
+              if (emoji && emoji.length > 0){
                 outputArr.push(emoji);
                 outputArrString.push(emoji);
               }
