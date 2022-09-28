@@ -314,6 +314,18 @@ class ServiceImplementation {
     .catch((err) => console.error(`[uploadGroupAvatar.error]', ${err.message}`));
   }
 
+  closeAccount = (sessionToken) => {
+    return Guardian.call(
+      'accountService.removeGloballyAccount',
+      [],
+      sessionToken
+    ) .then((result) => {
+      console.log('accountService.removeGloballyAccount:::::::::',result)
+      return result;
+    })
+    .catch((err) => console.error(`[removeGloballyAccount.error]', ${err.message}`));
+  }
+
   updateAccount = ({ firstName, lastName, email, base64, sessionToken }) => {
     return Guardian.call('accountService.updateMyUserData', [
       firstName, lastName, email, base64], sessionToken)
