@@ -87,6 +87,7 @@ export interface TMessage {
   messageId?: string;
   abort?: boolean;
   progress?: number;
+  activated?: boolean;
   uploaded?: boolean;
   meet?: TCall;
   progressUpload?: number;
