@@ -16,7 +16,8 @@ export const attachmentsPicker = (isMultiUpload:boolean) => {
     ImagePickerCrop.openPicker({
       maxFiles: 20,
       multiple: isMultiUpload,
-      mediaType: "any"
+      mediaType: "any",
+      forceJpg: true,
     }).then(resolve)
     .catch((error) => {
       if(error.code === "E_NO_LIBRARY_PERMISSION") {

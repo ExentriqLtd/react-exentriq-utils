@@ -7,129 +7,189 @@ import {
 } from './declarations/types.Service.Params';
 import { Socket } from './Socket';
 import Guardian from './Guardian';
+import { isFunction } from 'lodash';
+import { Settings } from 'react-native';
+import { URL_REJECT_MEET_INVITE } from 'exentriq-utils/constants/config';
 // #endregion
 
 class ServiceImplementation {
+  static instance = null;
   ddp = null;
   reconnectInterval = null;
-  connectedPromise = null;
-  loginToken = null;
   userId = null;
-  rid = null;
+  spaceId = null;
   context = null;
-  user = null;
+  rooms = {};
+  uploadInstances = [];
   sessionToken = null;
+  callbackWsAuthenticated = (data) => {};
+  debug = true;
 
   getToken() {
     return this.loginToken || this.sessionToken;
   }
+  
+  /**
+   * The static method that controls the access to the singleton instance.
+   *
+   * This implementation let you subclass the Singleton class while keeping
+   * just one instance of each subclass around.
+   */
+  static getInstance() {
+    if (!ServiceImplementation.instance) {
+      ServiceImplementation.instance = new ServiceImplementation();
+    }
+    return ServiceImplementation.instance;
+  }
+
+
+  ddpEventsConnection = async ({ callbackOnDisconnectedByUser, callbackOnDisconnected, callbackOnOpenConnection, callbackWsAuthenticated, callbackOnConnected }:any) => {
+    return new Promise(resolve => {
+      if (!this.ddp) {
+        console.error('ddpEventsConnection:::: ddp is not initialized')
+        return;
+      };
+  
+      this.ddp.on('disconnected_by_user', () => {
+        console.log('[EDO] socket:::WS.DDP-DISCONNECTED-BY-USER');
+        this.resetStreamers();
+        callbackOnDisconnectedByUser();
+      });
+  
+      this.ddp.on('disconnected', () => {
+        console.log('[EDO] socket:::WS.DDP-DISCONNECTED');
+        callbackOnDisconnected();
+        callbackOnDisconnectedByUser();
+  
+        if (this.reconnectInterval) {
+          clearInterval(this.reconnectInterval);
+          this.reconnectInterval = null;
+        }
+      });
+  
+      this.ddp.on('open', async () => {
+        console.log('[EDO] socket:::WS..DDP-OPEN')
+        callbackOnOpenConnection();
+      });
+      
+      this.ddp.on('connected', async () => {
+        console.log('[EDO] socket:::WS..DDP-CONNECTED', this.sessionToken)
+        if (this.reconnectInterval) {
+          clearInterval(this.reconnectInterval);
+          this.reconnectInterval = null;
+        }
+  
+        if (this.sessionToken) {
+          console.log('[EDO] socket:::TRY::Ws.DDP.AUTH-BY-SESSION-TOKEN', this.sessionToken);
+          this.call('login', { resume: this.sessionToken }).then((session) => {
+            console.log('[EDO] socket:::WS.LOGIN-AUTH-BY-SESSION-TOKEN::RESULT:', session);
+            const { id: userId } = session || {};
+            if (userId) {
+              this.userId = userId;
+            }
+            callbackWsAuthenticated({ ...session, sessionToken: this.sessionToken });
+          });
+        }
+  
+        //---EF-5-AUTH
+        callbackOnConnected();
+        resolve('ok');
+      });
+    });
+  
+  }
+  
   // #region ::: CONNECTION
   connect = async ({
     url,
+    spaceId,
     callbackOnConnected,
     callbackOnDisconnected,
     callbackOnDisconnectedByUser,
     callbackOnReconnect,
     callbackOnOpenConnection,
-  }: TParamsConnect): Promise<void> => {
-    if (this.ddp) {
-      this.ddp.disconnect();
+    callbackWsAuthenticated,
+  }) => {
+    this.callbackWsAuthenticated = callbackWsAuthenticated;
+    if (!this.isConnected()) {
+      console.log('[EDO] new Socket(url)::socket:::to:::', url);
+      this.ddp = new Socket(url);
+      // @ts-ignore
+      this.spaceId = spaceId;
+     
+      await this.ddpEventsConnection({
+        callbackOnConnected,
+        callbackOnDisconnected,
+        callbackOnDisconnectedByUser,
+        callbackOnReconnect,
+        callbackOnOpenConnection,
+        callbackWsAuthenticated,
+      });
     }
-
-    this.ddp = new Socket(url);
-
-    this.connectedPromise = new Promise((resolve) => {
-      this.ddp.on('disconnected_by_user', () => {
-        callbackOnDisconnectedByUser();
-      });
-
-      this.ddp.on('disconnected', () => {
-        callbackOnDisconnected();
-        if (this.reconnectInterval) {
-          clearInterval(this.reconnectInterval);
-          delete this.reconnectInterval;
-        }
-
-        this.reconnectInterval = setInterval(
-          () => this.reconnect(callbackOnReconnect),
-          2000,
-        );
-      });
-
-      this.ddp.on('open', async () => {
-        callbackOnOpenConnection();
-        resolve();
-      });
-
-      this.ddp.on('error', (err) => console.error('[DDP].Error', err));
-      this.ddp.on('connected', async () => {
-        if (this.reconnectInterval) {
-          clearInterval(this.reconnectInterval);
-          delete this.reconnectInterval;
-        }
-        if (this.loginToken) {
-          this.call('login', { resume: this.loginToken });
-        }
-
-        callbackOnConnected();
-        resolve();
-      });
-    });
-
     return this.ddp;
   };
 
-  reconnect = (callbackOnReconnect): void => {
-    if (this.reconnectInterval) {
-      clearInterval(this.reconnectInterval);
-      delete this.reconnectInterval;
-    }
-    if (this.ddp) {
-      callbackOnReconnect();
-      this.ddp.reconnect();
-    }
-  };
-
-  isConnected = async (): Promise<any> => this.connectedPromise;
+  isConnected = () => {
+    // CONNECTING 0 The connection is not yet open.
+    // OPEN       1 The connection is open and ready to communicate.
+    // CLOSING    2 The connection is in the process of closing.
+    // CLOSED     3 The connection is closed or couldn't be opened.
+    if(!this.ddp?.ws) return false;
+    const code = this.ddp.ws.readyState;
+    this.debug && console.log(` [EDO]
+    // CONNECTING 0 The connection is not yet open.
+    // OPEN       1 The connection is open and ready to communicate.
+    // CLOSING    2 The connection is in the process of closing.
+    // CLOSED     3 The connection is closed or couldn't be opened.
+        ---------- isConnect:::: CURRENT STATUS:::${code} ----------
+    `);
+    return code === 1;
+  }
 
   disconnect = async (): Promise<void> => {
-    if (!this.ddp) {
-      return;
-    }
-
-    this.ddp.disconnect();
-    delete this.ddp;
+    this.userId = null;
+    this.sessionToken = null;
+    this.resetStreamers();
+    if (this.ddp) {
+      this.ddp.disconnect();
+    };
   };
 
   call = async (method, ...params): Promise<any> => {
-    if (!this.ddp) {
-      return new Error('DDP is not initialized');
-    }
-    await this.isConnected();
-
+    console.log('[EDO] socket:::WS..DDP-CALL::', { method, params });
+    if (!this.isConnected()) return false;
     return this.ddp.call(method, ...params);
   };
 
-  createSession = (guardianToken: string, meteorToken: string): Promise<any> => {
+  createSession = async (guardianToken: string): Promise<any> => {
+    console.log('[EDO] socket:::WS..DDP-Create-Session', guardianToken);
     if (!guardianToken) {
-      return {};
+      return Promise.resolve({});
     }
-    return this.call('verifyToken', guardianToken, null, meteorToken)
+    this.sessionToken = guardianToken;
+    return this.call('verifyToken', guardianToken)
       .then((verifyToken) => {
+        console.log('[EDO] socket:::WS..DDP-Create-Session.verifyToken', verifyToken)
         if (!verifyToken) {
+          this.sessionToken = null;
           return {};
         }
-        const { sessionToken, loginToken, status, _id } = verifyToken;
-        this.sessionToken = sessionToken;
+        const { loginToken, status, _id } = verifyToken;
+        console.log('[EDO] socket:::WS..DDP-Create-Session.loginToken', loginToken)
         return this.call('login', { resume: loginToken })
           .then((session) => {
+            console.log('[EDO] socket:::WS..DDP-Create-Session.resume', session)
+            if (isFunction(this.callbackWsAuthenticated)) {
+              this.callbackWsAuthenticated({ ...session, sessionToken: this.sessionToken });
+            }
+            console.log('[EDO] socket:::WS..DDP-Create-Session.login.session', session)
             this.userId = _id;
-            this.loginToken = loginToken;
-            this.sessionToken = sessionToken;
-            return { session, status, sessionToken };
+            this.sessionToken = session.token;
+            Settings.set({ userId: _id, rejectMeetInviteUrl: URL_REJECT_MEET_INVITE });
+            return { session, sessionToken: this.sessionToken, status, _id, restored: undefined };
           })
           .catch((err) =>
-            console.error('[Service].verifyToken.session', err),
+            console.warn('[Service].verifyToken.session', err),
           );
       })
       .catch((err) => console.error('[Service.createSession', err));
@@ -180,7 +240,7 @@ class ServiceImplementation {
     const { loginToken, _id } = tokens;
     return this.call('login', { resume: loginToken }).then(() => {
       this.userId = _id;
-      console.log('Logged as:', this.userId);
+      console.log('[EDO] Logged as:', this.userId);
     });
   }
 
@@ -320,7 +380,7 @@ class ServiceImplementation {
       [],
       sessionToken
     ) .then((result) => {
-      console.log('accountService.removeGloballyAccount:::::::::',result)
+      console.log('[EDO] accountService.removeGloballyAccount:::::::::',result)
       return result;
     })
     .catch((err) => console.error(`[removeGloballyAccount.error]', ${err.message}`));
