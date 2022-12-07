@@ -24,9 +24,11 @@ class ServiceImplementation {
   sessionToken = null;
   callbackWsAuthenticated = (data) => {};
   debug = true;
+  meteorLoginToken = null;
+
 
   getToken() {
-    return this.loginToken || this.sessionToken;
+    return this.meteorLoginToken;
   }
   
   /**
@@ -184,7 +186,7 @@ class ServiceImplementation {
             }
             console.log('[EDO] socket:::WS..DDP-Create-Session.login.session', session)
             this.userId = _id;
-            this.sessionToken = session.token;
+            this.meteorLoginToken = session.token;
             Settings.set({ userId: _id, rejectMeetInviteUrl: URL_REJECT_MEET_INVITE });
             return { session, sessionToken: this.sessionToken, status, _id, restored: undefined };
           })
