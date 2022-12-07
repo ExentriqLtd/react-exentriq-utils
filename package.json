@@ -27,6 +27,7 @@
     "react-native-gallery-swiper": "^1.26.4",
     "react-native-gesture-handler": "1.9.0",
     "react-native-image-crop-picker": "https://github.com/ExentriqLtd/react-native-image-crop-picker.git",
+    "react-native-notifications": "^4.3.3",
     "react-native-paper": "4.2.0",
     "react-native-scroll-bottom-sheet": "0.7.0",
     "react-native-vector-icons": "7.1.0",
