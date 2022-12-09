@@ -129,7 +129,7 @@ export class Socket extends ClientDDP {
     CLOSING    2 The connection is in the process of closing.
     CLOSED     3 The connection is closed or couldn't be opened.
     */
-    const ws = new ReconnectingWebSocket(`${this.url}/websocket`, [], { debug: false, maxRetries: 5 });
+    const ws = new ReconnectingWebSocket(`${this.url}/websocket`, [], { debug: false });
     ws.addEventListener('open', () => {
       console.log('socket:::WS..OPEN', this.ws);
       this.emit('open');
