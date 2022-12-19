@@ -91,20 +91,18 @@ export class Socket extends ClientDDP {
         
         this.id += 1;
         const id = obj.id || `${this.id}`;
-
-        // console.log('socket::send:::', JSON.stringify({ ...obj, id }));
-        
         this.ws.send(JSON.stringify({ ...obj, id }));
-        
         if(!this.ddp && !this.ddp?.once) {
           return false;
         }
-        
         this.ddp.once(id, data => {
           return data.error ? reject(data.error)  : resolve(data.result || data.subs);
         });
       } catch (e) {
-         
+        console.error('[EDO] call socket.js error:', {
+          error: e,
+          params: {...obj}
+        })
         reject(new Error(e));
       }
     });
@@ -131,7 +129,6 @@ export class Socket extends ClientDDP {
     */
     const ws = new ReconnectingWebSocket(`${this.url}/websocket`, [], { debug: false });
     ws.addEventListener('open', () => {
-      console.log('socket:::WS..OPEN', this.ws);
       this.emit('open');
       
       ws.send(JSON.stringify({
@@ -186,11 +183,16 @@ export class Socket extends ClientDDP {
 
   
   call = (method, ...params) => {
-    // console.log('socket:::WS..CALL', method);
+    console.log('socket:::WS..CALL', method);
     return this.send({
       msg: 'method',
       method,
       params,
+    }).catch((e) => {
+      console.error('[EDO] Send:: error:::', {
+        error: e,
+        method
+      })
     });
   };
   

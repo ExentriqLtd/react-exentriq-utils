@@ -25,6 +25,7 @@ class ServiceImplementation {
   callbackWsAuthenticated = (data) => {};
   debug = true;
   meteorLoginToken = null;
+  resumeToken = null;
 
 
   getToken() {
@@ -80,17 +81,22 @@ class ServiceImplementation {
           clearInterval(this.reconnectInterval);
           this.reconnectInterval = null;
         }
-  
-        if (this.sessionToken) {
-          console.log('[EDO] socket:::TRY::Ws.DDP.AUTH-BY-SESSION-TOKEN', this.sessionToken);
-          this.call('login', { resume: this.sessionToken }).then((session) => {
-            console.log('[EDO] socket:::WS.LOGIN-AUTH-BY-SESSION-TOKEN::RESULT:', session);
+        if (this.resumeToken && this.sessionToken) {
+          console.log('[EDO] socket:::TRY::Ws.DDP.AUTH-BY-resumeToken-TOKEN', this.resumeToken);
+          this.call('login', { resume: this.resumeToken })
+          .then((session) => {
+            console.log('[EDO] socket:::WS.LOGIN-AUTH-BY-resumeToken-TOKEN::RESULT:', session);
             const { id: userId } = session || {};
             if (userId) {
               this.userId = userId;
             }
-            callbackWsAuthenticated({ ...session, sessionToken: this.sessionToken });
+            if (isFunction(this.callbackWsAuthenticated)) {
+              callbackWsAuthenticated({ ...session, sessionToken: this.sessionToken });
+            }
           });
+        } else {
+          console.error('resumeToken null');
+          this.createSession(this.sessionToken);
         }
   
         //---EF-5-AUTH
@@ -169,32 +175,20 @@ class ServiceImplementation {
       return Promise.resolve({});
     }
     this.sessionToken = guardianToken;
-    return this.call('verifyToken', guardianToken)
-      .then((verifyToken) => {
-        console.log('[EDO] socket:::WS..DDP-Create-Session.verifyToken', verifyToken)
-        if (!verifyToken) {
-          this.sessionToken = null;
-          return {};
+    return this.loginBySession(this.sessionToken,)
+      .then(({ session, _id, status }) => {
+        console.log('[EDO] socket:::WS..DDP-Create-Session.resume', session)
+        if (isFunction(this.callbackWsAuthenticated)) {
+          this.callbackWsAuthenticated({ ...session, sessionToken: this.sessionToken });
         }
-        const { loginToken, status, _id } = verifyToken;
-        console.log('[EDO] socket:::WS..DDP-Create-Session.loginToken', loginToken)
-        return this.call('login', { resume: loginToken })
-          .then((session) => {
-            console.log('[EDO] socket:::WS..DDP-Create-Session.resume', session)
-            if (isFunction(this.callbackWsAuthenticated)) {
-              this.callbackWsAuthenticated({ ...session, sessionToken: this.sessionToken });
-            }
-            console.log('[EDO] socket:::WS..DDP-Create-Session.login.session', session)
-            this.userId = _id;
-            this.meteorLoginToken = session.token;
-            Settings.set({ userId: _id, rejectMeetInviteUrl: URL_REJECT_MEET_INVITE });
-            return { session, sessionToken: this.sessionToken, status, _id, restored: undefined };
-          })
-          .catch((err) =>
-            console.warn('[Service].verifyToken.session', err),
-          );
+        console.log('[EDO] socket:::WS..DDP-Create-Session.login.session', session)
+        this.meteorLoginToken = session.token;
+        Settings.set({ userId: _id, rejectMeetInviteUrl: URL_REJECT_MEET_INVITE });
+        return { session, sessionToken: this.sessionToken, status, _id, restored: undefined };
       })
-      .catch((err) => console.error('[Service.createSession', err));
+      .catch((e) => {
+        console.error('createSession::::error', e)
+      })
   };
   // #endregion
 
@@ -237,14 +231,21 @@ class ServiceImplementation {
     return Guardian.call('spaceUserService.loginByDeviceIdV2', [deviceId, spaceId, secretCode], null);
   }
 
-  loginBySession = async (sessionToken: String) => {
+  loginBySession = async (sessionToken) => {
     const tokens = await this.call('verifyToken', sessionToken);
-    const { loginToken, _id } = tokens;
-    return this.call('login', { resume: loginToken }).then(() => {
+    const { loginToken, status, _id } = tokens;
+    this.resumeToken = loginToken;
+    return this.call('login', { resume: loginToken })
+    .then((session) => {
       this.userId = _id;
       console.log('[EDO] Logged as:', this.userId);
+      return {session, _id, loginToken};
+    })
+    .catch((e) => {
+      console.error('loginBySession:::', e);
     });
   }
+  
 
   loginByGoogle = async ({
     id,
