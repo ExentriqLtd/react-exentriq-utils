@@ -41,7 +41,7 @@ export const utilityIsGroupServiceMessage = memoize(
   (message: TMessage): boolean => {
     const { t } = message || {};
     if (!t) return false;
-    return ['au', 'ru', 'r'].indexOf(t) >=0;
+    return ['au', 'ru', 'r', 'ul', 'uj', 'wm','rm','rtc','user-muted','user-unmuted','subscription-role-added','subscription-role-removed'].indexOf(t) >=0;
   }
 );
 
